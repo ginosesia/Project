@@ -247,6 +247,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                               "Username": username,
                                               "Email": email,
                                               "Password": password,
+                                              "Bio": "Bio",
+                                              "Description": "Description",
                                               "Terms&Conditions": "true",
                                               "profileImageUrl": profileImageUrl] as [String : Any]
                             let uid = result!.user.uid

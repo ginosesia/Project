@@ -14,14 +14,16 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     //MARK: - Properties
     var user: User?
     var profileImageChanged = false
-    var bannarImageChanged = false
-    var bannerChanged = false
     var usernameChanged = false
     var lastnameChanged = false
     var firstnameChanged = false
+    var bioChanged = false
+    var descriptionChanged = false
     var profilePicture = true
     var userProfileController: UserProfileVC?
     var newUsername: String?
+    var newBio: String?
+    var newDescription: String?
     
     let profileImage: CustomImageView = {
         let image = CustomImageView()
@@ -35,19 +37,12 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     
     let editButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Profile Photo", for: .normal)
+        button.setTitle("Change Photo", for: .normal)
         button.addTarget(self, action: #selector(handleChangeProfileImage), for: .touchUpInside)
         button.backgroundColor = .white
         button.layer.cornerRadius = 12
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-    
-    let editBannerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.addTarget(self, action: #selector(handleChangeBannerImage), for: .touchUpInside)
         return button
     }()
     
@@ -65,7 +60,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         return textField
     }()
     
-    let surnameTextField: UITextField = {
+    let fullnameTextField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         textField.borderStyle = .none
@@ -74,12 +69,21 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         return textField
     }()
     
-    let fullnameTextField: UITextField = {
+    let bioTextField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         textField.borderStyle = .none
         Utilities.styleTextField(textField, name: "")
-        textField.isUserInteractionEnabled = false
+        textField.isUserInteractionEnabled = true
+        return textField
+    }()
+    
+    let descriptionTextField: UITextField = {
+        let textField = UITextField()
+        textField.textAlignment = .left
+        textField.borderStyle = .none
+        Utilities.styleTextField(textField, name: "")
+        textField.isUserInteractionEnabled = true
         return textField
     }()
     
@@ -102,6 +106,22 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Username"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = Utilities.setThemeColor()
+        return label
+    }()
+    
+    let bioLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Bio"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = Utilities.setThemeColor()
+        return label
+    }()
+    
+    let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Description"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = Utilities.setThemeColor()
         return label
@@ -139,11 +159,19 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         
         view.endEditing(true)
         if usernameChanged {
-            updateUsername(name: newUsername!, type: USERNAME)
+            updateProfileInfo(name: newUsername!,type: USERNAME)
         }
         
         if profileImageChanged {
             updateProfileImage()
+        }
+        
+        if bioChanged {
+            updateProfileInfo(name: newBio!,type: BIO)
+        }
+        
+        if descriptionChanged {
+            updateProfileInfo(name: newDescription!,type: DESCRIPTION)
         }
         
         self.dismiss(animated: true, completion: nil)
@@ -154,19 +182,10 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         profilePicture = true
-        bannarImageChanged = false
         present(imagePicker, animated: true, completion: nil)
         profileImage.layer.borderWidth = 0
     }
     
-    @objc func handleChangeBannerImage() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        profilePicture = false
-        bannarImageChanged = true
-        present(imagePicker, animated: true, completion: nil)
-    }
     
     func loadUsersData() {
         
@@ -184,13 +203,17 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         
         let firstname = user.firstname!
         let lastname = user.lastname!
-        
+
+        let bio = user.bio!
+        let description = user.description!
+
         let fullname = "\(firstname) \(lastname)"
         
         
         fullnameTextField.text = fullname
         usernameTextField.text = user.username
-        surnameTextField.text = user.lastname
+        bioTextField.text = bio
+        descriptionTextField.text = description
         
     }
     
@@ -217,32 +240,35 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         profileImage.layer.cornerRadius = height/2
         //center image
         profileImage.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-        editButton.anchor(top: nil, left: nil, bottom: profileImage.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -12, paddingRight: 0, width: 140, height: 30)
+        editButton.anchor(top: nil, left: nil, bottom: profileImage.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -12, paddingRight: 0, width: 120, height: 30)
         editButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
 
         
-        separator.anchor(top: nil, left: container.leftAnchor, bottom: container.bottomAnchor, right: container.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 1.5)
+        separator.anchor(top: nil, left: container.leftAnchor, bottom: container.bottomAnchor, right: container.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 1)
         
         fullnameLabel.anchor(top: container.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        
+        usernameLabel.anchor(top: fullnameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        
+        bioLabel.anchor(top: usernameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
 
-        surnameLabel.anchor(top: fullnameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
-        
-        usernameLabel.anchor(top: surnameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
-        
+        descriptionLabel.anchor(top: bioLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+
         fullnameTextField.anchor(top: nil, left: fullnameLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
         fullnameTextField.layer.cornerRadius = 6
         fullnameTextField.centerYAnchor.constraint(equalTo: fullnameLabel.centerYAnchor).isActive = true
-        
-        surnameTextField.anchor(top: nil, left: surnameLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
-        surnameTextField.layer.cornerRadius = 6
-        surnameTextField.centerYAnchor.constraint(equalTo: surnameLabel.centerYAnchor).isActive = true
-
         
         usernameTextField.anchor(top: nil, left: usernameTextField.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
         usernameTextField.layer.cornerRadius = 6
         usernameTextField.centerYAnchor.constraint(equalTo: usernameLabel.centerYAnchor).isActive = true
 
-        
+        bioTextField.anchor(top: nil, left: bioLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        bioTextField.layer.cornerRadius = 6
+        bioTextField.centerYAnchor.constraint(equalTo: bioLabel.centerYAnchor).isActive = true
+
+        descriptionTextField.anchor(top: nil, left: descriptionLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        descriptionTextField.layer.cornerRadius = 6
+        descriptionTextField.centerYAnchor.constraint(equalTo: descriptionLabel.centerYAnchor).isActive = true
     }
     
     func addSubviews(container: UIView) {
@@ -255,9 +281,12 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         view.addSubview(fullnameLabel)
         view.addSubview(surnameLabel)
         view.addSubview(usernameLabel)
+        view.addSubview(bioLabel)
+        view.addSubview(descriptionLabel)
         view.addSubview(fullnameTextField)
-        view.addSubview(surnameTextField)
         view.addSubview(usernameTextField)
+        view.addSubview(bioTextField)
+        view.addSubview(descriptionTextField)
         
     }
     
@@ -273,34 +302,42 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
+
         guard let user = self.user else { return }
-        
+
         let trimmedUsernameString = usernameTextField.text?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
- 
-        //cheack username
-        
-        guard user.username != trimmedUsernameString else {
-            print("ERROR: You did not change your username")
+        let trimmedBioString = bioTextField.text
+        let trimmedDescriptionString = descriptionTextField.text
+
+        //check username
+
+        guard user.username != trimmedUsernameString || user.bio != trimmedBioString || user.description != trimmedDescriptionString else {
+            print("ERROR: You did not change your info")
             usernameChanged = false
+            bioChanged = false
+            descriptionChanged = false
             return
         }
-        
-        guard trimmedUsernameString != "" else {
-            print("ERROR: Please enter a valid username")
+
+        guard trimmedUsernameString != "" || trimmedBioString != "" || trimmedDescriptionString != "" else {
+            print("ERROR: Please enter a valid info")
             usernameChanged = false
+            bioChanged = false
+            descriptionChanged = false
             return
         }
-        
 
         self.newUsername = trimmedUsernameString?.lowercased()
-        usernameChanged = true
+        self.newBio = trimmedBioString?.lowercased()
+        self.newDescription = trimmedDescriptionString
         
+        usernameChanged = true
+        bioChanged = true
+        descriptionChanged = true
+
     }
-    
-    
     
     //MARK: - API
     
@@ -344,18 +381,19 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         print("5")
     }
     
-    func updateUsername(name updatedName: String, type: Int) {
+
+    func updateProfileInfo(name updatedName: String, type: Int) {
         
-        var nameType: String
+        let nameType: String
         
         if type == USERNAME {
             nameType = "Username"
-        } else if type == FIRSTNAME {
-            nameType = "Firstname"
+        } else if type == BIO {
+            nameType = "Bio"
         } else {
-            nameType = "Surname"
+            nameType = "Description"
         }
-        
+                
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         guard usernameChanged == true else { return }
         
@@ -367,6 +405,4 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
-    
 }

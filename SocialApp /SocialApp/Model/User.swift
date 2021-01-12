@@ -13,6 +13,8 @@ class User {
     var firstname: String!
     var username: String!
     var lastname: String!
+    var bio: String!
+    var description: String!
     var email: String!
     var profileImageUrl: String!
     var isFollowed = false
@@ -25,6 +27,14 @@ class User {
         
         if let username = dictionary["Username"]as? String {
             self.username = username
+        }
+        
+        if let description = dictionary["Description"]as? String {
+            self.description = description
+        }
+        
+        if let bio = dictionary["Bio"]as? String {
+            self.bio = bio
         }
         
         if let firstname = dictionary["Firstname"]as? String {

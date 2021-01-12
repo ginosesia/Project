@@ -63,5 +63,7 @@ let POST_MENTION_INT_VALUE = 4
 let USERNAME = 0
 let FIRSTNAME = 1
 let LASTNAME = 2
+let BIO = 3
+let DESCRIPTION = 4
 
 var SIGN_UP_TOP_LABEL: String = "SIGN UP"

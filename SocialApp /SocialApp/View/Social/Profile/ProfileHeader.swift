@@ -24,12 +24,17 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
             let fName = user?.firstname
             
             let lName = user?.lastname
+            let bio = user?.bio
+            let desc = user?.description
             
             let fullName = (fName ?? "") + " " + (lName ?? "")
             name.text = fullName
             
             guard let profileImageUrl = user?.profileImageUrl else { return }
             profileImage.loadImage(with: profileImageUrl)
+            
+            ocupation.text = bio
+            profileDescription.text = desc
             
         }
     }
@@ -68,7 +73,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     
     let profileDescription: UILabel = {
         let label = UILabel()
-        label.text = "Content Creator and Business owner"
         label.textColor = UIColor.white
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 13)
@@ -78,7 +82,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     let ocupation: UILabel = {
         let label = UILabel()
         label.textColor = Utilities.setThemeColor()
-        label.text = "Video Creator"
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
@@ -261,12 +264,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     }
     
     
-    
-    
-    
-    
-    
-    
     //MARK: - Init
     
     override init(frame: CGRect) {
@@ -313,7 +310,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
 
         addSubview(collectionView)
         collectionView.anchor(top: menuBar.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
+    
     }
         
     

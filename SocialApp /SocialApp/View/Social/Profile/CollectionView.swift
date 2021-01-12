@@ -33,7 +33,7 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         self.collectionView.register(UserPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(VideoCell.self, forCellWithReuseIdentifier: videoCell)
         
