@@ -52,10 +52,17 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         return view
     }()
     
+    let separatorLogout: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.rgb(red: 50, green: 50, blue: 50, alpha: 1)
+        return view
+    }()
+    
     let usernameTextField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         textField.borderStyle = .none
+        textField.textColor = .white
         Utilities.styleTextField(textField, name: "")
         return textField
     }()
@@ -65,6 +72,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         textField.textAlignment = .left
         textField.borderStyle = .none
         Utilities.styleTextField(textField, name: "")
+        textField.textColor = .white
         textField.isUserInteractionEnabled = false
         return textField
     }()
@@ -73,6 +81,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         let textField = UITextField()
         textField.textAlignment = .left
         textField.borderStyle = .none
+        textField.textColor = .white
         Utilities.styleTextField(textField, name: "")
         textField.isUserInteractionEnabled = true
         return textField
@@ -82,6 +91,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         let textField = UITextField()
         textField.textAlignment = .left
         textField.borderStyle = .none
+        textField.textColor = .white
         Utilities.styleTextField(textField, name: "")
         textField.isUserInteractionEnabled = true
         return textField
@@ -90,7 +100,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let fullnameLabel: UILabel = {
         let label = UILabel()
         label.text = "Fullname"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -98,7 +108,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let surnameLabel: UILabel = {
         let label = UILabel()
         label.text = "Lastname"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -106,7 +116,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Username"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -114,7 +124,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let bioLabel: UILabel = {
         let label = UILabel()
         label.text = "Bio"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -122,9 +132,18 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "Description"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = Utilities.setThemeColor()
         return label
+    }()
+    
+    let signOut: UIButton = {
+        let button = UIButton()
+        button.setTitle("Log Out", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(UIColor.rgb(red: 14, green: 104, blue: 206, alpha: 1), for: .normal)
+        button.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
+        return button
     }()
     
     //MARK: - Init
@@ -154,6 +173,24 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func handleCancelTapped() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func handleSignOut() {
+        do {
+            //Attempt to sign out
+            try Auth.auth().signOut()
+            //present log in controller
+            let logInVC = SignInVC()
+            let navController = UINavigationController(rootViewController: logInVC)
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true, completion: nil)
+            
+            print("User signed out.")
+        } catch {
+            print("Failed: User still signed in.")
+        }
+
+    }
+    
     
     @objc func handleSaveTapped() {
         
@@ -221,7 +258,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSaveTapped))
-        navigationItem.title = "Edit Profile"
+        navigationItem.title = "Settings"
         navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
     }
     
@@ -246,29 +283,33 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         
         separator.anchor(top: nil, left: container.leftAnchor, bottom: container.bottomAnchor, right: container.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 1)
         
-        fullnameLabel.anchor(top: container.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        fullnameLabel.anchor(top: container.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 32)
         
-        usernameLabel.anchor(top: fullnameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        usernameLabel.anchor(top: fullnameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 32)
         
-        bioLabel.anchor(top: usernameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        bioLabel.anchor(top: usernameLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 32)
 
-        descriptionLabel.anchor(top: bioLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        descriptionLabel.anchor(top: bioLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 32)
 
-        fullnameTextField.anchor(top: nil, left: fullnameLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        fullnameTextField.anchor(top: nil, left: fullnameLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 32)
         fullnameTextField.layer.cornerRadius = 6
         fullnameTextField.centerYAnchor.constraint(equalTo: fullnameLabel.centerYAnchor).isActive = true
         
-        usernameTextField.anchor(top: nil, left: usernameTextField.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        usernameTextField.anchor(top: nil, left: usernameTextField.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 32)
         usernameTextField.layer.cornerRadius = 6
         usernameTextField.centerYAnchor.constraint(equalTo: usernameLabel.centerYAnchor).isActive = true
 
-        bioTextField.anchor(top: nil, left: bioLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        bioTextField.anchor(top: nil, left: bioLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 32)
         bioTextField.layer.cornerRadius = 6
         bioTextField.centerYAnchor.constraint(equalTo: bioLabel.centerYAnchor).isActive = true
 
-        descriptionTextField.anchor(top: nil, left: descriptionLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 30)
+        descriptionTextField.anchor(top: nil, left: descriptionLabel.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: view.frame.width / 1.6, height: 32)
         descriptionTextField.layer.cornerRadius = 6
         descriptionTextField.centerYAnchor.constraint(equalTo: descriptionLabel.centerYAnchor).isActive = true
+        
+        separatorLogout.anchor(top: descriptionTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
+
+        signOut.anchor(top: separatorLogout.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
     }
     
     func addSubviews(container: UIView) {
@@ -282,6 +323,9 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         view.addSubview(surnameLabel)
         view.addSubview(usernameLabel)
         view.addSubview(bioLabel)
+        view.addSubview(signOut)
+        view.addSubview(separatorLogout)
+        
         view.addSubview(descriptionLabel)
         view.addSubview(fullnameTextField)
         view.addSubview(usernameTextField)

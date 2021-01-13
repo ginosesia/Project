@@ -56,7 +56,7 @@ class Utilities {
     //MARK: - EditProfile Button
 
     static func styleEditProfileButton(_ button: UIButton) {
-        button.setTitle("Edit Profile", for: .normal)
+        button.setTitle("Settings", for: .normal)
         button.layer.cornerRadius = 12
         button.backgroundColor = UIColor.white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)

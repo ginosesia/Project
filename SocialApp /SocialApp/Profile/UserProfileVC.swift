@@ -55,7 +55,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         ]
         
         collectionView.isScrollEnabled = false
-        
     }
     
 
@@ -92,7 +91,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
     func handleEditFollowTapped(for header: ProfileHeader) {
         guard let user = header.user else { return }
-        if header.editProfileFollowButton.titleLabel?.text == "Edit Profile" {
+        if header.editProfileFollowButton.titleLabel?.text == "Settings" {
             
             let editProfileController = EditProfileController()
             editProfileController.user = user

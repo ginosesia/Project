@@ -34,7 +34,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         self.tabBar.barTintColor = .black
 
-        navigationItem.title = "Messages"
+        configureTitle()
         
         //Check if user is signed in
         checkIfUserIsLoggedIn()
@@ -54,6 +54,21 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         
     }
     
+    func configureTitle() {
+        let width = view.frame.width
+        
+        let titleView = UIView()
+        titleView.frame = .init(x: 0, y: 0, width: width, height: 50)
+        navigationItem.titleView = titleView
+        let label = UILabel()
+        label.text = "Social App"
+        label.textColor = Utilities.setThemeColor()
+        label.font = UIFont.boldSystemFont(ofSize: 26)
+        titleView.addSubview(label)
+        label.anchor(top: titleView.topAnchor, left: nil, bottom: titleView.bottomAnchor, right: titleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+
+    }
+    
     
     func setTitle(title: String) {
         navigationItem.title = title
@@ -68,8 +83,9 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         
         //Search Feed Controller
         let info = UIImage(systemName: "info")
-        let infoVC = constructNavController(unselectedImage: info!, selectedImage: info!, rootViewController: SearchVC())
-        infoVC.title = "Discover"
+        let discover = constructNavController(unselectedImage: info!, selectedImage: info!, rootViewController: DiscoverVC())
+        discover.navigationBar.isHidden = true
+        discover.title = "Discover"
         
         //Post Controller
         let selectImageVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
@@ -86,9 +102,10 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         //Profile Controller
         let userProfileVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout()))
         userProfileVC.title = "Profile"
+        userProfileVC.navigationBar.isHidden = true
         
         // view controllers to be added to tab controller
-        viewControllers = [infoVC, feedVC, shopVC, selectMessageVC, userProfileVC]
+        viewControllers = [discover, feedVC, shopVC, selectMessageVC, userProfileVC]
         
         // tab bar tint color
         tabBar.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
@@ -170,12 +187,9 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     func setupNavBar() {
         let Settings = UIImage(systemName: "gear")
         let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
-        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchForUser))
 
         let camera = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleSettings))
-        
-        navigationItem.rightBarButtonItems = [moreButton,searchButton]
-        navigationItem.leftBarButtonItem = camera
+        navigationItem.rightBarButtonItems = [moreButton, camera]
     }
     
     //MARK: - Search Bar
@@ -259,27 +273,13 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
             self.navigationController?.present(myStore, animated: true)
         }))
         
-        alertController.addAction(UIAlertAction(title: "More", style: .default, handler: { (menu) in
-            print("Menu")
+        alertController.addAction(UIAlertAction(title: "Search User", style: .default, handler: { (menu) in
+            let searchVC = SearchVC()
+            let navigationController = UINavigationController(rootViewController: searchVC)
+            navigationController.title = "Search User"
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         }))
-        
-        alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
-            
-            do {
-                //Attempt to sign out
-                try Auth.auth().signOut()
-                //present log in controller
-                let logInVC = SignInVC()
-                let navController = UINavigationController(rootViewController: logInVC)
-                navController.modalPresentationStyle = .fullScreen
-                self.present(navController, animated: true, completion: nil)
                 
-                print("User signed out.")
-            } catch {
-                print("Failed: User still signed in.")
-            }
-        }))
-        
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
         self.present(alertController, animated: true)
