@@ -416,8 +416,8 @@
 			isa = PBXGroup;
 			children = (
 				D9F9F3DA2480157400FD8369 /* UserProfileVC.swift */,
-				D9F9F3F4248BD02800FD8369 /* FollowLikeVC.swift */,
 				D9A648E424D014D000074ECF /* SelectedProfilePostVC.swift */,
+				D9F9F3F4248BD02800FD8369 /* FollowLikeVC.swift */,
 				D9529CBB2501818A0092EB53 /* SettingsVC.swift */,
 				D9FCC5E32524EA7600AC8355 /* EditProfileController.swift */,
 			);

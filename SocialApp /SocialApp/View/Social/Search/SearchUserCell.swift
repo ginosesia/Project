@@ -21,11 +21,10 @@ class SearchUserCell: UITableViewCell {
             configureFollowButton()
             guard let profileImageUrl = user?.profileImageUrl else { return }
             profileImage.loadImage(with: profileImageUrl)
-            
+                        
         }
     }
-    
-    
+        
     func configureFollowButton() {
         
         user?.checkIfUserIsFollowed(completion: { (followed) in
@@ -60,11 +59,9 @@ class SearchUserCell: UITableViewCell {
     @objc func handleFollowTapped() {
         if user!.isFollowed {
             user!.unfollow()
-            print("Unfollowed User")
             Utilities.styleFollowButton(followButton, following: false)
         } else {
             user!.follow()
-            print("Followed User")
             Utilities.styleFollowButton(followButton, following: true)
         }
     }
@@ -73,17 +70,18 @@ class SearchUserCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        backgroundColor = .black
         addSubview(profileImage)
-        profileImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        profileImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
         profileImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        profileImage.layer.cornerRadius = 55*0.33
+        profileImage.layer.cornerRadius = 25
         addSubview(followButton)
         followButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 90, height: 30)
         followButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         followButton.layer.cornerRadius = 10
     }
     
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         textLabel?.textColor = .white
@@ -97,6 +95,7 @@ class SearchUserCell: UITableViewCell {
         let name = user!.firstname + " " + user!.lastname
         self.textLabel?.text = name
         self.detailTextLabel?.text = user?.username
+    
     }
     
     

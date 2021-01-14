@@ -20,6 +20,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     // MARK: Properties
     var user: User?
     weak var profileCellDelegate: ProfileHeader?
+    var viewedUser: User?
     
     var imageSelected = false
     var key: String?
@@ -64,8 +65,14 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         
         let tabBarHeight = tabBarController?.tabBar.frame.size.height
         let navigationBarHeight = navigationController?.navigationBar.frame.size.height
-        let height = view.frame.height-tabBarHeight!-navigationBarHeight!-40
-    
+        let height: CGFloat
+        
+        if let viewedUser = self.user {
+             height = view.frame.height
+        } else {
+             height = view.frame.height-tabBarHeight!-navigationBarHeight!-40
+
+        }
         return CGSize(width: view.frame.width, height: height)
     }
 

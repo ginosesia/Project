@@ -43,7 +43,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-        header.backgroundColor = Utilities.setThemeColor()
+        header.layer.borderColor = Utilities.setThemeColor().cgColor
+        header.layer.borderWidth = 3
         return header
     }
     
@@ -475,13 +476,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         //        collectionView?.isPagingEnabled = true
         //        collectionView.dataSource = self
         
-
-        
-        
         self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.view.backgroundColor = .white
         
         if !viewSinglePost {
             loadPosts()
