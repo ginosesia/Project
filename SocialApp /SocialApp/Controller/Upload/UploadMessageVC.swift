@@ -17,8 +17,6 @@ class UploadMessageVC: UICollectionViewController, UICollectionViewDelegateFlowL
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderColor = UIColor.white.cgColor
-        image.layer.borderWidth = 1
         return image
     }()
     
@@ -26,13 +24,17 @@ class UploadMessageVC: UICollectionViewController, UICollectionViewDelegateFlowL
     let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = UIColor(white: 1, alpha: 0.5)
-        textView.backgroundColor = UIColor(white: 1, alpha: 0.1)
-        textView.layer.cornerRadius = 10
-        textView.textColor = UIColor(white: 1, alpha: 0.5)
         textView.font = .systemFont(ofSize: 16)
         textView.textContainerInset = UIEdgeInsets(top: 17, left: 10, bottom: 10, right: 20)
+        textView.text = "What's happening?"
+        textView.textColor = UIColor.lightGray
+        textView.backgroundColor = .none
+        textView.layer.borderWidth = 0.5
+        textView.layer.cornerRadius = 10
+        textView.layer.borderColor = UIColor.rgb(red: 60, green: 60, blue: 60, alpha: 1).cgColor
         return textView
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,14 +59,16 @@ class UploadMessageVC: UICollectionViewController, UICollectionViewDelegateFlowL
         })
     }
     
+
+    
     
     func configureLayout() {
         
         view.addSubview(profileImage)
         view.addSubview(descriptionTextView)
 
-        profileImage.anchor(top: descriptionTextView.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
-        profileImage.layer.cornerRadius = 40
+        profileImage.anchor(top: descriptionTextView.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        profileImage.layer.cornerRadius = 20
                 
         descriptionTextView.anchor(top: view.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 200)
     }
@@ -99,26 +103,19 @@ class UploadMessageVC: UICollectionViewController, UICollectionViewDelegateFlowL
             //upload information to database
             postId.updateChildValues(values, withCompletionBlock: {(err, ref) in
                 
-                //update user post structure
-                let userPostsRef = USER_POSTS_REF.child(currentUID)
-                userPostsRef.updateChildValues([postKey: 1])
-                
-                //Update user feed structure
-                self.updateUsersFeed(with: postKey)
-                
-                //upload hastage to
-                
-                //mention
-                if caption.contains("@") {
-                    self.uploadNotification(for: postKey, with: caption, isForComment: false)
-                }
-                
-                //return to home feed
-                self.dismiss(animated: true, completion: {
-                    self.tabBarController?.selectedIndex = 0
-                })
-                
+            //update user post structure
+            let userPostsRef = USER_POSTS_MESSAGE_REF.child(currentUID)
+            userPostsRef.updateChildValues([postKey: 1])
+            
+            //Update user feed structure
+            self.updateUsersFeed(with: postKey)
+            
+            //return to home feed
+            self.dismiss(animated: true, completion: {
+                self.tabBarController?.selectedIndex = 0
             })
+            
+        })
     }
     
     func updateUsersFeed(with postId: String) {

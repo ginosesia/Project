@@ -31,6 +31,8 @@ let USER_FOLLOWING_REF = DB_REF.child("User-following")
 
 let POSTS_REF = DB_REF.child("posts")
 let USER_POSTS_REF = DB_REF.child("User-posts")
+let USER_POSTS_MESSAGE_REF = DB_REF.child("User-post-messages")
+
 
 let USER_FEED_REF = DB_REF.child("User-feed")
 

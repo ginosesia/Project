@@ -352,6 +352,7 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.4.0)
+  - KMPlaceholderTextView (1.4.0)
   - leveldb-library (1.22)
   - MBProgressHUD (1.2.0)
   - nanopb (1.30906.0):
@@ -373,6 +374,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - Firebase/Storage
+  - KMPlaceholderTextView
   - MBProgressHUD
   - SideMenu
   - TinyConstraints
@@ -399,6 +401,7 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - KMPlaceholderTextView
     - leveldb-library
     - MBProgressHUD
     - nanopb
@@ -428,6 +431,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
@@ -436,6 +440,6 @@ SPEC CHECKSUMS:
   SideMenu: 87efd943737bb83aedf0358884d09fcf5576636d
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: ba23a5d73fc718633e58cf463055e03eafe2323d
+PODFILE CHECKSUM: c98b71769bf8f091e99787b4ad0036892b8a1082
 
 COCOAPODS: 1.9.2

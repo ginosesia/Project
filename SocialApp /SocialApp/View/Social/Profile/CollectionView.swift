@@ -12,7 +12,7 @@ private let reuseIdentifier = "Cell"
 private let videoCell = "videoCell"
 
 
-class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarControllerDelegate {
 
     
     //MARK: - Properties
@@ -43,8 +43,8 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             flowLayout.minimumLineSpacing = 0
         }
         
-        collectionView.isPagingEnabled = true
         
+        backgroundColor = .red
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         fetchPosts()
@@ -61,21 +61,22 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     
     
     //MARK: - UICollectionView
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
         
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
+        
+        cell.backgroundColor = .systemPink
         
 //        if indexPath.item == 0 {
 //            return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
 //        } else if indexPath.item == 1 {
 //            return collectionView.dequeueReusableCell(withReuseIdentifier: videoCell, for: indexPath)
 //        }
-        cell.post = posts[indexPath.item]
+        //cell.post = posts[indexPath.item]
         return cell
     }
     
@@ -85,22 +86,20 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width-8)/3
+        let width = (collectionView.frame.width)/3
         return CGSize(width: width, height: width)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         print(posts[indexPath.item])
-        
     }
     
     @objc func handleRefresh() {
@@ -108,7 +107,6 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         self.key = nil
         fetchPosts()
         collectionView.reloadData()
-        
     }
     
     func refresh() {
@@ -127,7 +125,6 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         } else {
             uid = Auth.auth().currentUser?.uid
         }
-        
         
         print("USER")
         

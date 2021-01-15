@@ -5,7 +5,6 @@
 //  Created by Gino Sesia on 28/05/2020.
 //  Copyright © 2020 Gino Sesia. All rights reserved.
 //
-
 import UIKit
 import Firebase
 
@@ -48,7 +47,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         collectionView.register(UINib(nibName: headerIdentifier, bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(UserPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        self.collectionView.backgroundColor = .black
+        self.collectionView.backgroundColor = .systemPink
         
         //change font of the nav title
         navigationController?.navigationBar.titleTextAttributes = [
@@ -60,14 +59,16 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
 
     //MARK: - UICollectionViewFlowLayout
-
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         let tabBarHeight = tabBarController?.tabBar.frame.size.height
         let navigationBarHeight = navigationController?.navigationBar.frame.size.height
         let height: CGFloat
         
-        if let viewedUser = self.user {
+        if self.user != nil {
              height = view.frame.height
         } else {
              height = view.frame.height-tabBarHeight!-navigationBarHeight!-40
@@ -260,7 +261,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             self.user = user
             //self.navigationItem.title = user.username
             self.navigationController?.navigationBar.isHidden = true
-            //Stop Refreshing 
+            //Stop Refreshing
             self.collectionView.refreshControl?.endRefreshing()
             self.collectionView?.reloadData()
         })

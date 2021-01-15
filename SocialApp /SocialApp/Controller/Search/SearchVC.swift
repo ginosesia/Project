@@ -28,7 +28,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
 
         view.backgroundColor = .black
         //separator insets
-        tableView.separatorColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1)
+        tableView.separatorColor = .none
         navigationController?.navigationBar.isHidden = false
         tableView.register(SearchUserCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -87,6 +87,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
         }
         let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
         userProfileVC.user = user
+        //userProfileVC.searchMode = true
         navigationController?.pushViewController(userProfileVC, animated: true)
     }
 
