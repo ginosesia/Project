@@ -28,7 +28,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
 
         view.backgroundColor = .black
         //separator insets
-        tableView.separatorColor = .clear
+        tableView.separatorColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1)
         navigationController?.navigationBar.isHidden = false
         tableView.register(SearchUserCell.self, forCellReuseIdentifier: reuseIdentifier)
     }

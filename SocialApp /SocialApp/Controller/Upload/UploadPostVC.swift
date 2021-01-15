@@ -22,6 +22,8 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
     
@@ -29,7 +31,7 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         let label = UILabel()
         label.text = "Add Description:"
         label.textColor = UIColor(white: 1, alpha: 0.5)
-        label.font = label.font?.withSize(16)
+        label.font = label.font?.withSize(14)
         return label
     }()
     
@@ -43,8 +45,6 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 20)
         return textView
     }()
-    
-  
     
     //MARK: - Init
     
@@ -113,12 +113,9 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     
     @objc func saveChanges() {
         
-        
         guard let post = self.post else { return }
         let updatedCaption = descriptionTextView.text
-        
-        uploadHashTagToServer(withPostId: post.postId)
-        
+                
         POSTS_REF.child(post.postId).child("caption").setValue(updatedCaption) { (err, ref) in
             self.dismiss(animated: true, completion: nil)
         }
@@ -128,13 +125,10 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     @objc func uploadPostToDatabase() {
         
         if !editMode {
-            
-            
             guard
                 let caption = descriptionTextView.text,
                 let postImg = photoImageView.image,
                 let currentUID = Auth.auth().currentUser?.uid else { return }
-            
             
             //image upload gata
             guard let uploadData = postImg.jpegData(compressionQuality: 0.3) else { return }
@@ -177,7 +171,6 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
                         self.updateUsersFeed(with: postKey)
                         
                         //upload hastage to
-                        self.uploadHashTagToServer(withPostId: postKey)
                         
                         //mention
                         if caption.contains("@") {
@@ -199,13 +192,22 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         
     
     func configureLayout() {
+        var paddingTop: CGFloat = 80
         
-        view.addSubview(photoImageView)
-        photoImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: view.frame.width)
-        view.addSubview(descriptionLabel)
-        descriptionLabel.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
-        view.addSubview(descriptionTextView)
-        descriptionTextView.anchor(top: descriptionLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 100)
+        if !editMode {
+            paddingTop = 30
+        } else {
+            paddingTop = 80
+        }
+        
+            view.addSubview(photoImageView)
+            photoImageView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: paddingTop, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width/2, height: view.frame.width/2)
+            photoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            photoImageView.layer.cornerRadius = 15
+            view.addSubview(descriptionLabel)
+            descriptionLabel.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 12, width: 0, height: 20)
+            view.addSubview(descriptionTextView)
+            descriptionTextView.anchor(top: descriptionLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 100)
     }
     
     func loadImage() {
@@ -220,22 +222,4 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     
 
     //MARK: - API
-    
-    func uploadHashTagToServer(withPostId postId: String) {
-        
-        guard let caption = descriptionTextView.text else { return }
-        
-        let words: [String] = caption.components(separatedBy: .whitespacesAndNewlines)
-        
-        for var word in words {
-            if word.hasPrefix("#") {
-                word = word.trimmingCharacters(in: .punctuationCharacters)
-                word = word.trimmingCharacters(in: .symbols)
-                
-                let hashtagValues = [postId: 1]
-                
-                HASHTAG_POST_REF.child(word.lowercased()).updateChildValues(hashtagValues)
-            }
-        }
-    }
 }

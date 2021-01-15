@@ -56,7 +56,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         let width = view.frame.width
         
     
-        return CGSize(width: width, height: width+20)
+        return CGSize(width: width, height: width+100)
     }
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -423,6 +423,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
                 self.key = first.key
             })
         }
+
     }
     
     func fetchPost(with postId: String) {
@@ -488,6 +489,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             collectionView?.refreshControl = refreshControl
         }
         updateUserFeed()
+        
     }
     
     

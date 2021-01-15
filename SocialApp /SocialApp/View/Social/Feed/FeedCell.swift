@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import ActiveLabel
 
-
 class FeedCell: UICollectionViewCell {
     
     
@@ -27,6 +26,9 @@ class FeedCell: UICollectionViewCell {
             guard let imageUrl = post?.imageUrl else { return }
             guard let likes = post?.likes else { return }
             guard let title = post?.postTitle else { return }
+            guard let caption = post?.caption else {
+                return
+            }
             
             Database.fetchUser(with: ownerUid) { (user) in
                 if user.profileImageUrl == nil {
@@ -41,6 +43,7 @@ class FeedCell: UICollectionViewCell {
             likeNumber.text = "\(likes)"
             configureLikeButton()
             postTitle.text = title
+            captionLabel.text = caption
         }
     }
 
@@ -49,6 +52,12 @@ class FeedCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         return image
+    }()
+    
+    let separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.rgb(red: 50, green: 50, blue: 50, alpha: 1)
+        return view
     }()
     
     lazy var name: UIButton = {
@@ -128,6 +137,7 @@ class FeedCell: UICollectionViewCell {
         seeLikes.numberOfTouchesRequired = 1
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(seeLikes)
+        label.text = "0"
         return label
     }()
     
@@ -150,7 +160,7 @@ class FeedCell: UICollectionViewCell {
     
     let captionLabel: ActiveLabel = {
         let label = ActiveLabel()
-        label.textColor = Utilities.setThemeColor()
+        label.textColor = .white
         label.numberOfLines = 0
         return label
     }()
@@ -162,8 +172,6 @@ class FeedCell: UICollectionViewCell {
         return label
     }()
     
-
-
 
     //MARK: - Handlers
     
@@ -249,6 +257,7 @@ class FeedCell: UICollectionViewCell {
         addSubview(postImage)
         addSubview(postTitle)
         addSubview(optionsButton)
+        addSubview(captionLabel)
     }
     
     override init(frame: CGRect) {
@@ -259,6 +268,7 @@ class FeedCell: UICollectionViewCell {
         addSubviews()
         profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: profileImageHeight, height: profileImageHeight)
         profileImage.layer.cornerRadius = profileImageHeight/2
+        
     
         name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         name.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
@@ -269,12 +279,15 @@ class FeedCell: UICollectionViewCell {
         postImage.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 250)
         postImage.layer.cornerRadius = 15
         
+        captionLabel.anchor(top: postImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+        
         configureFunctions()
               
     }
     
 
     func configureFunctions() {
+        
         
         let commentInfo = UIStackView(arrangedSubviews: [commentButton,commentNumber])
         commentInfo.axis = .horizontal
@@ -298,6 +311,10 @@ class FeedCell: UICollectionViewCell {
         addSubview(postedTime)
         postedTime.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
         postedTime.centerYAnchor.constraint(equalTo: functionStackView.centerYAnchor).isActive = true
+        
+        addSubview(separator)
+        separator.anchor(top: nil, left: leftAnchor, bottom: functionStackView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0, width: 0, height: 0.5)
+        
     }
         
     required init?(coder: NSCoder) {
