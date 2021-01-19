@@ -12,8 +12,6 @@ import ActiveLabel
 
 class FeedCell: UICollectionViewCell {
     
-    
-    
     //MARK: Properties
     
     //var postImage: CustomImageView!
@@ -22,27 +20,21 @@ class FeedCell: UICollectionViewCell {
     
     var post: Post? {
         didSet {
+            
             guard let ownerUid = post?.ownerUid else { return }
             guard let imageUrl = post?.imageUrl else { return }
             guard let likes = post?.likes else { return }
-            guard let title = post?.postTitle else { return }
-            guard let caption = post?.caption else {
-                return
-            }
+            guard let caption = post?.caption else { return }
             
             Database.fetchUser(with: ownerUid) { (user) in
-                if user.profileImageUrl == nil {
-                    return
-                } else {
-                    self.profileImage.loadImage(with: user.profileImageUrl)
-                }
+                self.profileImage.loadImage(with: user.profileImageUrl)
                 self.name.setTitle(user.username, for: .normal)
                 self.configurePostCaption(user: user)
             }
+            
             postImage.loadImage(with: imageUrl)
-            likeNumber.text = "\(likes)"
+            likeNumber.text = " \(likes) "
             configureLikeButton()
-            postTitle.text = title
             captionLabel.text = caption
         }
     }
@@ -53,13 +45,7 @@ class FeedCell: UICollectionViewCell {
         image.clipsToBounds = true
         return image
     }()
-    
-    let separator: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.rgb(red: 50, green: 50, blue: 50, alpha: 1)
-        return view
-    }()
-    
+        
     lazy var name: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13.5, weight: UIFont.Weight(rawValue: 30))
@@ -76,7 +62,6 @@ class FeedCell: UICollectionViewCell {
         tapGesture.numberOfTouchesRequired = 1
         image.isUserInteractionEnabled = true
         image.addGestureRecognizer(tapGesture)
-        
         return image
     }()
     
@@ -124,7 +109,7 @@ class FeedCell: UICollectionViewCell {
     let commentNumber: UILabel = {
         let label = UILabel()
         let commentVC = CommentVC()
-        label.text = "0"
+        label.text = " 0 "
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -137,14 +122,13 @@ class FeedCell: UICollectionViewCell {
         seeLikes.numberOfTouchesRequired = 1
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(seeLikes)
-        label.text = "0"
+        label.text = " 0 "
         return label
     }()
     
-    
     let shareNumber: UILabel = {
         let label = UILabel()
-        label.text = "0"
+        label.text = " 0 "
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -157,11 +141,17 @@ class FeedCell: UICollectionViewCell {
         return button
     }()
        
+    let separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1)
+        return view
+    }()
     
     let captionLabel: ActiveLabel = {
         let label = ActiveLabel()
         label.textColor = .white
         label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
     
@@ -233,7 +223,7 @@ class FeedCell: UICollectionViewCell {
             
             switch type {
             case .custom:
-                atts[NSAttributedString.Key.font] = UIFont.boldSystemFont(ofSize: 16)
+                atts[NSAttributedString.Key.font] = UIFont.boldSystemFont(ofSize: 13)
             default: ()
             }
             return atts
@@ -243,9 +233,9 @@ class FeedCell: UICollectionViewCell {
             let username = "\(username)"
             label.text = username + " \(caption)"
             label.customColor[customType] = .white
-            label.font = UIFont.systemFont(ofSize: 16)
+            label.font = UIFont.systemFont(ofSize: 13)
             label.textColor = .gray
-            captionLabel.numberOfLines = 2
+            captionLabel.numberOfLines = 0
         }
         postedTime.text = post.creationDate.timePosted()
     }
@@ -263,14 +253,17 @@ class FeedCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let profileImageHeight = CGFloat(50)
+        addSubview(separator)
+        separator.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.3)
+        
+        let profileImageHeight = CGFloat(35)
         
         addSubviews()
-        profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: profileImageHeight, height: profileImageHeight)
+        profileImage.anchor(top: separator.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: profileImageHeight, height: profileImageHeight)
         profileImage.layer.cornerRadius = profileImageHeight/2
         
     
-        name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         name.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
         
         optionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
@@ -306,14 +299,14 @@ class FeedCell: UICollectionViewCell {
         functionStackView.distribution = .fillProportionally
         
         addSubview(functionStackView)
-        functionStackView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 20, paddingRight: 0, width: 180, height: 0)
+        functionStackView.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
         
         addSubview(postedTime)
         postedTime.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
         postedTime.centerYAnchor.constraint(equalTo: functionStackView.centerYAnchor).isActive = true
         
-        addSubview(separator)
-        separator.anchor(top: nil, left: leftAnchor, bottom: functionStackView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0, width: 0, height: 0.5)
+
+        
         
     }
         

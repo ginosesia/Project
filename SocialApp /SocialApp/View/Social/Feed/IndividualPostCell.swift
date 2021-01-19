@@ -24,7 +24,6 @@ class IndividualPostCell: UICollectionViewCell {
             guard let ownerUid = post?.ownerUid else { return }
             guard let imageUrl = post?.imageUrl else { return }
             guard let likes = post?.likes else { return }
-            guard let title = post?.postTitle else { return }
             
             Database.fetchUser(with: ownerUid) { (user) in
                 if user.profileImageUrl == nil {

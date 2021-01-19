@@ -28,16 +28,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     var key: String?
     var userProfileController: CollectionView?
     let headerId = "headerId"
+    var startingFrame: CGRect?
+    var blackBackgroundView: UIView?
+    var startingImage: UIImageView?
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+
     
     //MARK: - UICollectionViewFlowLayout
     
@@ -58,7 +53,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     }
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
+
         if posts.count > 4 {
             if indexPath.item == posts.count - 1 {
                 loadPosts()
@@ -67,11 +62,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if viewSinglePost {
-            return 1
-        } else {
-            return posts.count
-        }
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,46 +70,26 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
         cell.delegate = self
 
-        if viewSinglePost {
-            if let post = self.post {
-                cell.post = post
-            }
-        } else {
-            cell.post = posts[indexPath.item]
-        }
+        cell.post = posts[indexPath.item]
         
-        handleHastagTapped(for: cell)
-        handleMentionTapped(for: cell)
         handleUsernameLabelTapped(for: cell)
-        
-        cell.backgroundColor = UIColor.rgb(red: 20, green: 20, blue: 20, alpha: 1)
-        cell.layer.cornerRadius = 12
-        
+                
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if !viewSinglePost {
-            let feedVC = FeedVC(collectionViewLayout: UICollectionViewFlowLayout())
-            feedVC.viewSinglePost = true
-            feedVC.post = posts[indexPath.item]
-            present(feedVC, animated: true, completion: nil)
-        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
     
     
     //MARK: - Handlers
-    
-    func handleHastagTapped(for cell: FeedCell) {
-        
-        cell.captionLabel.handleHashtagTap { (hashtag) in
-            let controller = HashtagController(collectionViewLayout: UICollectionViewFlowLayout())
-            controller.hashtag = hashtag
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
     
     func handleUsernameLabelTapped(for cell: FeedCell) {
         
@@ -132,9 +103,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             userProfileController.user = user
             self.navigationController?.pushViewController(userProfileController, animated: true)
         }
-        
     }
-    
     
     func handleMentionTapped(for cell: FeedCell) {
         cell.captionLabel.handleMentionTap { (username) in
@@ -151,7 +120,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     @objc func handleRefresh() {
         posts.removeAll(keepingCapacity: false)
         self.key = nil
-        loadPosts()
+        //loadPosts()
         collectionView?.reloadData()
     }
     
@@ -312,10 +281,6 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         navigationController?.pushViewController(messageController, animated: true)
     }
     
-    var startingFrame: CGRect?
-    var blackBackgroundView: UIView?
-    var startingImage: UIImageView?
-    
     func handleImageTapped(for cell: FeedCell) {
         let image = cell.postImage
         self.startingImage = image
@@ -329,6 +294,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         
         
         if let keyWindow = UIApplication.shared.keyWindow {
+            
             blackBackgroundView = UIView(frame: keyWindow.frame)
             blackBackgroundView?.backgroundColor = UIColor.black
             blackBackgroundView?.alpha = 0
@@ -338,8 +304,9 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
                 
                 self.blackBackgroundView?.alpha = 1
-                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
-                zoomingImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                let height = zoomingImageView.frame.height
+                let width = zoomingImageView.frame.width
+                zoomingImageView.frame = CGRect(x: 0, y: 0, width: width, height: height)
                 zoomingImageView.center = keyWindow.center
 
             } completion: { (completed) in
@@ -383,23 +350,44 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
    
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-   
+//    func fetchPosts() {
+//
+//        POSTS_REF.child("image-posts").observe(.childAdded) { (snapshot) in
+//
+//            let postId = snapshot.key
+//
+//            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+//
+//            let post = Post(postId: postId, dictionary: dictionary)
+//
+//            self.posts.append(post)
+//
+//            self.posts.sort(by: { (post1, post2) -> Bool in
+//                return post1.creationDate > post2.creationDate
+//            })
+//
+//            self.collectionView.reloadData()
+//
+//        }
+//    }
     
+
     func loadPosts() {
-        
+
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
+
         if key == nil {
-            USER_FEED_REF.child(currentUid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_FEED_REF.child(currentUid).child("image-posts").queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+                
                 
                 self.collectionView.refreshControl?.endRefreshing()
+                
                 guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
-                
+
                 allObjects.forEach({ (snapshot) in
                     let postId = snapshot.key
                     self.fetchPost(with: postId)
@@ -407,11 +395,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
                 self.key = first.key
             })
         } else {
-            USER_FEED_REF.child(currentUid).queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
-                
+            USER_FEED_REF.child(currentUid).child("image-posts").queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
+
                 guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
-                
+
                 allObjects.forEach({ (snapshot) in
                     let postId = snapshot.key
                     if postId != self.key {
@@ -423,42 +411,36 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         }
 
     }
-    
+
     func fetchPost(with postId: String) {
-        
-        Database.fetchPost(with: postId, completion: { (post) in
+
+        Database.fetchPost(with: postId) { (post) in
             self.posts.append(post)
             self.posts.sort(by: { (post1, post2) -> Bool in
                 return post1.creationDate > post2.creationDate
             })
             self.collectionView.reloadData()
-        })
+        }
     }
-    
-    
+
+
     func updateUserFeed() {
-        
+
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
-        USER_FOLLOWING_REF.child(currentUid).observe(.childAdded) { (snapshot) in
-            
+
+        USER_FOLLOWING_REF.child(currentUid).child("image-posts").observe(.childAdded) { (snapshot) in
             let followingUID = snapshot.key
-            USER_POSTS_REF.child(followingUID).observe(.childAdded, with: { (snapshot) in
-                
+            USER_POSTS_REF.child(followingUID).child("image-posts").observe(.childAdded, with: { (snapshot) in
                 let postID = snapshot.key
-                USER_FEED_REF.child(currentUid).updateChildValues([postID: 1])
-                
+                USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues([postID: 1])
             })
-            
         }
-        
-        
-        USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
+
+        USER_POSTS_REF.child(currentUid).child("image-posts").observe(.childAdded) { (snapshot) in
             let postID = snapshot.key
-            
-            USER_FEED_REF.child(currentUid).updateChildValues([postID: 1])
+            USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues([postID: 1])
         }
-        
+
     }
     
     //MARK: - Init
@@ -478,15 +460,15 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
-        if !viewSinglePost {
-            loadPosts()
-            //Configure Refresh feed
-            let refreshControl = UIRefreshControl()
-            refreshControl.tintColor = .white
-            refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-            collectionView?.refreshControl = refreshControl
-        }
+        
+        loadPosts()
         updateUserFeed()
+        
+        //Configure Refresh feed
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
         
     }
     

@@ -101,11 +101,11 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         
         USER_FOLLOWER_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let followerUID = snapshot.key
-            USER_FEED_REF.child(followerUID).updateChildValues(values)
+            USER_FEED_REF.child(followerUID).child("image-posts").updateChildValues(values)
         }
         
         //Update current user feed
-        USER_FEED_REF.child(currentUid).updateChildValues(values)
+        USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues(values)
                 
     }
     
@@ -157,25 +157,18 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
                                   "ownerUid": currentUID] as [String: Any]
                     
                     //post id
-                    let postId = POSTS_REF.childByAutoId()
+                    let postId = POSTS_REF.child("image-posts").childByAutoId()
                     guard let postKey = postId.key else { return }
                     
                     //upload information to database
                     postId.updateChildValues(values, withCompletionBlock: {(err, ref) in
                         
                         //update user post structure
-                        let userPostsRef = USER_POSTS_REF.child(currentUID)
+                        let userPostsRef = USER_POSTS_REF.child("image-posts").child(currentUID)
                         userPostsRef.updateChildValues([postKey: 1])
                         
                         //Update user feed structure
                         self.updateUsersFeed(with: postKey)
-                        
-                        //upload hastage to
-                        
-                        //mention
-                        if caption.contains("@") {
-                            self.uploadNotification(for: postKey, with: caption, isForComment: false)
-                        }
                         
                         //return to home feed
                         self.dismiss(animated: true, completion: {

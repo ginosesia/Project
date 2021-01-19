@@ -20,6 +20,7 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     var user: User?
     var key: String?
     let cellId = "cellId"
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,7 +34,6 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         self.collectionView.register(UserPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(VideoCell.self, forCellWithReuseIdentifier: videoCell)
         self.collectionView.register(PostMessageCell.self, forCellWithReuseIdentifier: messageCell)
@@ -60,14 +60,11 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     //MARK: - UICollectionView
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
-        
-        cell.backgroundColor = .systemPink
-        
+                
         if indexPath.item == 0 {
             return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
         } else if indexPath.item == 1 {
@@ -75,30 +72,16 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: messageCell, for: indexPath) as! PostMessageCell
         }
-        //cell.post = posts[indexPath.item]
-        //return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width-4)/3
-        return CGSize(width: width, height: width)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.width)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("hello")
-    }
     
     @objc func handleRefresh() {
         posts.removeAll(keepingCapacity: false)

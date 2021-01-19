@@ -17,7 +17,7 @@ class HeaderCell: BaseCell {
         let lb = UILabel()
         lb.text = "Options"
         lb.textColor = .white
-        lb.font = UIFont.boldSystemFont(ofSize: 13)
+        lb.font = UIFont.boldSystemFont(ofSize: 15)
         return lb
     }()
 

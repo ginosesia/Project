@@ -15,13 +15,9 @@ class Post {
     var caption: String!
     var ownerUid: String!
     var postId: String!
-    var postTitle: String!
-    var postTags: String!
     var creationDate: Date!
     var user: User?
     var didLike = false
-    
-    
     
     init(postId: String!, user: User, dictionary: Dictionary<String, AnyObject>) {
         
@@ -49,13 +45,6 @@ class Post {
             self.creationDate = Date(timeIntervalSince1970: creationDate)
         }
         
-        if let postTite = dictionary["title"] as? String {
-            self.postTitle = postTite
-        }
-        
-        if let postTags = dictionary["tags"] as? String {
-            self.postTags = postTags
-        }
     }
     
     func adjustLikes(addLike: Bool, completion: @escaping(Int) -> ()) {

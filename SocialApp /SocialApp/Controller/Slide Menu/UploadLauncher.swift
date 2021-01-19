@@ -57,7 +57,7 @@ class UploadLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDele
             let height: CGFloat = CGFloat(settings.count + 1) * cellHeight + 50
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
-            collectionView.layer.cornerRadius = 20
+            collectionView.layer.cornerRadius = 15
             
             blackView.frame = window.frame
             blackView.alpha = 0

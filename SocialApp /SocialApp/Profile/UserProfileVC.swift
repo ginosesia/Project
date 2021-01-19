@@ -24,13 +24,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     var imageSelected = false
     var key: String?
     let cellId = "cellId"
-    
-    lazy var menuBar: MenuBar = {
-        let bar = MenuBar()
-        bar.homeControllerProfile = self
-        return bar
-    }()
-    
+
   
     //MARK: - Init
     
@@ -47,7 +41,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         collectionView.register(UINib(nibName: headerIdentifier, bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(UserPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        self.collectionView.backgroundColor = .systemPink
         
         //change font of the nav title
         navigationController?.navigationBar.titleTextAttributes = [
@@ -64,17 +57,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        let tabBarHeight = tabBarController?.tabBar.frame.size.height
-        let navigationBarHeight = navigationController?.navigationBar.frame.size.height
-        let height: CGFloat
-        
-        if self.user != nil {
-             height = view.frame.height
-        } else {
-             height = view.frame.height-tabBarHeight!-navigationBarHeight!-40
-
-        }
-        return CGSize(width: view.frame.width, height: height)
+        return CGSize(width: view.frame.width, height: 650)
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -89,6 +72,8 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             fatalError("Unexpected element kind")
         }
     }
+    
+
     
     //MARK: - Handlers
     
@@ -217,9 +202,8 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             header.followersLabel.attributedText = attributedText
         }
         
-        
         //get number of uploads
-        USER_POSTS_REF.child(uid).observe(.value) { (snapshot) in
+        USER_POSTS_REF.child("image-posts").child(uid).observe(.value) { (snapshot) in
             if let snapshot = snapshot.value as? Dictionary<String, AnyObject> {
                 uploads = snapshot.count
             } else {
@@ -242,10 +226,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             header.followingLabel.attributedText = attributedText
         }
     }
-    
-
- 
-    
     
     func fetchUsersData() {
         

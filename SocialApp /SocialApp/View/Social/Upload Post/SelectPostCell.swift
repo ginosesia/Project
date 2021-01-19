@@ -15,7 +15,6 @@ class SelectPostCell: UICollectionViewCell {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.backgroundColor = .red
         return image
     }()
         

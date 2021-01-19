@@ -28,6 +28,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     let settings: [Setting] = {
        return [
             Setting(name: "Settings", imageName: "gear"),
+            Setting(name: "Notifications", imageName: "bell"),
             Setting(name: "My Store", imageName: "bag"),
             Setting(name: "Search User", imageName: "magnifyingglass"),
             Setting(name: "Sign Out", imageName: "arrow.backward"),
@@ -58,7 +59,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             let height: CGFloat = CGFloat(settings.count + 1) * cellHeight + 50
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
-            collectionView.layer.cornerRadius = 20
+            collectionView.layer.cornerRadius = 15
             
             blackView.frame = window.frame
             blackView.alpha = 0

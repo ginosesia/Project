@@ -19,7 +19,7 @@ class HeaderUploadCell: BaseCell {
         let lb = UILabel()
         lb.text = "Upload"
         lb.textColor = .white
-        lb.font = UIFont.boldSystemFont(ofSize: 13)
+        lb.font = UIFont.boldSystemFont(ofSize: 15)
         return lb
     }()
     

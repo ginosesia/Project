@@ -10,34 +10,20 @@ import UIKit
 
 class UserPostCell: UICollectionViewCell {
     
-
-    var post: Post? {
-        didSet {
-            guard let imageUrl = post?.imageUrl else { return }
-            postImage.loadImage(with: imageUrl)
-        }
-    }
-    
-    let postImage: CustomImageView = {
-        let image = CustomImageView()
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 7
-        return image
+    let collectionView: ImageCollectionView = {
+        let cv = ImageCollectionView()
+        return cv
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
-        addSubview(postImage)
-        postImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        addSubview(collectionView)
+//        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
 }

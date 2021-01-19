@@ -9,7 +9,14 @@
 import UIKit
 import Firebase
 
-class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+private let reuseIdentifier = "Cell"
+
+
+class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+
+    
+
+    
     
     //MARK: - Properties
     
@@ -178,11 +185,71 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         let bar = MenuBar()
         return bar
     }()
-   
-    let collectionView: CollectionView = {
-        let cv = CollectionView()
-        return cv
+    
+    let segmentedControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["Pictures","Videos","Posts"])
+        sc.selectedSegmentIndex = 0
+        sc.selectedSegmentTintColor = Utilities.setThemeColor()
+        sc.addTarget(self, action: #selector(handlechange), for: .valueChanged)
+        return sc
     }()
+    
+//    let collectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        return view
+//    }()
+    
+    let tableView = UITableView(frame: .zero, style: .plain)
+    
+    //MARK: - Table View
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rowsToDisplay.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = rowsToDisplay[indexPath.row]
+        return cell
+    }
+    
+    let images = [
+        "Image 1",
+        "Image 2",
+        "Image 3"
+    ]
+
+    let Videos = [
+        "Video 1",
+        "Video 2",
+        "Video 3"
+    ]
+    
+    let Posts = [
+        "Post 1",
+        "Post 2",
+        "Post 3"
+    ]
+    
+    lazy var rowsToDisplay = images
+    //MARK: - Event changes
+    
+    @objc func handlechange() {
+        print(segmentedControl.selectedSegmentIndex)
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            rowsToDisplay = images
+        case 1:
+            rowsToDisplay = Videos
+        case 2:
+            rowsToDisplay = Posts
+        default:
+            rowsToDisplay = images
+        }
+        tableView.reloadData()
+    }
+    
     
     //MARK: - Handlers
     
@@ -269,10 +336,14 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         backgroundColor = .black
         //Layout of profile
         configureProfileLayout()
         
+
     }    
     
     
@@ -305,11 +376,11 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         stackView.layer.backgroundColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1).cgColor
         stackView.layer.cornerRadius = 15
 
-        addSubview(menuBar)
-        menuBar.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 40)
+        addSubview(segmentedControl)
+        segmentedControl.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
 
-        addSubview(collectionView)
-        collectionView.anchor(top: menuBar.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(tableView)
+        tableView.anchor(top: segmentedControl.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
     }
         

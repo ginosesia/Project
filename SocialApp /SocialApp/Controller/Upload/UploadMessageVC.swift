@@ -104,7 +104,7 @@ class UploadMessageVC: UICollectionViewController, UICollectionViewDelegateFlowL
             postId.updateChildValues(values, withCompletionBlock: {(err, ref) in
                 
             //update user post structure
-            let userPostsRef = USER_POSTS_MESSAGE_REF.child(currentUID)
+                let userPostsRef = USER_POSTS_REF.child("message-post").child(currentUID)
             userPostsRef.updateChildValues([postKey: 1])
             
             //Update user feed structure
