@@ -9,7 +9,8 @@
 import UIKit
 import Firebase
 
-class MainTabVC: UITabBarController, UITabBarControllerDelegate {
+class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLauncherDelegate {
+    
     
     //MARK: - Properties
     var menuController: UIViewController!
@@ -19,9 +20,11 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     let dot = UIView()
     var searchBar = UISearchBar()
     var isSearchMode = false
-    var isMember = true
+    var isMember = false
+    var user: User?
+    let settingsLauncher = SettingsLauncher()
+    let uploadLauncher = UploadLauncher()
 
-    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -33,13 +36,13 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         self.tabBar.barTintColor = .black
-
         configureTitle()
-        
+                
+        settingsLauncher.delegate = self
+        uploadLauncher.delegate = self
+
         //Check if user is signed in
         checkIfUserIsLoggedIn()
-        //set title
-        //setTitle(title: "Social App")
         
         addNotificationDot()
         //observe notifications
@@ -51,7 +54,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         let navigationBarAppearace = UINavigationBar.appearance()
         navigationBarAppearace.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
         navigationBarAppearace.barTintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
-        
+                
     }
     
     func configureTitle() {
@@ -137,20 +140,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        let index = viewControllers?.firstIndex(of: viewController)
-        
-        if index == 2 {
-            if !isMember {
-                let shopVC = JoinShopVC()
-                present(shopVC, animated: true, completion: nil)
-            }
-        } else if index == 3 {
-            
-        }
-        
-        return true
-    }
+
     
     func observeNotifications() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -192,98 +182,71 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         navigationItem.rightBarButtonItems = [moreButton, camera]
     }
     
-    //MARK: - Search Bar
-    @objc func searchForUser() {
-        configureSearchBar()
-    }
-    
-    @objc func cancelSearchForUser() {
-        searchBar.isHidden = true
-    }
-    
-    @objc func cancelSearch() {
-        print("dismiss")
-    }
-    
-    func configureSearchBar() {
-        
-        searchBar.sizeToFit()
-        navigationItem.titleView = searchBar
-        searchBar.tintColor = UIColor(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
-        view.backgroundColor = .black
-                
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = .white
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-        searchBar.showsCancelButton = true
-        isSearchMode = false
-        searchBar.text = nil
-    }
     
     @objc func handleSettings() {
         
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.view.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 0.5)
-        alertController.view.tintColor = Utilities.setThemeColor()
+        uploadLauncher.showSettings()
         
-        alertController.addAction(UIAlertAction(title: "Upload Picture", style: .default, handler: { (menu) in
-            let selectImageVC = SelectPostVC(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: selectImageVC)
-            self.present(navController, animated: true, completion: nil)
-
-        }))
-        alertController.addAction(UIAlertAction(title: "Upload Video", style: .default, handler: { (menu) in
-            let selectVideoVC = SelectVideoVC(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: selectVideoVC)
-            self.present(navController, animated: true, completion: nil)
-
-        }))
-        alertController.addAction(UIAlertAction(title: "Upload Message", style: .default, handler: { (menu) in
-            let messageVC = UploadMessageVC(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: messageVC)
-            self.present(navController, animated: true, completion: nil)
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { (menu) in
-            self.dismiss(animated: true, completion: nil)
-
-        }))
-        self.present(alertController, animated: true)        
     }
     
-    @objc func handleMoreTapped() {
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.view.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 0.5)
-        alertController.view.tintColor = Utilities.setThemeColor()
-        
-        alertController.addAction(UIAlertAction(title: "Profile Settings", style: .default, handler: { (menu) in
-            let settingsVC = SettingsVC()
-            self.navigationController?.pushViewController(settingsVC, animated: true)
-            
-        }))
 
-        alertController.addAction(UIAlertAction(title: "My Store", style: .default, handler: { (menu) in
-            
-            let myStore = MyStoreVC()
-            let navigationController = UINavigationController(rootViewController: myStore)
-            navigationController.modalPresentationCapturesStatusBarAppearance = true
-            self.navigationController?.present(myStore, animated: true)
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Search User", style: .default, handler: { (menu) in
+    
+    @objc func handleMoreTapped() {
+        settingsLauncher.showSettings()
+    }
+    
+    func settingDidSelected(setting: Setting) {
+        print(setting.name)
+        if setting.name == "Search User" {
             let searchVC = SearchVC()
             let navigationController = UINavigationController(rootViewController: searchVC)
             navigationController.title = "Search User"
             self.navigationController?.present(navigationController, animated: true, completion: nil)
-        }))
-                
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
-        self.present(alertController, animated: true)
+        } else if setting.name == "My Store" {
+            self.checkIfMember()
+        } else if setting.name == "Settings" {
+            let settingsVC = SettingsVC()
+            self.navigationController?.pushViewController(settingsVC, animated: true)
+        } else if setting.name == "Picture" {
+            let selectImageVC = SelectPostVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let navController = UINavigationController(rootViewController: selectImageVC)
+            self.present(navController, animated: true, completion: nil)
+        } else if setting.name == "Video" {
+            let selectVideoVC = SelectVideoVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let navController = UINavigationController(rootViewController: selectVideoVC)
+            self.present(navController, animated: true, completion: nil)
+        } else if setting.name == "Message" {
+            let messageVC = UploadMessageVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let navController = UINavigationController(rootViewController: messageVC)
+            self.present(navController, animated: true, completion: nil)
+        } else if setting.name == "Sign Out" {
+            do {
+                //Attempt to sign out
+                try Auth.auth().signOut()
+                //present log in controller
+                let logInVC = SignInVC()
+                let navController = UINavigationController(rootViewController: logInVC)
+                navController.modalPresentationStyle = .fullScreen
+                self.present(navController, animated: true, completion: nil)
+                } catch {
+                print("Failed: User still signed in.")
+            }
+        }
+    }
     
+    func checkIfMember() {
+        let uid = Auth.auth().currentUser?.uid
+
+        STORE_REF.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.hasChild(uid!) {
+                let store = MyStore()
+                self.navigationController?.pushViewController(store, animated: true)
+            } else {
+                let store = JoinShopVC()
+                let navController = UINavigationController(rootViewController: store)
+                self.present(navController, animated: true, completion: nil)
+            }
+        }
     }
     
    func checkIfUserIsLoggedIn() {

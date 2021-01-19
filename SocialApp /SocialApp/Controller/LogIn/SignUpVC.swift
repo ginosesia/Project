@@ -248,6 +248,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                               "Email": email,
                                               "Password": password,
                                               "Bio": "Bio",
+                                              "myStore": "false",
                                               "Description": "Description",
                                               "Terms&Conditions": "true",
                                               "profileImageUrl": profileImageUrl] as [String : Any]
@@ -363,7 +364,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     func showError(_ message:String) {
         errorLabel.text = message
         errorLabel.alpha = 1
-        
     }
     
     func cleanTextFields() {

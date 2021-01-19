@@ -403,7 +403,6 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
             if let error = error {
                 print("Failed to upload image to storage with error: ", error.localizedDescription)
             }
-            print("1")
             STORAGE_PROFILE_IMAGES_REF.downloadURL(completion: { (downloadURL, error) in
                 guard let profileImageUrl = downloadURL?.absoluteString  else {
                    print("DEBUG: Profile image url is nil")
@@ -420,9 +419,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
                     self.dismiss(animated: true, completion: nil)
                 })
             })
-            print("4")
         }
-        print("5")
     }
     
 

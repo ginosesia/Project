@@ -124,9 +124,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     func handleStoreTapped(for header: ProfileHeader) {
-        let myStore = MyStoreVC()
-        navigationController?.pushViewController(myStore, animated: true)
-        
     }
         
     func handleMessageUserTapped(for header: ProfileHeader) {

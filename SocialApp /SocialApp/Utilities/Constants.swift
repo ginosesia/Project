@@ -33,6 +33,8 @@ let POSTS_REF = DB_REF.child("posts")
 let USER_POSTS_REF = DB_REF.child("User-posts")
 let USER_POSTS_MESSAGE_REF = DB_REF.child("User-post-messages")
 
+let STORE_REF = DB_REF.child("store")
+let USER_STORE_REF = DB_REF.child("User-store-posts")
 
 let USER_FEED_REF = DB_REF.child("User-feed")
 
@@ -48,9 +50,6 @@ let USER_MESSAGES_REF = DB_REF.child("User-messages")
 let USER_MESSAGE_NOTIFICATIONS_REF = DB_REF.child("User-message-notifications")
 
 let HASHTAG_POST_REF = DB_REF.child("hashtag-post")
-
-let USER_STORE_REF = DB_REF.child("User-items")
-
 
 // MARK: - Decoding Values
 let LIKE_INT_VALUE = 0

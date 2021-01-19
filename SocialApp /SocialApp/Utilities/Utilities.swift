@@ -13,8 +13,6 @@ import Firebase
 class Utilities {
     
     
-    
-    
     //MARK: - Follow Button
     static func styleFollowButton(_ button: UIButton, following:Bool) {
         
@@ -22,13 +20,13 @@ class Utilities {
             button.setTitle("Following", for: .normal)
             button.backgroundColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
             button.setTitleColor(UIColor.white, for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
             button.layer.cornerRadius = 12
         }  else {
             button.setTitle("Follow", for: .normal)
             button.backgroundColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
             button.setTitleColor(UIColor.white, for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
             button.layer.cornerRadius = 12
         }
     }
@@ -59,7 +57,7 @@ class Utilities {
         button.setTitle("Settings", for: .normal)
         button.layer.cornerRadius = 12
         button.backgroundColor = UIColor.white
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         button.setTitleColor(.black, for: .normal)
 
     }

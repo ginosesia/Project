@@ -10,10 +10,10 @@ import UIKit
 import Firebase
 private let reuseIdentifier = "Cell"
 private let videoCell = "videoCell"
+private let messageCell = "postMessageCell"
 
 
 class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarControllerDelegate {
-
     
     //MARK: - Properties
     var posts = [Post]()
@@ -36,6 +36,8 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         self.collectionView.register(UserPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(VideoCell.self, forCellWithReuseIdentifier: videoCell)
+        self.collectionView.register(PostMessageCell.self, forCellWithReuseIdentifier: messageCell)
+
         
         collectionView.isPagingEnabled = true
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -43,27 +45,22 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             flowLayout.minimumLineSpacing = 0
         }
         
-        
-        backgroundColor = .red
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         fetchPosts()
         
         //refresh data
         refresh()
-                
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     //MARK: - UICollectionView
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 9
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,22 +68,23 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         
         cell.backgroundColor = .systemPink
         
-//        if indexPath.item == 0 {
-//            return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-//        } else if indexPath.item == 1 {
-//            return collectionView.dequeueReusableCell(withReuseIdentifier: videoCell, for: indexPath)
-//        }
+        if indexPath.item == 0 {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
+        } else if indexPath.item == 1 {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: videoCell, for: indexPath) as! VideoCell
+        } else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: messageCell, for: indexPath) as! PostMessageCell
+        }
         //cell.post = posts[indexPath.item]
-        return cell
+        //return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 3
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width)/3
+        let width = (collectionView.frame.width-4)/3
         return CGSize(width: width, height: width)
     }
     
@@ -99,7 +97,7 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(posts[indexPath.item])
+        print("hello")
     }
     
     @objc func handleRefresh() {

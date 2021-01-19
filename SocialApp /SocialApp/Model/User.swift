@@ -19,6 +19,7 @@ class User {
     var profileImageUrl: String!
     var isFollowed = false
     var uid: String!
+    var member: String!
     
     
     init(uid: String, dictionary: Dictionary<String, AnyObject>) {
@@ -27,6 +28,10 @@ class User {
         
         if let username = dictionary["Username"]as? String {
             self.username = username
+        }
+        
+        if let member = dictionary["myStore"] as? String {
+            self.member = member
         }
         
         if let description = dictionary["Description"]as? String {

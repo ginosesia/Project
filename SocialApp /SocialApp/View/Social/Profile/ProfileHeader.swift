@@ -277,7 +277,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     
     
     func configureProfileLayout() {
-        let height = CGFloat(120)
+        let height = CGFloat(100)
 
         addSubview(profileImage)
         profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: height, height: height)
@@ -286,7 +286,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         profileImage.layer.borderWidth = 3
         profileImage.layer.borderColor = UIColor.white.cgColor
         addSubview(editProfileFollowButton)
-        editProfileFollowButton.anchor(top: nil, left: nil, bottom: profileImage.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: 100, height: 30)
+        editProfileFollowButton.anchor(top: nil, left: nil, bottom: profileImage.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: 90, height: 30)
         editProfileFollowButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
         
         addSubview(name)

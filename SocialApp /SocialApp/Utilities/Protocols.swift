@@ -20,6 +20,11 @@ protocol FeedCellDelegate {
 
 }
 
+protocol SettingsLauncherDelegate: class {
+    func settingDidSelected(setting: Setting)
+}
+
+
 protocol SectionType: CustomStringConvertible {
     var containsSwitch: Bool { get }
 }
