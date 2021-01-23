@@ -68,11 +68,7 @@ class User {
         
         // set is followed to true
         self.isFollowed = true
-        
-        //send followed notification to database
-        uploadFollowedNotification()
-        
-        
+                
         // add followed user to current user-following structure
         USER_FOLLOWING_REF.child(currentUid).updateChildValues([uid: 1])
         
@@ -138,18 +134,4 @@ class User {
         NOTIFICATIONS_REF.child(self.uid).childByAutoId().updateChildValues(values)
     }
     
-    
-    func uploadFollowedNotification() {
-        
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let creationDate = Int(NSDate().timeIntervalSince1970)
-        
-        let values = ["checked": 0,
-                      "creationDate": creationDate,
-                      "uid": currentUid,
-                      "type": FOLLOW_INT_VALUE] as [String : Any]
-        
-        NOTIFICATIONS_REF.child(self.uid).childByAutoId().updateChildValues(values)
-        
-    }
 }

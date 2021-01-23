@@ -32,10 +32,8 @@ class SearchUserCell: UITableViewCell {
     }()
     
     
-    
     //MARK: - Handlers
         
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none

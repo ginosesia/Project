@@ -53,23 +53,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         image.backgroundColor = UIColor.black
         return image
     }()
-    
-    lazy var messageUserButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "message"), for: .normal)
-        button.addTarget(self, action: #selector(messageUser), for: .touchUpInside)
-        button.tintColor = .white
-        return button
-    }()
-    
-    lazy var moreButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "gear"), for: .normal)
-        button.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
-        button.tintColor = .white
-        return button
-    }()
-    
+        
     let name: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white

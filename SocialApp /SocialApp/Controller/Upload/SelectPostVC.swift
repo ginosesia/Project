@@ -135,7 +135,7 @@ class SelectPostVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     
     func fetchPhotosFromDeviceLibary() {
         
-        let allPhotos = PHAsset.fetchAssets(with: .video, options: getAssetFetchOptions())
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: getAssetFetchOptions())
         DispatchQueue.global(qos: .background).async {
             //Enumerate objects
             allPhotos.enumerateObjects({ (asset, count, stop) in
@@ -164,9 +164,10 @@ class SelectPostVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     }
     
     func getAssetFetchOptions() -> PHFetchOptions {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-             fetchOptions.predicate = NSPredicate(format: "mediaType == %d",  PHAssetMediaType.video.rawValue)
-        return fetchOptions
+        let options = PHFetchOptions()
+        options.fetchLimit = 50
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        options.sortDescriptors = [sortDescriptor]
+        return options
     }
 }

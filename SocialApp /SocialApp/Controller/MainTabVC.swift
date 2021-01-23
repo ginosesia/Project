@@ -51,9 +51,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         //Set up View Controllers
         configureViewControllers()
         setupNavBar()
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
-        navigationBarAppearace.barTintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
                 
     }
     
@@ -111,7 +108,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         viewControllers = [discover, feedVC, shopVC, selectMessageVC, userProfileVC]
         
         // tab bar tint color
-        tabBar.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
+        tabBar.tintColor = .white
     }
     
     func addNotificationDot() {
@@ -139,8 +136,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         }
     }
     
-    
-
     
     func observeNotifications() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -175,21 +170,22 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     
     
     func setupNavBar() {
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.barTintColor = .clear
+
         let Settings = UIImage(systemName: "gear")
         let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
 
         let camera = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleSettings))
         navigationItem.rightBarButtonItems = [moreButton, camera]
+        
+        navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
     }
-    
     
     @objc func handleSettings() {
-        
         uploadLauncher.showSettings()
-        
     }
-    
-
     
     @objc func handleMoreTapped() {
         settingsLauncher.showSettings()
@@ -204,6 +200,9 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             self.navigationController?.present(navigationController, animated: true, completion: nil)
         } else if setting.name == "My Store" {
             self.checkIfMember()
+        } else if setting.name == "Notifications" {
+            let notifications = NotificationsVC()
+            self.navigationController?.pushViewController(notifications, animated: true)
         } else if setting.name == "Settings" {
             let settingsVC = SettingsVC()
             self.navigationController?.pushViewController(settingsVC, animated: true)

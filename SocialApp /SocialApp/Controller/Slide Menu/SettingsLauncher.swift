@@ -11,8 +11,6 @@ private var reuseidentifier = "cellId"
 
 class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    
-    
     weak var delegate: SettingsLauncherDelegate?
 
     let blackView = UIView()
@@ -31,6 +29,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             Setting(name: "Notifications", imageName: "bell"),
             Setting(name: "My Store", imageName: "bag"),
             Setting(name: "Search User", imageName: "magnifyingglass"),
+            Setting(name: "Add Item", imageName: "plus"),
             Setting(name: "Sign Out", imageName: "arrow.backward"),
             Setting(name: "Cancel", imageName: "xmark")
        ]
@@ -38,13 +37,11 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     
     override init() {
         super.init()
-        
         collectionView.dataSource = self
         collectionView.delegate = self
         
         collectionView.register(SettingsCell.self, forCellWithReuseIdentifier: reuseidentifier)
         self.collectionView.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-
     }
 
     func showSettings() {
@@ -122,11 +119,17 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! SettingsCell
         
+        
         let setting = settings[indexPath.row]
         
+        
+        if cell.setting?.name == "Notifications" {
+            let cell = SettingsCell()
+            cell.badge.isHidden = false
+        }
+        
         cell.setting = setting
-        
-        
+
         return cell
     }
     

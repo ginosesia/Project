@@ -44,12 +44,23 @@ class SettingsCell: BaseCell {
         return im
     }()
     
+    let badge: UIView = {
+        let lb = UIView()
+        lb.backgroundColor = .red
+        lb.isHidden = true
+        return lb
+    }()
+    
     override func setupViews() {
 
         addSubview(icon)
         icon.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 25, height: 0)
         icon.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
+        
+        addSubview(badge)
+        badge.anchor(top: topAnchor, left: nil, bottom: nil, right: icon.rightAnchor, paddingTop: 14, paddingLeft: 0, paddingBottom: 0, paddingRight: 1, width: 8, height: 8)
+        badge.layer.cornerRadius = 4
+        
         addSubview(nameLabel)
         nameLabel.anchor(top: nil, left: icon.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true

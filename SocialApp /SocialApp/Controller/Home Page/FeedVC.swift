@@ -77,6 +77,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         return cell
     }
     
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -211,8 +216,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             if !isDoubleTap {
                 post.adjustLikes(addLike: false, completion: { (likes) in
                     cell.likeNumber.text = "\(likes)"
-                    cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
-
+                    cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                    cell.likeButton.tintColor = .white
                 })
             }
         } else {
@@ -220,6 +225,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             post.adjustLikes(addLike: true, completion: { (likes) in
                 cell.likeNumber.text = "\(likes)"
                 cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                cell.likeButton.tintColor = .systemRed
             })
         }
     }
@@ -235,9 +241,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
             if snapshot.hasChild(postId) {
                 post.didLike = true
                 cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                cell.likeButton.tintColor = .systemRed
             } else {
                 post.didLike = false
-                cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+                cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                cell.likeButton.tintColor = .white
             }
         }
     }
@@ -347,33 +355,10 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     @objc func handleCancelTapped() {
         self.dismiss(animated: true)
     }
-   
+
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-//    func fetchPosts() {
-//
-//        POSTS_REF.child("image-posts").observe(.childAdded) { (snapshot) in
-//
-//            let postId = snapshot.key
-//
-//            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-//
-//            let post = Post(postId: postId, dictionary: dictionary)
-//
-//            self.posts.append(post)
-//
-//            self.posts.sort(by: { (post1, post2) -> Bool in
-//                return post1.creationDate > post2.creationDate
-//            })
-//
-//            self.collectionView.reloadData()
-//
-//        }
-//    }
-    
+    //MARK: - API
+
 
     func loadPosts() {
 
@@ -442,6 +427,12 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         }
 
     }
+    
+    
+
+    
+    
+    
     
     //MARK: - Init
     

@@ -54,7 +54,6 @@ class Post {
         guard let postId = self.postId else { return }
         
         if addLike {
-        
             
             USER_LIKES_REF.child(currentUid).updateChildValues([postId: 1], withCompletionBlock: { (err, ref) in
                 
@@ -63,7 +62,7 @@ class Post {
                 POST_LIKES_REF.child(self.postId).updateChildValues([currentUid: 1], withCompletionBlock: { (err, ref) in
                     self.likes = self.likes + 1
                     self.didLike = true
-                    POSTS_REF.child(self.postId).child("likes").setValue(self.likes)
+                    POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
                     completion(self.likes)
                 })
             })
@@ -76,17 +75,15 @@ class Post {
                 NOTIFICATIONS_REF.child(self.ownerUid).child(notificationID).removeValue(completionBlock: { (err, ref) in
                     
                     USER_LIKES_REF.child(currentUid).child(postId).observeSingleEvent(of: .value, with: { (snapshot) in
-                        if let notificationID = snapshot.value as? String {
-                            NOTIFICATIONS_REF.child(self.ownerUid).child(notificationID).removeValue(completionBlock: { (err, ref) in
-                                self.removeLike(withCompletion: { (likes) in
-                                    completion(likes)
-                                })
-                            })
-                        } else {
-                            self.removeLike(withCompletion: { (likes) in
-                                completion(likes)
-                            })
-                        }
+                            
+                        POST_LIKES_REF.child(self.postId).child(currentUid).removeValue(completionBlock: { (err, ref) in
+                            guard self.likes > 0 else { return }
+                            self.likes = self.likes - 1
+                            self.didLike = true
+                            completion(self.likes)
+                            POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
+                            
+                        })
                     })
                 })
             })
@@ -103,7 +100,7 @@ class Post {
                 guard self.likes > 0 else { return }
                 self.likes = self.likes - 1
                 self.didLike = false
-                POSTS_REF.child(self.postId).child("likes").setValue(self.likes)
+                POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
                 completion(self.likes)
             })
         })
@@ -132,7 +129,6 @@ class Post {
                 USER_LIKES_REF.child(currentUid).child(self.postId).setValue(notificationRef.key)
             })
         }
-        
     }
     
     func removePost() {
@@ -176,7 +172,7 @@ class Post {
         
         COMMENT_REF.child(postId).removeValue()
         
-        POSTS_REF.child(postId).removeValue()
+        POSTS_REF.child("image-posts").child(postId).removeValue()
     
     }
 }
