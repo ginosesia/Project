@@ -40,4 +40,7 @@ class ImageCollectionView: UICollectionViewController, UICollectionViewDelegateF
         return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SelectPostCell
 
     }
+
+
+
 }

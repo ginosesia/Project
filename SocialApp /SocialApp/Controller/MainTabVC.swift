@@ -68,11 +68,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         label.anchor(top: titleView.topAnchor, left: nil, bottom: titleView.bottomAnchor, right: titleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
     }
-    
-    
-    func setTitle(title: String) {
-        navigationItem.title = title
-    }
+
     
     func configureViewControllers() {
         
@@ -164,35 +160,30 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.tabBarItem.image = unselectedImage
         navController.tabBarItem.selectedImage = selectedImage
-        navController.navigationBar.tintColor = .black
         return navController
     }
     
     
     func setupNavBar() {
-        
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.barTintColor = .clear
-
         let Settings = UIImage(systemName: "gear")
         let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
 
         let camera = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleSettings))
         navigationItem.rightBarButtonItems = [moreButton, camera]
-        
-        navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
     }
+    
     
     @objc func handleSettings() {
         uploadLauncher.showSettings()
     }
     
+    
     @objc func handleMoreTapped() {
         settingsLauncher.showSettings()
     }
     
+    
     func settingDidSelected(setting: Setting) {
-        print(setting.name)
         if setting.name == "Search User" {
             let searchVC = SearchVC()
             let navigationController = UINavigationController(rootViewController: searchVC)
@@ -238,7 +229,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
 
         STORE_REF.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.hasChild(uid!) {
-                let store = MyStore()
+                let store = MyStore(collectionViewLayout: UICollectionViewFlowLayout())
                 self.navigationController?.pushViewController(store, animated: true)
             } else {
                 let store = JoinShopVC()

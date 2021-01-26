@@ -33,8 +33,8 @@ class Utilities {
     
     //MARK: - Theme Colour
     static func setThemeColor() -> UIColor {
-//        return UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
-        return .systemTeal
+        return UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
+//        return .systemTeal
     }
     
     

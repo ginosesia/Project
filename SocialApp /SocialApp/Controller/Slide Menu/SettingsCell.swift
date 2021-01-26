@@ -30,7 +30,6 @@ class SettingsCell: BaseCell {
     
     let nameLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Settings"
         lb.textColor = .white
         lb.font = UIFont.boldSystemFont(ofSize: 13)
         return lb
@@ -38,7 +37,6 @@ class SettingsCell: BaseCell {
     
     let icon: UIImageView = {
         let im = UIImageView()
-        im.image = UIImage(systemName: "gear")
         im.contentMode = .scaleAspectFill
         im.tintColor =  Utilities.setThemeColor()
         return im

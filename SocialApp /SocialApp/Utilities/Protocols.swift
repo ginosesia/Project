@@ -17,13 +17,11 @@ protocol FeedCellDelegate {
     func handleConfigureLikeButton(for cell: FeedCell)
     func handleShowLikes(for cell: FeedCell)
     func handleSeeLikesTapped(for header: FeedCell)
-
 }
 
 protocol SettingsLauncherDelegate: class {
     func settingDidSelected(setting: Setting)
 }
-
 
 protocol SectionType: CustomStringConvertible {
     var containsSwitch: Bool { get }
@@ -40,7 +38,6 @@ protocol UserProfileHeaderDelegate {
     func handleMessageUserTapped(for header: ProfileHeader)
     func handleMoreTapped(for header: ProfileHeader)
     func handleStoreTapped(for header: ProfileHeader)
-
 }
 
 protocol ChatCellSettingsDelegate {

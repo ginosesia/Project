@@ -14,10 +14,6 @@ private let reuseIdentifier = "Cell"
 
 class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
 
-    
-
-    
-    
     //MARK: - Properties
     
     var delegate: UserProfileHeaderDelegate?
@@ -29,7 +25,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
             //set users stats
             setUserStats(for: user)
             let fName = user?.firstname
-            
             let lName = user?.lastname
             let bio = user?.bio
             let desc = user?.description
