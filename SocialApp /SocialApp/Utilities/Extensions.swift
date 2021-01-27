@@ -233,8 +233,7 @@ extension Database {
             }
         }
     }
-    
-    
+        
     
     static func fetchUser(with uid: String, completion: @escaping(User) ->()) {
         

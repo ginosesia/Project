@@ -11,17 +11,68 @@ import Foundation
 import UIKit
 import Firebase
 
+private let reuseIdentifier = "Cell"
+private let headerIdentifier = "StoreHeader"
 
-class DiscoverVC: UITableViewController, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
+class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
+    //MARK: - Properties
+    
+
+    //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .black
+        view.backgroundColor = .systemTeal
+        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
+        //register header
+        collectionView!.register(StoreHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+
+
     }
     
+    //MARK: - Header
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: view.frame.width, height: 150)
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! StoreHeader
+            header.backgroundColor = .systemPink
+            return header
+    }
+
+    
+    
+    //MARK: - CollectionView
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width)
+        return CGSize(width: width, height: width)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
+        cell.backgroundColor = .systemTeal
+        return cell
+
+    }
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+
+}
+
     
     
 //
@@ -71,4 +122,4 @@ class DiscoverVC: UITableViewController, UISearchBarDelegate, UICollectionViewDe
 //            self.collectionView.reloadData()
 //        })
 //    }
-}
+

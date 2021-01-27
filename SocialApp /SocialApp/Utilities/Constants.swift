@@ -35,7 +35,8 @@ let USER_POSTS_MESSAGE_REF = DB_REF.child("User-post-messages")
 
 let STORE_REF = DB_REF.child("store")
 let USER_STORE_REF = DB_REF.child("User-store-posts")
-let ITEMs_REF = DB_REF.child("items")
+let ITEMS_REF = DB_REF.child("items")
+let USER_ITEMS_REF = DB_REF.child("User-items")
 
 let USER_FEED_REF = DB_REF.child("User-feed")
 

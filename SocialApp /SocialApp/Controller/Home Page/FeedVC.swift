@@ -16,8 +16,6 @@ private let reuseIdentifierIndividual = "IndividualPostCell"
 
 class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, FeedCellDelegate {
     
-    
-    
     //MARK: - Properties
     var delegate: HomeControllerDeligate?
     var users = [User]()
@@ -31,8 +29,6 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
     var startingImage: UIImageView?
-    
-
     
     //MARK: - UICollectionViewFlowLayout
     

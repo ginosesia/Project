@@ -15,44 +15,35 @@ class Item {
     //MARK: - Properties
     
     var imageUrl: String!
-    var ownerUid: String!
     var itemId: String!
     var itemTitle: String!
     var creationDate: Date!
-    var itemPrice: Double!
+    var itemPrice: String!
     var user: User?
 
     
-    init(itemId: String!, user: User, dictionary: Dictionary<String, AnyObject>) {
+    init(itemId: String!, dictionary: Dictionary<String, AnyObject>) {
         
-        
-        self.user = user
         
         if let imageUrl = dictionary["imageUrl"] as? String {
             self.imageUrl = imageUrl
         }
         
-        if let itemPrice = dictionary["itemPrice"] as? Double {
+        if let itemPrice = dictionary["price"] as? String {
             self.itemPrice = itemPrice
         }
         
-        if let ownerUid = dictionary["ownerUid"] as? String {
-            self.ownerUid = ownerUid
-        }
         
-        if let itemTite = dictionary["itemTitle"] as? String {
+        if let itemTite = dictionary["title"] as? String {
             self.itemTitle = itemTite
         }
         
-        if let itemId = dictionary["itemId"] as? String {
-            self.itemId = itemId
-        }
+        self.itemId = itemId
         
         if let creationDate = dictionary["creationDate"] as? Double {
             self.creationDate = Date(timeIntervalSince1970: creationDate)
         }
     }
-
     
-
+    
 }

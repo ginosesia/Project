@@ -19,6 +19,11 @@ protocol FeedCellDelegate {
     func handleSeeLikesTapped(for header: FeedCell)
 }
 
+protocol ShopVCDelegate {
+    func handlePurchaceTapped(for cell: ShopCell)
+}
+
+
 protocol SettingsLauncherDelegate: class {
     func settingDidSelected(setting: Setting)
 }
@@ -38,6 +43,10 @@ protocol UserProfileHeaderDelegate {
     func handleMessageUserTapped(for header: ProfileHeader)
     func handleMoreTapped(for header: ProfileHeader)
     func handleStoreTapped(for header: ProfileHeader)
+}
+
+protocol UserStoreHeaderDelegate {
+    func handleAddItemTapped(for header: StoreHeader)
 }
 
 protocol ChatCellSettingsDelegate {

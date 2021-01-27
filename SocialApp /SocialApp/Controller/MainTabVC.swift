@@ -79,7 +79,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         
         //Search Feed Controller
         let info = UIImage(systemName: "info")
-        let discover = constructNavController(unselectedImage: info!, selectedImage: info!, rootViewController: DiscoverVC())
+        let discover = constructNavController(unselectedImage: info!, selectedImage: info!, rootViewController: DiscoverVC(collectionViewLayout: UICollectionViewFlowLayout()))
         discover.navigationBar.isHidden = true
         discover.title = "Discover"
         
@@ -165,6 +165,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     
     
     func setupNavBar() {
+        navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
         let Settings = UIImage(systemName: "gear")
         let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
 

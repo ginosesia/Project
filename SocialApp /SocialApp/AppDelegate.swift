@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window?.rootViewController = UINavigationController(rootViewController: MainTabVC())
         
-        attempToRegisterForNotifications(application: application)
+        //attempToRegisterForNotifications(application: application)
     
         return true
     }

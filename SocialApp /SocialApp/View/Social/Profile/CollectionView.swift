@@ -60,18 +60,12 @@ class CollectionView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     //MARK: - UICollectionView
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 
-        if indexPath.item == 0 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
-        } else if indexPath.item == 1 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: videoCell, for: indexPath) as! VideoCell
-        } else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: messageCell, for: indexPath) as! PostMessageCell
-        }
+        return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

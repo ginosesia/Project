@@ -173,11 +173,11 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         return sc
     }()
     
-//    let collectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        return view
-//    }()
+    let collectionView: CollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let view = CollectionView(frame: .zero)
+        return view
+    }()
     
     let tableView = UITableView(frame: .zero, style: .plain)
     
@@ -358,8 +358,8 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         addSubview(segmentedControl)
         segmentedControl.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
 
-        addSubview(tableView)
-        tableView.anchor(top: segmentedControl.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(collectionView)
+        collectionView.anchor(top: segmentedControl.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
     }
         

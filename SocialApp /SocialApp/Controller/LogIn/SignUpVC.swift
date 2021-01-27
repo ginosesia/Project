@@ -59,8 +59,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         return button
     }()
     
-    
-    
     let nameTextField: UITextField = {
         let name = UITextField()
         name.textColor = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)
@@ -252,6 +250,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                               "Description": "Description",
                                               "Terms&Conditions": "true",
                                               "profileImageUrl": profileImageUrl] as [String : Any]
+                            
                             let uid = result!.user.uid
                             let values = [uid: dictionary]
                             
