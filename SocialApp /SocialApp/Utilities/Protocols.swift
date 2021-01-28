@@ -38,11 +38,7 @@ protocol UserProfileHeaderDelegate {
     func handleFollowersTapped(for header: ProfileHeader)
     func handleFollowingTapped(for header: ProfileHeader)
     func handleUploadsTaped(for header: ProfileHeader)
-    func handleEditBannerTapped(for header: ProfileHeader)
     func handleSelectProfilePhoto(for header: ProfileHeader)
-    func handleMessageUserTapped(for header: ProfileHeader)
-    func handleMoreTapped(for header: ProfileHeader)
-    func handleStoreTapped(for header: ProfileHeader)
 }
 
 protocol UserStoreHeaderDelegate {
@@ -71,29 +67,14 @@ protocol NotificationCellDelegate {
 protocol CommentInputAccesoryViewDelegate {
     func didSubmit(for comment: String)
 }
-//
-//protocol MessageInputAccesoryViewDelegate {
-//    func handleUploadMessage(message: String)
-//    func handleSelectImage()
-//}
-//
+
 protocol FollowCellDelegate {
     func handleFollow(for cell: FollowLikeCell)
 }
-//
-//protocol ChatCellDelegate {
-//    func handlePlayVideo(for cell: ChatCell)
-//}
-//
-//protocol MessageCellDelegate {
-//    func configureUserData(for cell: MessageCell)
-//}
-//
+
 protocol Printable {
     var description: String { get }
 }
-//
-//
 
 
 

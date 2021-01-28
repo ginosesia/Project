@@ -60,7 +60,7 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
     func handlePurchaceTapped(for cell: ShopCell) {
         print("working")
     }
-
+    
     //MARK: - API
     
     func fetchItems() {

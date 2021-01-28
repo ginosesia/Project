@@ -94,7 +94,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             present(navigationController, animated: true, completion: nil)
 
         } else {
-            header.myShopButton.isHidden = true
 
             if header.editProfileFollowButton.titleLabel?.text == "Follow" {
                 Utilities.styleFollowButton(header.editProfileFollowButton, following: true)

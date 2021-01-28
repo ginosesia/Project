@@ -120,12 +120,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         return button
     }()
     
-    lazy var myShopButton: UIButton = {
-        let button = UIButton(type: .system)
-        Utilities.styleStoreButton(button)
-        button.addTarget(self, action: #selector(handleStoreButtonTapped), for: .touchUpInside)
-        return button
-    }()
   
     lazy var videoButton: UIButton = {
         let button = UIButton(type: .system)
@@ -244,14 +238,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         Utilities.buttonPressed(postButton, videoButton, pictureButton)
     }
     
-    @objc func handleMore() {
-        delegate?.handleMoreTapped(for: self)
-    }
-    
-    @objc func messageUser() {
-        delegate?.handleMessageUserTapped(for: self)
-    }
-    
+
     @objc func handleFollowingTaped() {
         delegate?.handleFollowingTapped(for: self)
     }
@@ -267,14 +254,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     @objc func handleEditProfileFollowButton() {
         delegate?.handleEditFollowTapped(for: self)
     }
-    
-    @objc func handleStoreButtonTapped() {
-        delegate?.handleStoreTapped(for: self)
-    }
-    
-    @objc func handleBannerTapped() {
-        delegate?.handleEditBannerTapped(for: self)
-    }
+
     
     
     func configureUserInfo() {

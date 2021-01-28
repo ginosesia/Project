@@ -28,7 +28,7 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         //register header
-        collectionView!.register(StoreHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        collectionView!.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
 
 
     }
@@ -36,14 +36,13 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     //MARK: - Header
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSize(width: view.frame.width, height: 150)
+        let width = view.frame.width
+        return CGSize(width: width, height: width/1.75)
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! StoreHeader
-            header.backgroundColor = .systemPink
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! DiscoverHeader
             return header
     }
 

@@ -11,6 +11,9 @@
 		D902143C25B81D7900AC994C /* FilterButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D902143B25B81D7900AC994C /* FilterButtonView.swift */; };
 		D90BF5CC24FFF94D005F0871 /* CommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BF5CB24FFF94D005F0871 /* CommentVC.swift */; };
 		D90BF5CE24FFFAF0005F0871 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BF5CD24FFFAF0005F0871 /* CommentCell.swift */; };
+		D90C8A6225C2AE3B00996418 /* DiscoverHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C8A6125C2AE3B00996418 /* DiscoverHeader.swift */; };
+		D90C8A6625C2B0C100996418 /* DiscoverCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C8A6525C2B0C100996418 /* DiscoverCollection.swift */; };
+		D90C8A6B25C2B23200996418 /* DiscoverStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C8A6A25C2B23200996418 /* DiscoverStoreCell.swift */; };
 		D90E402F25681803000B3199 /* IndividualPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E402E25681803000B3199 /* IndividualPostCell.swift */; };
 		D914D8B0254468F10011BDD8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D914D8AF254468F10011BDD8 /* Item.swift */; };
 		D914D8B3254485A10011BDD8 /* JoinShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D914D8B2254485A10011BDD8 /* JoinShopVC.swift */; };
@@ -54,6 +57,8 @@
 		D9AB659425C06609008AF5C3 /* UploadItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AB659325C06609008AF5C3 /* UploadItem.swift */; };
 		D9AB659725C09376008AF5C3 /* MyShopItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AB659625C09376008AF5C3 /* MyShopItemCell.swift */; };
 		D9AB659A25C0996F008AF5C3 /* EditStoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AB659925C0996F008AF5C3 /* EditStoreItem.swift */; };
+		D9AB659E25C1AE70008AF5C3 /* ItemMoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AB659D25C1AE70008AF5C3 /* ItemMoreOptions.swift */; };
+		D9AB65A425C1B3BF008AF5C3 /* StoreSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AB65A325C1B3BF008AF5C3 /* StoreSettingCell.swift */; };
 		D9AEA70325C004BC00213F26 /* StoreSettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AEA70225C004BC00213F26 /* StoreSettingsLauncher.swift */; };
 		D9AEA70625C005EE00213F26 /* HeaderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AEA70525C005EE00213F26 /* HeaderItemCell.swift */; };
 		D9AEA70A25C00EA900213F26 /* StoreHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AEA70925C00EA900213F26 /* StoreHeader.swift */; };
@@ -72,9 +77,6 @@
 		D9C7760E247EA063009959CE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C7760D247EA063009959CE /* Utilities.swift */; };
 		D9C77611247EA536009959CE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C77610247EA536009959CE /* Extensions.swift */; };
 		D9D1B770250648C6003345CD /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1B76F250648C6003345CD /* Comment.swift */; };
-		D9DB1417256BF87400D5ABC0 /* UploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DB1416256BF87400D5ABC0 /* UploadCell.swift */; };
-		D9DB141A256C0A9400D5ABC0 /* UploadVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DB1419256C0A9400D5ABC0 /* UploadVideoCell.swift */; };
-		D9DB141D256C0BF900D5ABC0 /* UploadPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DB141C256C0BF900D5ABC0 /* UploadPostCell.swift */; };
 		D9DD04B324B37BCD00247F35 /* SelectPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD04B224B37BCD00247F35 /* SelectPostVC.swift */; };
 		D9DD04B524B37DD200247F35 /* SelectPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD04B424B37DD200247F35 /* SelectPostCell.swift */; };
 		D9DD04B724B37E5D00247F35 /* SelectPostHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD04B624B37E5D00247F35 /* SelectPostHeader.swift */; };
@@ -116,6 +118,9 @@
 		D902143B25B81D7900AC994C /* FilterButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButtonView.swift; sourceTree = "<group>"; };
 		D90BF5CB24FFF94D005F0871 /* CommentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVC.swift; sourceTree = "<group>"; };
 		D90BF5CD24FFFAF0005F0871 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		D90C8A6125C2AE3B00996418 /* DiscoverHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverHeader.swift; sourceTree = "<group>"; };
+		D90C8A6525C2B0C100996418 /* DiscoverCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollection.swift; sourceTree = "<group>"; };
+		D90C8A6A25C2B23200996418 /* DiscoverStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStoreCell.swift; sourceTree = "<group>"; };
 		D90E402E25681803000B3199 /* IndividualPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualPostCell.swift; sourceTree = "<group>"; };
 		D914D8AF254468F10011BDD8 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D914D8B2254485A10011BDD8 /* JoinShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinShopVC.swift; sourceTree = "<group>"; };
@@ -159,6 +164,8 @@
 		D9AB659325C06609008AF5C3 /* UploadItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadItem.swift; sourceTree = "<group>"; };
 		D9AB659625C09376008AF5C3 /* MyShopItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyShopItemCell.swift; sourceTree = "<group>"; };
 		D9AB659925C0996F008AF5C3 /* EditStoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStoreItem.swift; sourceTree = "<group>"; };
+		D9AB659D25C1AE70008AF5C3 /* ItemMoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMoreOptions.swift; sourceTree = "<group>"; };
+		D9AB65A325C1B3BF008AF5C3 /* StoreSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingCell.swift; sourceTree = "<group>"; };
 		D9AEA70225C004BC00213F26 /* StoreSettingsLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingsLauncher.swift; sourceTree = "<group>"; };
 		D9AEA70525C005EE00213F26 /* HeaderItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderItemCell.swift; sourceTree = "<group>"; };
 		D9AEA70925C00EA900213F26 /* StoreHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreHeader.swift; sourceTree = "<group>"; };
@@ -179,9 +186,6 @@
 		D9C7760D247EA063009959CE /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		D9C77610247EA536009959CE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D9D1B76F250648C6003345CD /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		D9DB1416256BF87400D5ABC0 /* UploadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadCell.swift; sourceTree = "<group>"; };
-		D9DB1419256C0A9400D5ABC0 /* UploadVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoCell.swift; sourceTree = "<group>"; };
-		D9DB141C256C0BF900D5ABC0 /* UploadPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostCell.swift; sourceTree = "<group>"; };
 		D9DD04B224B37BCD00247F35 /* SelectPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostVC.swift; sourceTree = "<group>"; };
 		D9DD04B424B37DD200247F35 /* SelectPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostCell.swift; sourceTree = "<group>"; };
 		D9DD04B624B37E5D00247F35 /* SelectPostHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostHeader.swift; sourceTree = "<group>"; };
@@ -243,6 +247,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D90C8A6025C2AE2E00996418 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				D90C8A6125C2AE3B00996418 /* DiscoverHeader.swift */,
+				D90C8A6525C2B0C100996418 /* DiscoverCollection.swift */,
+				D90C8A6A25C2B23200996418 /* DiscoverStoreCell.swift */,
+			);
+			path = Discover;
+			sourceTree = "<group>";
+		};
 		D9199F7525B82C1B00131CE1 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,9 +279,6 @@
 				D9DD04B424B37DD200247F35 /* SelectPostCell.swift */,
 				D91781992583ADE0001DBB84 /* SelectVideoCell.swift */,
 				D9DD04B624B37E5D00247F35 /* SelectPostHeader.swift */,
-				D9DB1416256BF87400D5ABC0 /* UploadCell.swift */,
-				D9DB1419256C0A9400D5ABC0 /* UploadVideoCell.swift */,
-				D9DB141C256C0BF900D5ABC0 /* UploadPostCell.swift */,
 				D91781962583A966001DBB84 /* VideoCollectionView.swift */,
 			);
 			path = "Upload Post";
@@ -327,7 +338,6 @@
 			isa = PBXGroup;
 			children = (
 				D9A620B725B616D800A1FA3B /* HeaderCell.swift */,
-				D9A620BB25B6186300A1FA3B /* HeaderUploadCell.swift */,
 				D9AEA70525C005EE00213F26 /* HeaderItemCell.swift */,
 			);
 			path = Headers;
@@ -358,6 +368,50 @@
 				D9A77CA3252386DB001FB33D /* HashtagCell.swift */,
 			);
 			path = Social;
+			sourceTree = "<group>";
+		};
+		D9AB65A025C1B2DA008AF5C3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D9F9F3FA248E1E5100FD8369 /* SettingsLauncher.swift */,
+				D9A620AD25B5C77000A1FA3B /* SettingsCell.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		D9AB65A125C1B2E9008AF5C3 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				D9AB65A825C1B404008AF5C3 /* GlobalStore */,
+				D9AB65A725C1B3F8008AF5C3 /* MyStore */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		D9AB65A225C1B300008AF5C3 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				D9A620BB25B6186300A1FA3B /* HeaderUploadCell.swift */,
+				D9A620B325B5F75F00A1FA3B /* UploadLauncher.swift */,
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		D9AB65A725C1B3F8008AF5C3 /* MyStore */ = {
+			isa = PBXGroup;
+			children = (
+				D9AEA70225C004BC00213F26 /* StoreSettingsLauncher.swift */,
+			);
+			path = MyStore;
+			sourceTree = "<group>";
+		};
+		D9AB65A825C1B404008AF5C3 /* GlobalStore */ = {
+			isa = PBXGroup;
+			children = (
+				D9AB65A325C1B3BF008AF5C3 /* StoreSettingCell.swift */,
+				D9AB659D25C1AE70008AF5C3 /* ItemMoreOptions.swift */,
+			);
+			path = GlobalStore;
 			sourceTree = "<group>";
 		};
 		D9B10070250E9CB100E4AB7B /* Messages */ = {
@@ -440,6 +494,7 @@
 		D9C77607247E9BE5009959CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D90C8A6025C2AE2E00996418 /* Discover */,
 				D9A66328251297B600424788 /* Social */,
 				D9B10073250EA19E00E4AB7B /* Messages */,
 			);
@@ -449,6 +504,7 @@
 		D9C77608247E9BEF009959CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D9A620B025B5CF2700A1FA3B /* Setting.swift */,
 				D9F9F3E62482A8B100FD8369 /* User.swift */,
 				D9DD04B824B4B7FC00247F35 /* Post.swift */,
 				D9DD932925025C84003ACC4E /* SettingsSection.swift */,
@@ -566,11 +622,9 @@
 		D9F9F3FC248E1E6000FD8369 /* Slide Menu */ = {
 			isa = PBXGroup;
 			children = (
-				D9F9F3FA248E1E5100FD8369 /* SettingsLauncher.swift */,
-				D9A620B025B5CF2700A1FA3B /* Setting.swift */,
-				D9A620AD25B5C77000A1FA3B /* SettingsCell.swift */,
-				D9A620B325B5F75F00A1FA3B /* UploadLauncher.swift */,
-				D9AEA70225C004BC00213F26 /* StoreSettingsLauncher.swift */,
+				D9AB65A025C1B2DA008AF5C3 /* Settings */,
+				D9AB65A225C1B300008AF5C3 /* Upload */,
+				D9AB65A125C1B2E9008AF5C3 /* Store */,
 			);
 			path = "Slide Menu";
 			sourceTree = "<group>";
@@ -709,14 +763,13 @@
 				D9A648DB24CC7C8A00074ECF /* CustomImageView.swift in Sources */,
 				D9DD04BB24B62D1500247F35 /* TermsAndConditionsVC.swift in Sources */,
 				D98531E6252F9DCD001D3520 /* MenuBar.swift in Sources */,
+				D90C8A6225C2AE3B00996418 /* DiscoverHeader.swift in Sources */,
 				D9A77CA4252386DB001FB33D /* HashtagCell.swift in Sources */,
 				D9F9F3FB248E1E5100FD8369 /* SettingsLauncher.swift in Sources */,
 				D9D1B770250648C6003345CD /* Comment.swift in Sources */,
 				D914D8B3254485A10011BDD8 /* JoinShopVC.swift in Sources */,
-				D9DB141A256C0A9400D5ABC0 /* UploadVideoCell.swift in Sources */,
 				D917819D2584D839001DBB84 /* SelectVideoVC.swift in Sources */,
 				D9C64E3324AB315B007ABD7A /* FacebookSignInVC.swift in Sources */,
-				D9DB1417256BF87400D5ABC0 /* UploadCell.swift in Sources */,
 				D9B10077250FA88B00E4AB7B /* NewMessageController.swift in Sources */,
 				D9AEA70625C005EE00213F26 /* HeaderItemCell.swift in Sources */,
 				D9A648E324CF201200074ECF /* SelectedPostVC.swift in Sources */,
@@ -744,7 +797,7 @@
 				D9C7760E247EA063009959CE /* Utilities.swift in Sources */,
 				D917819A2583ADE0001DBB84 /* SelectVideoCell.swift in Sources */,
 				D9C64E3524AB3182007ABD7A /* TwitterSignInVC.swift in Sources */,
-				D9DB141D256C0BF900D5ABC0 /* UploadPostCell.swift in Sources */,
+				D9AB659E25C1AE70008AF5C3 /* ItemMoreOptions.swift in Sources */,
 				D9FCC5E42524EA7600AC8355 /* EditProfileController.swift in Sources */,
 				D9F9F3D92480154900FD8369 /* ShopVC.swift in Sources */,
 				D9F9F3D52480150400FD8369 /* SearchVC.swift in Sources */,
@@ -754,6 +807,7 @@
 				D9F9F3EF2489445800FD8369 /* SearchUserCell.swift in Sources */,
 				D9A648D924CC6A3D00074ECF /* UserPostCell.swift in Sources */,
 				D914D8B0254468F10011BDD8 /* Item.swift in Sources */,
+				D90C8A6B25C2B23200996418 /* DiscoverStoreCell.swift in Sources */,
 				D9E0C9DB252919550012BB9A /* CommentInputAccesoryView.swift in Sources */,
 				D9FF3268247ED98000D643AB /* SignUpVC.swift in Sources */,
 				D90BF5CE24FFFAF0005F0871 /* CommentCell.swift in Sources */,
@@ -767,6 +821,7 @@
 				D9DD04B924B4B7FC00247F35 /* Post.swift in Sources */,
 				D9F9F3DB2480157400FD8369 /* UserProfileVC.swift in Sources */,
 				D90BF5CC24FFF94D005F0871 /* CommentVC.swift in Sources */,
+				D90C8A6625C2B0C100996418 /* DiscoverCollection.swift in Sources */,
 				D9F9F3F9248BD15D00FD8369 /* FollowLikeCell.swift in Sources */,
 				D9F9F3E72482A8B100FD8369 /* User.swift in Sources */,
 				D9A620B825B616D800A1FA3B /* HeaderCell.swift in Sources */,
@@ -782,6 +837,7 @@
 				D98531EA252FA3F5001D3520 /* MenuCell.swift in Sources */,
 				D9F9F3F3248A95BF00FD8369 /* Constants.swift in Sources */,
 				D9B1006F250E367B00E4AB7B /* SearchPostCell.swift in Sources */,
+				D9AB65A425C1B3BF008AF5C3 /* StoreSettingCell.swift in Sources */,
 				D9AEA70325C004BC00213F26 /* StoreSettingsLauncher.swift in Sources */,
 				D91781972583A966001DBB84 /* VideoCollectionView.swift in Sources */,
 				D9AB659A25C0996F008AF5C3 /* EditStoreItem.swift in Sources */,
@@ -929,6 +985,7 @@
 				DEVELOPMENT_TEAM = QSBKKKWY4F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SocialApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -951,6 +1008,7 @@
 				DEVELOPMENT_TEAM = QSBKKKWY4F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SocialApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
