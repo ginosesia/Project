@@ -18,6 +18,7 @@ class DiscoverHeader: UICollectionViewCell {
         let view = DiscoverCollection(collectionViewLayout: layout)
         return view
     }()
+    
 
     //MARK: - Init
     
@@ -27,6 +28,8 @@ class DiscoverHeader: UICollectionViewCell {
         addSubview(collectionView.view)
         
         collectionView.view.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+
         
     }
     

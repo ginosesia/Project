@@ -23,6 +23,9 @@ protocol ShopVCDelegate {
     func handlePurchaceTapped(for cell: ShopCell)
 }
 
+protocol DashboardShopDelegate {
+    func handleViewStoreTapped(for cell: DiscoverStoreCell)
+}
 
 protocol SettingsLauncherDelegate: class {
     func settingDidSelected(setting: Setting)

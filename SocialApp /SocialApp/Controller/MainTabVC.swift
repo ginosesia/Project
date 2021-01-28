@@ -36,8 +36,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         super.viewDidLoad()
         self.delegate = self
         self.tabBar.barTintColor = .black
-        configureTitle()
-                
+                        
         settingsLauncher.delegate = self
         uploadLauncher.delegate = self
 
@@ -55,8 +54,8 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     }
     
     func configureTitle() {
+    
         let width = view.frame.width
-        
         let titleView = UIView()
         titleView.frame = .init(x: 0, y: 0, width: width, height: 50)
         navigationItem.titleView = titleView
@@ -127,7 +126,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             dot.backgroundColor = UIColor(red: 233/255, green: 30/255, blue: 90/255, alpha: 1)
             dot.layer.cornerRadius = dot.frame.width / 2
             self.view.addSubview(dot)
-            dot.isHidden = true
+            dot.isHidden = false
 
         }
     }
@@ -171,6 +170,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
 
         let camera = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleSettings))
         navigationItem.rightBarButtonItems = [moreButton, camera]
+        navigationItem.title = "App"
     }
     
     

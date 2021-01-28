@@ -13,6 +13,7 @@ import UIKit
 class DiscoverStoreCell: UICollectionViewCell {
     
     //MARK: - Properties
+    var delegate: DashboardShopDelegate?
         
     var store: Store? {
         didSet {
@@ -53,7 +54,9 @@ class DiscoverStoreCell: UICollectionViewCell {
     //MARK: - Handlers
     
     @objc func handleViewStoreButtonTapped() {
-        
+        delegate?.handleViewStoreTapped(for: self)
+
+
     }
     
 
