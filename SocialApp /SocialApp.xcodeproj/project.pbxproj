@@ -25,6 +25,10 @@
 		D9199F7925B82DBA00131CE1 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9199F7825B82DBA00131CE1 /* NotificationCell.swift */; };
 		D931D3B1250A9B2900D858DA /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D931D3B0250A9B2900D858DA /* Notification.swift */; };
 		D9529CBC2501818A0092EB53 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9529CBB2501818A0092EB53 /* SettingsVC.swift */; };
+		D955F68025DFB1B400FEF86B /* MyOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F67F25DFB1B400FEF86B /* MyOrders.swift */; };
+		D955F68325DFB45C00FEF86B /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F68225DFB45C00FEF86B /* OrderCell.swift */; };
+		D955F68625DFBEAC00FEF86B /* Basket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F68525DFBEAC00FEF86B /* Basket.swift */; };
+		D955F7B725DFEFA900FEF86B /* BasketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F7B625DFEFA900FEF86B /* BasketCell.swift */; };
 		D95CF89925090D2C00979954 /* icons8-compass-24.png in Resources */ = {isa = PBXBuildFile; fileRef = D95CF89625090D2C00979954 /* icons8-compass-24.png */; };
 		D95CF89A25090D2C00979954 /* icons8-compass-48.png in Resources */ = {isa = PBXBuildFile; fileRef = D95CF89725090D2C00979954 /* icons8-compass-48.png */; };
 		D95CF89B25090D2C00979954 /* icons8-compass-96.png in Resources */ = {isa = PBXBuildFile; fileRef = D95CF89825090D2C00979954 /* icons8-compass-96.png */; };
@@ -107,12 +111,12 @@
 		D9FF3266247EB92E00D643AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF3265247EB92E00D643AB /* SceneDelegate.swift */; };
 		D9FF3268247ED98000D643AB /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF3267247ED98000D643AB /* SignUpVC.swift */; };
 		D9FF326A247EF42C00D643AB /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF3269247EF42C00D643AB /* ForgotPasswordVC.swift */; };
-		DD521AA5AF6575A38D88598A /* libPods-SocialApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A24FEF3ABE0FEF6B14B3B89 /* libPods-SocialApp.a */; };
+		FDB100BB6E3BB81ECA3334C6 /* Pods_SocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B2FDCFF6DA67DDFCF57F82 /* Pods_SocialApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06B2FDCFF6DA67DDFCF57F82 /* Pods_SocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5732DCB61A6B490F7853ABA9 /* Pods-SocialApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp.release.xcconfig"; path = "Target Support Files/Pods-SocialApp/Pods-SocialApp.release.xcconfig"; sourceTree = "<group>"; };
-		5A24FEF3ABE0FEF6B14B3B89 /* libPods-SocialApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocialApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66A026E45100AC7B409E50A5 /* Pods-SocialApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp.debug.xcconfig"; path = "Target Support Files/Pods-SocialApp/Pods-SocialApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D900D48D2533A7B800284E7A /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D902143B25B81D7900AC994C /* FilterButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButtonView.swift; sourceTree = "<group>"; };
@@ -132,6 +136,11 @@
 		D9199F7825B82DBA00131CE1 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		D931D3B0250A9B2900D858DA /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		D9529CBB2501818A0092EB53 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		D955F67F25DFB1B400FEF86B /* MyOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOrders.swift; sourceTree = "<group>"; };
+		D955F68225DFB45C00FEF86B /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
+		D955F68525DFBEAC00FEF86B /* Basket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basket.swift; sourceTree = "<group>"; };
+		D955F6E525DFC10600FEF86B /* SocialApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SocialApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		D955F7B625DFEFA900FEF86B /* BasketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketCell.swift; sourceTree = "<group>"; };
 		D95CF89625090D2C00979954 /* icons8-compass-24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-compass-24.png"; sourceTree = "<group>"; };
 		D95CF89725090D2C00979954 /* icons8-compass-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-compass-48.png"; sourceTree = "<group>"; };
 		D95CF89825090D2C00979954 /* icons8-compass-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-compass-96.png"; sourceTree = "<group>"; };
@@ -223,7 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD521AA5AF6575A38D88598A /* libPods-SocialApp.a in Frameworks */,
+				FDB100BB6E3BB81ECA3334C6 /* Pods_SocialApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +242,7 @@
 		03978077417BD647FC211373 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5A24FEF3ABE0FEF6B14B3B89 /* libPods-SocialApp.a */,
+				06B2FDCFF6DA67DDFCF57F82 /* Pods_SocialApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -299,6 +308,8 @@
 				D95CF89C25091D0000979954 /* ShopCell.swift */,
 				D9AEA70925C00EA900213F26 /* StoreHeader.swift */,
 				D9AB659625C09376008AF5C3 /* MyShopItemCell.swift */,
+				D955F68225DFB45C00FEF86B /* OrderCell.swift */,
+				D955F7B625DFEFA900FEF86B /* BasketCell.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -351,25 +362,6 @@
 			path = tableView;
 			sourceTree = "<group>";
 		};
-		D9A66328251297B600424788 /* Social */ = {
-			isa = PBXGroup;
-			children = (
-				D9199F7725B82DAB00131CE1 /* Notifications */,
-				D9A620B625B616CB00A1FA3B /* Headers */,
-				D971E325253CB26F00C919DB /* Shop */,
-				D95AFB282539E71A0020252A /* Feed */,
-				D95AFB272539E6FB0020252A /* Upload Post */,
-				D9A41A362530866A007833B0 /* Comment */,
-				D9A41A3525308645007833B0 /* Search */,
-				D98531E4252F9DB1001D3520 /* Profile */,
-				D9DD9325250257BE003ACC4E /* UserInfoHeader.swift */,
-				D9F9F3F8248BD15D00FD8369 /* FollowLikeCell.swift */,
-				D9A648D824CC6A3D00074ECF /* UserPostCell.swift */,
-				D9A77CA3252386DB001FB33D /* HashtagCell.swift */,
-			);
-			path = Social;
-			sourceTree = "<group>";
-		};
 		D9AB65A025C1B2DA008AF5C3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				D9AEA70225C004BC00213F26 /* StoreSettingsLauncher.swift */,
+				D955F68525DFBEAC00FEF86B /* Basket.swift */,
 			);
 			path = MyStore;
 			sourceTree = "<group>";
@@ -437,6 +430,7 @@
 		D9C775E6247E9B2F009959CE = {
 			isa = PBXGroup;
 			children = (
+				D955F6E525DFC10600FEF86B /* SocialApp-Bridging-Header.h */,
 				D95CF89625090D2C00979954 /* icons8-compass-24.png */,
 				D95CF89725090D2C00979954 /* icons8-compass-48.png */,
 				D95CF89825090D2C00979954 /* icons8-compass-96.png */,
@@ -494,8 +488,19 @@
 		D9C77607247E9BE5009959CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D9199F7725B82DAB00131CE1 /* Notifications */,
+				D9A620B625B616CB00A1FA3B /* Headers */,
+				D971E325253CB26F00C919DB /* Shop */,
+				D95AFB282539E71A0020252A /* Feed */,
+				D95AFB272539E6FB0020252A /* Upload Post */,
+				D9A41A362530866A007833B0 /* Comment */,
+				D9A41A3525308645007833B0 /* Search */,
+				D98531E4252F9DB1001D3520 /* Profile */,
+				D9DD9325250257BE003ACC4E /* UserInfoHeader.swift */,
+				D9F9F3F8248BD15D00FD8369 /* FollowLikeCell.swift */,
+				D9A648D824CC6A3D00074ECF /* UserPostCell.swift */,
+				D9A77CA3252386DB001FB33D /* HashtagCell.swift */,
 				D90C8A6025C2AE2E00996418 /* Discover */,
-				D9A66328251297B600424788 /* Social */,
 				D9B10073250EA19E00E4AB7B /* Messages */,
 			);
 			path = View;
@@ -608,6 +613,7 @@
 		D9F9F3E1248128EF00FD8369 /* ShopVC */ = {
 			isa = PBXGroup;
 			children = (
+				D9AB65A125C1B2E9008AF5C3 /* Store */,
 				D9F9F3D82480154900FD8369 /* ShopVC.swift */,
 				D914D8B2254485A10011BDD8 /* JoinShopVC.swift */,
 				D98383BF25509E21007C2105 /* MyStoreSignUpVC.swift */,
@@ -615,6 +621,7 @@
 				D9A620A925B5B76D00A1FA3B /* MyStore.swift */,
 				D9AB659325C06609008AF5C3 /* UploadItem.swift */,
 				D9AB659925C0996F008AF5C3 /* EditStoreItem.swift */,
+				D955F67F25DFB1B400FEF86B /* MyOrders.swift */,
 			);
 			path = ShopVC;
 			sourceTree = "<group>";
@@ -624,7 +631,6 @@
 			children = (
 				D9AB65A025C1B2DA008AF5C3 /* Settings */,
 				D9AB65A225C1B300008AF5C3 /* Upload */,
-				D9AB65A125C1B2E9008AF5C3 /* Store */,
 			);
 			path = "Slide Menu";
 			sourceTree = "<group>";
@@ -640,7 +646,7 @@
 				D9C775EB247E9B2F009959CE /* Sources */,
 				D9C775EC247E9B2F009959CE /* Frameworks */,
 				D9C775ED247E9B2F009959CE /* Resources */,
-				5FD9930165D73BC5C8B1C0EA /* [CP] Copy Pods Resources */,
+				8E23AD1D44060AFDC3E5FE42 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -723,21 +729,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5FD9930165D73BC5C8B1C0EA /* [CP] Copy Pods Resources */ = {
+		8E23AD1D44060AFDC3E5FE42 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -756,6 +762,7 @@
 				D9FF3266247EB92E00D643AB /* SceneDelegate.swift in Sources */,
 				D95CF89D25091D0000979954 /* ShopCell.swift in Sources */,
 				D9A620BC25B6186300A1FA3B /* HeaderUploadCell.swift in Sources */,
+				D955F68025DFB1B400FEF86B /* MyOrders.swift in Sources */,
 				D9A41A3A2530BAA2007833B0 /* Video.swift in Sources */,
 				D900D48E2533A7B800284E7A /* CollectionView.swift in Sources */,
 				D9FF326A247EF42C00D643AB /* ForgotPasswordVC.swift in Sources */,
@@ -813,14 +820,17 @@
 				D90BF5CE24FFFAF0005F0871 /* CommentCell.swift in Sources */,
 				D9A620AE25B5C77000A1FA3B /* SettingsCell.swift in Sources */,
 				D9199F7925B82DBA00131CE1 /* NotificationCell.swift in Sources */,
+				D955F68625DFBEAC00FEF86B /* Basket.swift in Sources */,
 				D9DD04B324B37BCD00247F35 /* SelectPostVC.swift in Sources */,
 				D9A620AA25B5B76D00A1FA3B /* MyStore.swift in Sources */,
 				D90E402F25681803000B3199 /* IndividualPostCell.swift in Sources */,
+				D955F68325DFB45C00FEF86B /* OrderCell.swift in Sources */,
 				D9F4FA1225AEFE2E006CBBC2 /* DiscoverVC.swift in Sources */,
 				D9AB659425C06609008AF5C3 /* UploadItem.swift in Sources */,
 				D9DD04B924B4B7FC00247F35 /* Post.swift in Sources */,
 				D9F9F3DB2480157400FD8369 /* UserProfileVC.swift in Sources */,
 				D90BF5CC24FFF94D005F0871 /* CommentVC.swift in Sources */,
+				D955F7B725DFEFA900FEF86B /* BasketCell.swift in Sources */,
 				D90C8A6625C2B0C100996418 /* DiscoverCollection.swift in Sources */,
 				D9F9F3F9248BD15D00FD8369 /* FollowLikeCell.swift in Sources */,
 				D9F9F3E72482A8B100FD8369 /* User.swift in Sources */,
@@ -1007,6 +1017,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QSBKKKWY4F;
 				ENABLE_PREVIEWS = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					FRAMEWORK_SEARCH_PATHS,
+				);
 				INFOPLIST_FILE = SocialApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

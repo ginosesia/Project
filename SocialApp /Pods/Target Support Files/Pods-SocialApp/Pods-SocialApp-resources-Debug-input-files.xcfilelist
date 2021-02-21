@@ -1,2 +1,25 @@
 ${PODS_ROOT}/Target Support Files/Pods-SocialApp/Pods-SocialApp-resources.sh
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/amex.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/amex@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/cvc-amex.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/cvc-amex@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/cvc.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/cvc@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/diners.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/diners@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/discover.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/discover@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/jcb.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/jcb@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/mastercard.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/mastercard@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/placeholder.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/placeholder@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/visa.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/Cards/visa@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/gradient@2x.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/textfield.png
+${PODS_ROOT}/PaymentKit/PaymentKit/Resources/textfield@2x.png
+${PODS_ROOT}/Stripe/InternalFrameworks/Stripe3DS2.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle

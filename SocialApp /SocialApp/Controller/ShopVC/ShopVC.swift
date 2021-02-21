@@ -11,22 +11,21 @@ import Firebase
 
 private let reuseIdentifier = "ShopCell"
 
-class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, ShopVCDelegate  {
-    
- 
-    
+class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, ShopVCDelegate, ItemConfirmationDelegate  {
+
     //MARK: - Properties
     var items = [Item]()
+    var basket = [Item]()
 
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.collectionView.register(ShopCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         navigationController?.navigationBar.isHidden = true
     
         fetchItems()
+        fetchItemsInBasket()
 
     }
 
@@ -47,19 +46,52 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ShopCell
-        
+        cell.delegate = self
         cell.backgroundColor = UIColor(white: 1, alpha: 0.1)
         cell.layer.cornerRadius = 10
         cell.item = items[indexPath.item]
         return cell
     }
 
-
     //MARK: - Handlers
     
     func handlePurchaceTapped(for cell: ShopCell) {
         print("working")
     }
+    
+    func sendConfirmationAlert(item: Item) {
+        
+        var quantity = basket.count
+        
+        quantity += 1
+        
+        // create the alert
+        guard let item = item.itemTitle else { return }
+        let alert = UIAlertController(title: "Item Added to Basket", message: "\(item) has been added to your basket successfully.", preferredStyle: UIAlertController.Style.alert)
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Continue Shopping", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "View Basket (\(quantity))", style: UIAlertAction.Style.default, handler: {_ in
+            let checkOut = Basket()
+            let navigationController = UINavigationController(rootViewController: checkOut)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
+        }))
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func fetchItemsInBasket() {
+        ITEMS_REF.observe(.childAdded) { (snapshot) in
+            let itemId = snapshot.key
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            USER_BAG_REF.child(uid).child(itemId).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                let item = Item(itemId: itemId, dictionary: dictionary)
+                self.basket.append(item)
+            })
+        }
+    }
+
     
     //MARK: - API
     

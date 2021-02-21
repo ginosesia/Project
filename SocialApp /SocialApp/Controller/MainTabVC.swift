@@ -184,6 +184,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     }
     
     
+    
     func settingDidSelected(setting: Setting) {
         if setting.name == "Search User" {
             let searchVC = SearchVC()
@@ -195,6 +196,9 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         } else if setting.name == "Notifications" {
             let notifications = NotificationsVC()
             self.navigationController?.pushViewController(notifications, animated: true)
+        } else if setting.name == "Basket" {
+            let checkOut = Basket()
+            self.navigationController?.pushViewController(checkOut, animated: true)
         } else if setting.name == "Settings" {
             let settingsVC = SettingsVC()
             self.navigationController?.pushViewController(settingsVC, animated: true)
@@ -227,7 +231,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     
     func checkIfMember() {
         let uid = Auth.auth().currentUser?.uid
-
         STORE_REF.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.hasChild(uid!) {
                 let store = MyStore(collectionViewLayout: UICollectionViewFlowLayout())

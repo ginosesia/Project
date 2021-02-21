@@ -31,6 +31,14 @@ protocol SettingsLauncherDelegate: class {
     func settingDidSelected(setting: Setting)
 }
 
+protocol ShopSettingsLauncherDelegate: class {
+    func settingDidSelected(setting: Setting)
+}
+
+protocol ItemConfirmationDelegate: class {
+    func sendConfirmationAlert(item: Item)
+}
+
 protocol SectionType: CustomStringConvertible {
     var containsSwitch: Bool { get }
 }

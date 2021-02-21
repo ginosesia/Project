@@ -1,4 +1,4 @@
-module TinyConstraints {
+framework module TinyConstraints {
   umbrella header "TinyConstraints-umbrella.h"
 
   export *

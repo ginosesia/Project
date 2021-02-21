@@ -360,9 +360,11 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
+  - PaymentKit (1.2)
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
   - SideMenu (5.0.1)
+  - Stripe (17.0.3)
   - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
@@ -376,7 +378,9 @@ DEPENDENCIES:
   - Firebase/Storage
   - KMPlaceholderTextView
   - MBProgressHUD
+  - PaymentKit
   - SideMenu
+  - Stripe
   - TinyConstraints
 
 SPEC REPOS:
@@ -405,9 +409,11 @@ SPEC REPOS:
     - leveldb-library
     - MBProgressHUD
     - nanopb
+    - PaymentKit
     - PromisesObjC
     - Protobuf
     - SideMenu
+    - Stripe
     - TinyConstraints
 
 SPEC CHECKSUMS:
@@ -435,11 +441,13 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  PaymentKit: 9bf248ab9a7343ccc65523890428e23678d1bde9
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   SideMenu: 87efd943737bb83aedf0358884d09fcf5576636d
+  Stripe: 30ba9a2ac7297e93de561fed695222ef980ee521
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: c98b71769bf8f091e99787b4ad0036892b8a1082
+PODFILE CHECKSUM: bb3012b14fa6d202793475d8e9308c216939ea39
 
 COCOAPODS: 1.9.2

@@ -37,12 +37,24 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
 
     func setupNavBar() {
         let more = UIImage(systemName: "person.circle")
+        let orders = UIImage(systemName: "bell")
+        
         let moreButton = UIBarButtonItem(image: more, style: .plain, target: self, action: #selector(handleMoreTappeed))
-        navigationItem.rightBarButtonItems = [moreButton]
+        let orderButton = UIBarButtonItem(image: orders, style: .plain, target: self, action: #selector(handleOrdersTapped))
+        navigationItem.rightBarButtonItems = [moreButton,orderButton]
+    }
+    
+    @objc func handleBasket() {
+        
     }
     
     @objc func handleMoreTappeed() {
         settingsLauncher.showSettings()
+    }
+    
+    @objc func handleOrdersTapped() {
+        let orders = MyOrders()
+        self.navigationController?.pushViewController(orders, animated: true)
     }
     
     //MARK: - Header
@@ -115,12 +127,15 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     }
     
     func settingDidSelected(setting: Setting) {
-        if setting.name == "Add Item" {
+        if setting.name == "test" {
             addItem()
-        } else if setting.name == "Analytics" {
-            
-        } else if setting.name == "Settings" {
-            
+        } else if setting.name == "Add To Basket" {
+            print("Add to Basket")
+        } else if setting.name == "Share" {
+            print("Share")
+        } else if setting.name == "Cancel" {
+            print("Cancel")
+
         }
     }
     

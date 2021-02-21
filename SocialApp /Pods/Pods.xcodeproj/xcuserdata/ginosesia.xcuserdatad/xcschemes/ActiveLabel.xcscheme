@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E18EE5DE3744DADF64511923F006E05"
-               BuildableName = "libActiveLabel.a"
+               BuildableName = "ActiveLabel.framework"
                BlueprintName = "ActiveLabel"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

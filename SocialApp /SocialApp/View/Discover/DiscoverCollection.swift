@@ -33,8 +33,9 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! DiscoverStoreCell
-        cell.backgroundColor = UIColor(white: 1, alpha: 0.1)
-        cell.layer.cornerRadius = 15
+        cell.backgroundColor = .black
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor(white: 1, alpha: 0.1).cgColor
         cell.store = stores[indexPath.item]
         return cell
     }

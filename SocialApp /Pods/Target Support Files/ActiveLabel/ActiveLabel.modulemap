@@ -1,4 +1,4 @@
-module ActiveLabel {
+framework module ActiveLabel {
   umbrella header "ActiveLabel-umbrella.h"
 
   export *
