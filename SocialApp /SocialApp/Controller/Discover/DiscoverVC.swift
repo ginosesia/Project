@@ -64,6 +64,12 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         return cell
 
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let videoLauncher = VideoLauncher()
+        videoLauncher.showVideoPlayer()
+
+    }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -80,8 +86,6 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         viewStore.store = cell.store
         navigationController!.pushViewController(viewStore, animated: true)
     }
-    
-    
     
     //MARK: - API
 
@@ -135,6 +139,41 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
 
 
 }
+
+
+//func handleVideoTapped(for cell: FeedCell) {
+//    let image = cell.postImage
+//    self.startingImage = image
+//    self.startingImage?.isHidden = true
+//    startingFrame = image.superview?.convert(image.frame, to: nil)
+//            
+//    let zoomingImageView = UIImageView(frame: startingFrame!)
+//    zoomingImageView.image = image.image
+//    zoomingImageView.isUserInteractionEnabled = true
+//    zoomingImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomOut)))
+//    
+//    
+//    if let keyWindow = UIApplication.shared.keyWindow {
+//        
+//        blackBackgroundView = UIView(frame: keyWindow.frame)
+//        blackBackgroundView?.backgroundColor = UIColor.black
+//        blackBackgroundView?.alpha = 0
+//        keyWindow.addSubview(self.blackBackgroundView!)
+//        keyWindow.addSubview(zoomingImageView)
+//        
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+//            
+//            self.blackBackgroundView?.alpha = 1
+//            let height = zoomingImageView.frame.height
+//            let width = zoomingImageView.frame.width
+//            zoomingImageView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+//            zoomingImageView.center = keyWindow.center
+//
+//        } completion: { (completed) in
+//            //do nothing
+//        }
+//    }
+//}
 
     
     

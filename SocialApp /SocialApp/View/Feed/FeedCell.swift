@@ -165,6 +165,13 @@ class FeedCell: UICollectionViewCell {
 
     //MARK: - Handlers
     
+    @objc func playVideo() {
+        
+        let videoLauncher = VideoLauncher()
+        videoLauncher.showVideoPlayer()
+    }
+    
+    
     func configureLikeButton() {
         delegate?.handleConfigureLikeButton(for: self)
     }
@@ -269,8 +276,7 @@ class FeedCell: UICollectionViewCell {
         optionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         optionsButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
         
-        postImage.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 250)
-        postImage.layer.cornerRadius = 15
+        postImage.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
         
         captionLabel.anchor(top: postImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
         
