@@ -46,7 +46,7 @@ class SettingsVC: UIViewController, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .white
 
         let title = UILabel()
         title.font = UIFont.boldSystemFont(ofSize: 20)
@@ -96,7 +96,7 @@ class SettingsVC: UIViewController, UITableViewDelegate  {
         tableView = UITableView()
         tableView.delegate = self
         tableView.rowHeight = 60
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = .white
         
         view.addSubview(tableView)
         tableView.frame = view.frame
@@ -112,9 +112,9 @@ class SettingsVC: UIViewController, UITableViewDelegate  {
 //        navigationController?.navigationBar.prefersLargeTitles = true
 
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barStyle = .black
-        navigationController?.navigationBar.backgroundColor = .black
-        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.barTintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]

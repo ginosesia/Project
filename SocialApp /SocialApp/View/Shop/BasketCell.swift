@@ -51,22 +51,23 @@ class BasketCell: UITableViewCell {
     }()
     
     func setUpView() {
+        
         let imageDimention = CGFloat(45)
+        addSubview(productPrice)
+
+        addSubview(productQuantity)
+        productQuantity.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 35, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        productQuantity.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+
         addSubview(productImage)
-        productImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: imageDimention, height: imageDimention)
+        productImage.anchor(top: nil, left: productQuantity.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 65, paddingBottom: 0, paddingRight: 0, width: imageDimention, height: imageDimention)
         productImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         productImage.layer.cornerRadius = 5
-        
 
         addSubview(productTitle)
-        productTitle.anchor(top: nil, left: productImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        productTitle.centerYAnchor.constraint(equalTo: productImage.centerYAnchor).isActive = true
+        productTitle.anchor(top: nil, left: productImage.rightAnchor, bottom: nil, right: productPrice.leftAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        productTitle.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
-        addSubview(productQuantity)
-        productQuantity.anchor(top: nil, left: self.centerXAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
-        productQuantity.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        
-        addSubview(productPrice)
         productPrice.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         productPrice.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }

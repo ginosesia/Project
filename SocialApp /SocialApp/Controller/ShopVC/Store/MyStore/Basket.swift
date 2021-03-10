@@ -31,8 +31,21 @@ class Basket: UITableViewController {
         fetchItemsInBasket()
     }
     
-    //MARK: - Table View
+    //MARK: - Header
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        headerView.backgroundColor = .black
+        setUpHeader(headerView: headerView)
+        return headerView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    //MARK: - Table View
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
@@ -71,11 +84,48 @@ class Basket: UITableViewController {
     func CheckOutButton() {
         navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
         let pay = UIBarButtonItem(title: "Check Out", style: .plain, target: self, action: #selector(handleCheckOut))
-        navigationItem.rightBarButtonItems = [pay]
+//        if items.count != 0 {
+            navigationItem.rightBarButtonItems = [pay]
+//        }
+    }
+    func showAlert() {
+        let alert = UIAlertController(title: "My Orders", message: "Your items are listed under 'My Orders'", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "View My Orders", style: UIAlertAction.Style.default, handler: {_ in
+            let checkOut = PendingOrders()
+            self.navigationController?.pushViewController(checkOut, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
+        tableView.reloadData()
+        
+        removeItems()
+    }
+    
+    func removeItems() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        USER_BAG_REF.child(uid).removeValue()
     }
     
     @objc func handleCheckOut() {
-        print("checkout")
+        fetchItemsInBasket()
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+            
+        for item in items {
+            let values = ["title": item.itemTitle!,
+                          "price": item.itemPrice!,
+                          "imageUrl": item.imageUrl!] as [String: Any]
+            MY_ORDERS_REF.child(uid).child((item.itemId)!).setValue(values)
+        }
+        presentCheckoutForm()
+    }
+    
+    func presentCheckoutForm() {
+        let form = CheckOutFormVC()
+        self.navigationController?.pushViewController(form, animated: true)
+        
+        showAlert()
     }
     
     //MARK: - Footer
@@ -85,8 +135,53 @@ class Basket: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        footerView.backgroundColor = .black
         setUpFooter(footerView: footerView)
         return footerView
+    }
+    
+    
+    func setUpHeader(headerView: UIView) {
+        
+        let price: UILabel = {
+            let label = UILabel()
+            label.text = "Price"
+            label.font = UIFont.boldSystemFont(ofSize: 15)
+            return label
+        }()
+        
+        let item: UILabel = {
+            let label = UILabel()
+            label.text = "Item"
+            label.font = UIFont.boldSystemFont(ofSize: 15)
+            return label
+        }()
+
+        let separator: UIView = {
+            let view = UIView()
+            view.backgroundColor = .systemGray2
+            return view
+        }()
+        
+        let quantity: UILabel = {
+            let label = UILabel()
+            label.text = "Quantity"
+            label.font = UIFont.boldSystemFont(ofSize: 15)
+            return label
+        }()
+
+        headerView.addSubview(price)
+        price.anchor(top: nil, left: nil, bottom: nil, right: headerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        price.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerView.addSubview(quantity)
+        quantity.anchor(top: nil, left: headerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        quantity.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerView.addSubview(item)
+        item.anchor(top: nil, left: quantity.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 35, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        item.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+
+        headerView.addSubview(separator)
+        separator.anchor(top: nil, left: headerView.leftAnchor, bottom: headerView.bottomAnchor, right: headerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.8)
     }
     
     func setUpFooter(footerView: UIView) {
@@ -102,21 +197,21 @@ class Basket: UITableViewController {
         
         let separator: UIView = {
             let view = UIView()
-            view.backgroundColor = .white
+            view.backgroundColor = .systemGray2
             return view
         }()
         
         let total: UILabel = {
             let label = UILabel()
             label.text = "Total:  £ \(totalPrice)"
-            label.font = UIFont.boldSystemFont(ofSize: 18)
+            label.font = UIFont.boldSystemFont(ofSize: 15)
             return label
         }()
         
         let numberOfProducts: UILabel = {
             let label = UILabel()
             label.text = "Items: \(totalNumber)"
-            label.font = UIFont.boldSystemFont(ofSize: 18)
+            label.font = UIFont.boldSystemFont(ofSize: 15)
             return label
         }()
         
@@ -128,7 +223,5 @@ class Basket: UITableViewController {
         numberOfProducts.centerYAnchor.constraint(equalTo: footerView.centerYAnchor).isActive = true
         total.anchor(top: nil, left: nil, bottom: nil, right: footerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         total.centerYAnchor.constraint(equalTo: footerView.centerYAnchor).isActive = true
-
     }
-    
 }

@@ -11,31 +11,44 @@ import Firebase
 
 class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
     
-
     
     //MARK: - Properties
     let moreInfo = ItemMoreOptions()
     var member = true
     var delegate: ItemConfirmationDelegate?
 
+    var store: Store? {
+        didSet {
+            guard let imageUrl = store?.storeImageUrl else { return }
+            storeImage.loadImage(with: imageUrl)
+        }
+    }
+    
     var item: Item? {
         didSet {
             guard let productName = item?.itemTitle else { return }
-            productTitle.setTitle(productName, for: .normal)
+            productTitle.text = productName
 
             guard let image = item?.imageUrl else { return }
             productImage.loadImage(with: image)
             
             guard let price = item?.itemPrice else { return }
             productPrice.text = "£\(price)"
-         }
+            
+            guard let uid = item?.uid else { return }
+            if uid == Auth.auth().currentUser?.uid {
+                info.isEnabled = false
+            }
+
+        }
     }
     
-    let productTitle: UIButton = {
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.setTitleColor(UIColor.white, for: .normal)
-        return button
+    let productTitle: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.tintColor = UIColor.white
+        return label
     }()
     
     let productPrice: UILabel = {
@@ -51,15 +64,22 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
         image.clipsToBounds = true
         return image
     }()
+    
+    let storeImage: CustomImageView = {
+        let image = CustomImageView()
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        return image
+    }()
+
 
     lazy var info: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = Utilities.setThemeColor()
-        button.setTitle("Add To Basket", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.tintColor = UIColor.white
-        button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(handlePurchaceTapped), for: .touchUpInside)
+        button.setTitle("Add To Basket", for: .normal)
+        button.layer.cornerRadius = 5
         return button
     }()
 
@@ -83,6 +103,18 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
     func settingDidSelected(setting: Setting) {
         
     }
+    
+    func getStore() {
+        STORE_REF.observe(.childAdded) { (snapshot) in
+            let storeId = snapshot.key
+            guard let uid = self.item?.uid else { return }
+            STORE_REF.child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                let store = Store(uid: storeId, dictionary: dictionary)
+                self.store = store
+            })
+        }
+    }
 
     //MARK: - Init
     
@@ -92,23 +124,29 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
         moreInfo.delegate = self
         
         setUpStore()
+        getStore()
     }
     
     //MARK: - Views
     
     func setUpStore() {
         addSubview(productTitle)
-        productTitle.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
+        productTitle.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 20)
         
+        let size = CGFloat(25)
+        addSubview(storeImage)
+        storeImage.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: size, height: size)
+        storeImage.centerYAnchor.constraint(equalTo: productTitle.centerYAnchor).isActive = true
+        storeImage.layer.cornerRadius = size/2
         addSubview(productPrice)
-        productPrice.anchor(top: productTitle.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 2.5, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
+        productPrice.anchor(top: productTitle.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 2.5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
         
         addSubview(productImage)
-        productImage.anchor(top: productPrice.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 0)
-        productImage.layer.cornerRadius = 10
+        productImage.anchor(top: productPrice.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        productImage.layer.cornerRadius = 5
         
         addSubview(info)
-        info.anchor(top: productImage.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 35)
+        info.anchor(top: productImage.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 7, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 35)
     }
 
     required init?(coder: NSCoder) {

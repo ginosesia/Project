@@ -55,7 +55,7 @@ class FollowLikeVC: UITableViewController, FollowCellDelegate{
         
         //clear separator lines
         tableView.separatorColor = .clear
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         
         
     }

@@ -12,12 +12,12 @@ import Firebase
 private let reuseIdentifier = "Cell"
 
 
-class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //MARK: - Properties
     
     var delegate: UserProfileHeaderDelegate?
-    
+    var items = [Item]()
     var user: User? {
         didSet {
             configureEditProfileFollowButton()
@@ -40,7 +40,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
             
         }
     }
-    
     let profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
@@ -52,8 +51,9 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     let name: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight(rawValue: 30))
+        label.numberOfLines = 0
         return label
     }()
     
@@ -62,6 +62,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         label.textColor = UIColor.white
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 13)
+        label.textAlignment = .left
         return label
     }()
     
@@ -88,6 +89,22 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         label.textAlignment = .center
         let attributedText = NSMutableAttributedString(string: "\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 27)),NSAttributedString.Key.foregroundColor:UIColor.white])
         attributedText.append(NSAttributedString(string: "Following", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+        label.attributedText = attributedText
+        
+        //Add gesture recogniser
+        let followingTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTaped))
+        followingTap.numberOfTapsRequired = 1
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(followingTap)
+        return label
+    }()
+    
+    lazy var storeLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        let attributedText = NSMutableAttributedString(string: "\(items.count)\n", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 27)),NSAttributedString.Key.foregroundColor:UIColor.white])
+        attributedText.append(NSAttributedString(string: "Items", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         label.attributedText = attributedText
         
         //Add gesture recogniser
@@ -158,71 +175,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         let bar = MenuBar()
         return bar
     }()
-    
-    let segmentedControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["Pictures","Videos","Posts"])
-        sc.selectedSegmentIndex = 0
-        sc.selectedSegmentTintColor = Utilities.setThemeColor()
-        sc.addTarget(self, action: #selector(handlechange), for: .valueChanged)
-        return sc
-    }()
-    
-    let collectionView: CollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let view = CollectionView(frame: .zero)
-        return view
-    }()
-    
-    let tableView = UITableView(frame: .zero, style: .plain)
-    
-    //MARK: - Table View
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowsToDisplay.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = rowsToDisplay[indexPath.row]
-        return cell
-    }
-    
-    let images = [
-        "Image 1",
-        "Image 2",
-        "Image 3"
-    ]
-
-    let Videos = [
-        "Video 1",
-        "Video 2",
-        "Video 3"
-    ]
-    
-    let Posts = [
-        "Post 1",
-        "Post 2",
-        "Post 3"
-    ]
-    
-    lazy var rowsToDisplay = images
-    //MARK: - Event changes
-    
-    @objc func handlechange() {
-        print(segmentedControl.selectedSegmentIndex)
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            rowsToDisplay = images
-        case 1:
-            rowsToDisplay = Videos
-        case 2:
-            rowsToDisplay = Posts
-        default:
-            rowsToDisplay = images
-        }
-        tableView.reloadData()
-    }
-    
+        
     
     //MARK: - Handlers
     
@@ -294,20 +247,16 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
+                
+        fetchItems()
         backgroundColor = .black
         //Layout of profile
         configureProfileLayout()
-        
-
     }    
     
     
     func configureProfileLayout() {
-        let height = CGFloat(100)
+        let height = CGFloat(115)
 
         addSubview(profileImage)
         profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: height, height: height)
@@ -320,29 +269,65 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         editProfileFollowButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
         
         addSubview(name)
-        name.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        name.anchor(top: profileImage.topAnchor, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         addSubview(ocupation)
         ocupation.anchor(top: name.bottomAnchor, left: name.leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         addSubview(profileDescription)
         profileDescription.anchor(top: ocupation.bottomAnchor, left: ocupation.leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         
+        let stackView1 = UIStackView(arrangedSubviews: [storeLabel])
+        stackView1.axis = .horizontal
+        stackView1.distribution = .fillEqually
+
         let stackView = UIStackView(arrangedSubviews: [postsLabel,followersLabel,followingLabel])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         addSubview(stackView)
-        stackView.anchor(top: editProfileFollowButton.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 70, paddingBottom: 0, paddingRight: 70, width: 100, height: 80)
+        addSubview(stackView1)
+
+        var paddingLeft: CGFloat
+        var paddingRight: CGFloat
+        var width: CGFloat
+        var anchor: NSLayoutXAxisAnchor
+        
+        if items.count == 0 {
+            width = 100
+            stackView1.isHidden = true
+            paddingLeft = 70
+            paddingRight = 70
+            anchor = rightAnchor
+        } else {
+            width = 70
+            stackView1.isHidden = false
+            paddingLeft = 50
+            paddingRight = 10
+            anchor = stackView1.leftAnchor
+        }
+        
+        stackView.anchor(top: editProfileFollowButton.bottomAnchor, left: leftAnchor, bottom: nil, right: anchor, paddingTop: 20, paddingLeft: paddingLeft, paddingBottom: 0, paddingRight: paddingRight, width: width, height: 80)
         stackView.layer.backgroundColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1).cgColor
         stackView.layer.cornerRadius = 15
+        
+        stackView1.anchor(top: nil, left: stackView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: paddingLeft, paddingBottom: 0, paddingRight: 50, width: 55, height: 80)
+        stackView1.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
+        stackView1.layer.backgroundColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1).cgColor
+        stackView1.layer.cornerRadius = 15
 
-        addSubview(segmentedControl)
-        segmentedControl.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
-
-        addSubview(collectionView)
-        collectionView.anchor(top: segmentedControl.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    
     }
         
+    func fetchItems() {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        USER_ITEMS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
+            let itemId = snapshot.key
+            ITEMS_REF.child(itemId).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                let item = Item(itemId: itemId, dictionary: dictionary)
+                self.items.append(item)
+            })
+        }
+    }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

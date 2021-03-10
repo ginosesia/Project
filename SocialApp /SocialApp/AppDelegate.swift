@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import UserNotifications
+import Stripe
 
 @UIApplicationMain
 
@@ -18,7 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        
+        STPPaymentConfiguration.shared().publishableKey = "pk_live_51IMVDKKUIt4u2QcShLSj8sDjKj6h9H5n5i1ABvGrFHY0aE3ITZmIqdM7GxUOue8lKgKzpuOJeVvIiS2TG1DW1sv700tvQKoqhS"
+
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        UINavigationBar.appearance().tintColor = Utilities.setThemeColor()
+
 
         FirebaseApp.configure()
         

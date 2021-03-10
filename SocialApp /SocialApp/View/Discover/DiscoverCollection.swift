@@ -27,38 +27,39 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width
+        var width: CGFloat
+        
+        if stores.count != 0 {
+             width = view.frame.width
+        } else {
+            width = 0
+        }
         return CGSize(width: width/2, height: width/1.75)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! DiscoverStoreCell
-        cell.backgroundColor = .black
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor(white: 1, alpha: 0.1).cgColor
+            cell.backgroundColor = .systemGray6
         cell.store = stores[indexPath.item]
         return cell
     }
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 5
     }
     
     
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.collectionView.register(DiscoverStoreCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        collectionView.isPagingEnabled = true
-
-        fetchStores()
-
+            self.collectionView.register(DiscoverStoreCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+            collectionView.isPagingEnabled = true
+            fetchStores()
     }
     
     func fetchStores() {
@@ -71,6 +72,5 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
                 self.collectionView.reloadData()
             })
         }
-
     }
 }

@@ -21,7 +21,6 @@ class StoreHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavi
     }
     
     var delegate: UserStoreHeaderDelegate?
-
     
     let profileImage: CustomImageView = {
         let image = CustomImageView()
@@ -31,26 +30,9 @@ class StoreHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavi
         image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
-    
-    lazy var addItemButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(handleAddItemTapped), for: .touchUpInside)
-        let image = UIImage(systemName: "plus")
-        button.setImage(image, for: .normal)
-        button.tintColor = Utilities.setThemeColor()
-        button.backgroundColor = .white
-        return button
-    }()
-        
-    //MARK: - Handlers
-    
-    @objc func handleAddItemTapped() {
-        delegate?.handleAddItemTapped(for: self)
-    }
-    
+                
 
     //MARK: - Init
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,7 +49,7 @@ class StoreHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavi
     
     
     func configureStoreLayout() {
-        let height = CGFloat(100)
+        let height = CGFloat(125)
 
         addSubview(profileImage)
         profileImage.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: height, height: height)
@@ -75,9 +57,6 @@ class StoreHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavi
         profileImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         profileImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
 
-        addSubview(addItemButton)
-        addItemButton.anchor(top: profileImage.topAnchor, left: nil, bottom: nil, right: profileImage.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: -3, width: 30, height: 30)
-        addItemButton.layer.cornerRadius = 15
     }
     
 }

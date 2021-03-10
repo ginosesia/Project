@@ -21,10 +21,8 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     lazy var containerView: CommentInputAccesoryView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let containerView = CommentInputAccesoryView(frame:frame)
-        containerView.backgroundColor = .black
-
+        containerView.backgroundColor = .green
         containerView.delegate = self
-        
         return containerView
     }()
     
@@ -53,22 +51,22 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(animated)
            tabBarController?.tabBar.isHidden = true
-       }
+    }
        
-       override func viewWillDisappear(_ animated: Bool) {
-           super.viewWillDisappear(animated)
-           tabBarController?.tabBar.isHidden = false
-       }
+    override func viewWillDisappear(_ animated: Bool) {
+       super.viewWillDisappear(animated)
+       tabBarController?.tabBar.isHidden = false
+    }
 
-       override var inputAccessoryView: UIView? {
-           get {
-               return containerView
-           }
+    override var inputAccessoryView: UIView? {
+       get {
+           return containerView
        }
-       
-       override var canBecomeFirstResponder: Bool {
-           return true
-       }
+    }
+
+    override var canBecomeFirstResponder: Bool {
+       return true
+}
     
     //MARK: - UICollection View
     
@@ -76,12 +74,7 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CommentCell
-        
-        handleHashtagTapped(for: cell)
-        handleMentionTapped(for: cell)
-        
         cell.comment = comments[indexPath.item]
-        
         return cell
             
     }
@@ -109,23 +102,6 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     
     //MARK: - Handlers
     
-    
-    func handleHashtagTapped(for cell: CommentCell) {
-        cell.commentLabel.handleHashtagTap { (hastag) in
-            let controller = HashtagController(collectionViewLayout: UICollectionViewFlowLayout())
-            controller.hashtag = hastag
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-
-    
-    func handleMentionTapped(for cell: CommentCell) {
-
-        cell.commentLabel.handleMentionTap { (username) in
-            self.getMention(with: username)
-        }
-        
-    }
     
     @objc func handleRefresh() {
         comments.removeAll(keepingCapacity: false)

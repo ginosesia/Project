@@ -39,6 +39,9 @@ protocol ItemConfirmationDelegate: class {
     func sendConfirmationAlert(item: Item)
 }
 
+protocol ItemOptionsDelegate: class {
+    func handleOptionsTapped(item: Item)
+}
 protocol SectionType: CustomStringConvertible {
     var containsSwitch: Bool { get }
 }
@@ -86,7 +89,3 @@ protocol FollowCellDelegate {
 protocol Printable {
     var description: String { get }
 }
-
-
-
-

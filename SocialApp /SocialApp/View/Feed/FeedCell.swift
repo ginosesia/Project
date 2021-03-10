@@ -48,9 +48,9 @@ class FeedCell: UICollectionViewCell {
         
     lazy var name: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.5, weight: UIFont.Weight(rawValue: 30))
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight(rawValue: 30))
         button.addTarget(self, action: #selector(handleUsernameButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
         return button
     }()
 
@@ -72,9 +72,9 @@ class FeedCell: UICollectionViewCell {
         return label
     }()
     
+    
     lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
-        //button.setImage(#imageLiteral(resourceName: "like_unselected"),for: .normal)
         button.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(handleLikeButtonTapped), for: .touchUpInside)
@@ -109,7 +109,7 @@ class FeedCell: UICollectionViewCell {
     let commentNumber: UILabel = {
         let label = UILabel()
         let commentVC = CommentVC()
-        label.text = " 0 "
+        label.text = " 2642 "
         label.textColor = Utilities.setThemeColor()
         return label
     }()
@@ -122,7 +122,7 @@ class FeedCell: UICollectionViewCell {
         seeLikes.numberOfTouchesRequired = 1
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(seeLikes)
-        label.text = " 0 "
+        label.text = " 179 "
         return label
     }()
     
@@ -140,13 +140,7 @@ class FeedCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(handleMessagesButtonTapped), for: .touchUpInside)
         return button
     }()
-       
-    let separator: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.rgb(red: 30, green: 30, blue: 30, alpha: 1)
-        return view
-    }()
-    
+        
     let captionLabel: ActiveLabel = {
         let label = ActiveLabel()
         label.textColor = .white
@@ -162,11 +156,10 @@ class FeedCell: UICollectionViewCell {
         return label
     }()
     
-
+    
     //MARK: - Handlers
     
     @objc func playVideo() {
-        
         let videoLauncher = VideoLauncher()
         videoLauncher.showVideoPlayer()
     }
@@ -176,7 +169,6 @@ class FeedCell: UICollectionViewCell {
         delegate?.handleConfigureLikeButton(for: self)
     }
     @objc func handleShowLikes() {
-        print("hello")
         //delegate?.handleShowLikes(for: self)
     }
     
@@ -211,9 +203,7 @@ class FeedCell: UICollectionViewCell {
     @objc func handleOptionsTapped() {
         delegate?.handleOptionsTapped(for: self)
     }
-    
-   
-    
+        
     func configurePostCaption(user: User) {
         guard let caption = self.post?.caption else { return }
         guard let post = self.post else { return }
@@ -237,8 +227,7 @@ class FeedCell: UICollectionViewCell {
         }
 
         captionLabel.customize { (label) in
-            let username = "\(username)"
-            label.text = username + " \(caption)"
+            label.text = " \(caption)"
             label.customColor[customType] = .white
             label.font = UIFont.systemFont(ofSize: 13)
             label.textColor = .gray
@@ -259,16 +248,12 @@ class FeedCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        addSubview(separator)
-        separator.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.3)
-        
-        let profileImageHeight = CGFloat(35)
+                
+        let profileImageHeight = CGFloat(45)
         
         addSubviews()
-        profileImage.anchor(top: separator.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: profileImageHeight, height: profileImageHeight)
+        profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: profileImageHeight, height: profileImageHeight)
         profileImage.layer.cornerRadius = profileImageHeight/2
-        
     
         name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         name.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
@@ -276,17 +261,17 @@ class FeedCell: UICollectionViewCell {
         optionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         optionsButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
         
-        postImage.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        
-        captionLabel.anchor(top: postImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+        captionLabel.anchor(top: profileImage.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+
+        postImage.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: self.frame.width-100)
+        postImage.layer.cornerRadius = 15
         
         configureFunctions()
-              
+        
     }
     
-
+    
     func configureFunctions() {
-        
         
         let commentInfo = UIStackView(arrangedSubviews: [commentButton,commentNumber])
         commentInfo.axis = .horizontal
@@ -295,25 +280,18 @@ class FeedCell: UICollectionViewCell {
         let likeInfo = UIStackView(arrangedSubviews: [likeButton,likeNumber])
         likeInfo.axis = .horizontal
         likeInfo.distribution = .fillProportionally
-        
-        let shareInfo = UIStackView(arrangedSubviews: [shareButton,shareNumber])
-        shareInfo.axis = .horizontal
-        shareInfo.distribution = .fillProportionally
-        
-        let functionStackView = UIStackView(arrangedSubviews: [likeInfo,commentInfo,shareInfo])
+                
+        let functionStackView = UIStackView(arrangedSubviews: [likeInfo,commentInfo])
         functionStackView.axis = .horizontal
         functionStackView.distribution = .fillProportionally
         
         addSubview(functionStackView)
-        functionStackView.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
+        functionStackView.anchor(top: postImage.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
         
         addSubview(postedTime)
-        postedTime.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+        postedTime.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         postedTime.centerYAnchor.constraint(equalTo: functionStackView.centerYAnchor).isActive = true
-        
-
-        
-        
+                
     }
         
     required init?(coder: NSCoder) {

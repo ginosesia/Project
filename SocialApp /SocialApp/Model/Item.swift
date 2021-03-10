@@ -17,8 +17,11 @@ class Item {
     var imageUrl: String!
     var itemId: String!
     var itemTitle: String!
+    var itemDescription: String!
     var creationDate: Date!
     var itemPrice: String!
+    var itemStock: String!
+    var uid: String!
     var user: User?
 
     
@@ -33,9 +36,20 @@ class Item {
             self.itemPrice = itemPrice
         }
         
+        if let itemTitle = dictionary["title"] as? String {
+            self.itemTitle = itemTitle
+        }
         
-        if let itemTite = dictionary["title"] as? String {
-            self.itemTitle = itemTite
+        if let itemStock = dictionary["quantity"] as? String {
+            self.itemStock = itemStock
+        }
+        
+        if let itemDescription = dictionary["description"] as? String {
+            self.itemDescription = itemDescription
+        }
+        
+        if let uid = dictionary["uid"] as? String {
+            self.uid = uid
         }
         
         self.itemId = itemId

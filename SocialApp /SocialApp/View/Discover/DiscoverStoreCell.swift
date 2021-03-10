@@ -28,7 +28,7 @@ class DiscoverStoreCell: UICollectionViewCell {
     let storeName: UILabel = {
         let lb = UILabel()
         lb.tintColor = .white
-        lb.font = UIFont.systemFont(ofSize: 20)
+        lb.font = UIFont.boldSystemFont(ofSize: 17)
         return lb
     }()
     

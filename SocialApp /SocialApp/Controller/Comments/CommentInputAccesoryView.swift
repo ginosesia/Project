@@ -47,7 +47,7 @@ class CommentInputAccesoryView: UIView {
         postButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 50, height: 50)
 
         addSubview(commentTextView)
-        commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom: 5, paddingRight: 10, width: 0, height: 20)
+        commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom: 5, paddingRight: 10, width: 0, height: 50)
         
         postButton.centerYAnchor.constraint(equalTo: commentTextView.centerYAnchor).isActive = true
 

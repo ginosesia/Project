@@ -103,33 +103,6 @@ extension UIViewController {
             }
         }
     }
-
-    
-    
-    func getMention(with username: String) {
-        USER_REF.observe(.childAdded) { (snapshot) in
-            let userId = snapshot.key
-            
-            USER_REF.child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
-                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-
-                if username == dictionary["Username"] as? String {
-
-                    Database.fetchUser(with: userId, completion:  { (user) in
-
-                        let controller = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-                        controller.user = user
-                        self.navigationController?.pushViewController(controller, animated: true)
-                        return
-                    })
-                }
-            })
-        }
-    }
-
-
-
-
 }
 
 
@@ -246,3 +219,8 @@ extension Database {
 }
 
 
+extension String {
+   var isNumeric: Bool {
+     return !(self.isEmpty) && self.allSatisfy { $0.isNumber }
+   }
+}

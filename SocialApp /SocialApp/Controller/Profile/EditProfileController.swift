@@ -29,7 +29,6 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.backgroundColor = UIColor.black
         image.layer.borderWidth = 3
         image.layer.borderColor = UIColor.white.cgColor
         return image

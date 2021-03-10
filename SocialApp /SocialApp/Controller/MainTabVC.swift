@@ -8,8 +8,10 @@
 
 import UIKit
 import Firebase
+import MobileCoreServices
 
-class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLauncherDelegate {
+class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLauncherDelegate, UIImagePickerControllerDelegate {
+
     
     
     //MARK: - Properties
@@ -35,8 +37,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        self.tabBar.barTintColor = .black
-                        
+        
         settingsLauncher.delegate = self
         uploadLauncher.delegate = self
 
@@ -52,7 +53,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         setupNavBar()
                 
     }
-    
+        
     func configureTitle() {
     
         let width = view.frame.width
@@ -103,7 +104,8 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         viewControllers = [discover, feedVC, shopVC, selectMessageVC, userProfileVC]
         
         // tab bar tint color
-        tabBar.tintColor = .white
+        tabBar.tintColor = Utilities.setThemeColor()
+        
     }
     
     func addNotificationDot() {
@@ -164,15 +166,19 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     
     
     func setupNavBar() {
-        navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
-        let Settings = UIImage(systemName: "gear")
-        let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
+        
+        let Settings = UIImage(systemName: "line.horizontal.3")
+        let myOrders = UIImage(systemName: "cart")
 
+        let moreButton = UIBarButtonItem(image: Settings, style: .plain, target: self, action: #selector(handleMoreTapped))
+        let orders = UIBarButtonItem(image: myOrders, style: .plain, target: self, action: #selector(handleOrdersTapped))
         let camera = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleSettings))
-        navigationItem.rightBarButtonItems = [moreButton, camera]
+        
+        navigationItem.leftBarButtonItems = [moreButton]
+        navigationItem.rightBarButtonItems = [camera, orders]
         navigationItem.title = "App"
+            
     }
-    
     
     @objc func handleSettings() {
         uploadLauncher.showSettings()
@@ -183,7 +189,11 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         settingsLauncher.showSettings()
     }
     
-    
+    @objc func handleOrdersTapped() {
+        let myOrders = PendingOrders()
+        self.navigationController?.pushViewController(myOrders, animated: true)
+
+    }
     
     func settingDidSelected(setting: Setting) {
         if setting.name == "Search User" {
@@ -207,9 +217,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             let navController = UINavigationController(rootViewController: selectImageVC)
             self.present(navController, animated: true, completion: nil)
         } else if setting.name == "Video" {
-            let selectVideoVC = SelectVideoVC(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: selectVideoVC)
-            self.present(navController, animated: true, completion: nil)
+            uploadVideo()
         } else if setting.name == "Message" {
             let messageVC = UploadMessageVC(collectionViewLayout: UICollectionViewFlowLayout())
             let navController = UINavigationController(rootViewController: messageVC)
@@ -228,6 +236,38 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             }
         }
     }
+    
+    func uploadVideo() {
+        
+        let videoPicker = UIImagePickerController()
+        videoPicker.allowsEditing = true
+        videoPicker.mediaTypes = [kUTTypeMovie as String]
+        present(videoPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+       
+        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
+
+            let fileName = "Videos.mov"
+            let storageRef = Storage.storage().reference().child(fileName)
+                storageRef.putFile(from: videoUrl as URL, metadata: nil, completion: { (metadata, error) in
+
+                if error != nil {
+                    print("Failed upload of Video:", error!)
+                    return
+                }
+
+                storageRef.downloadURL(completion: { (downloadURL, error) in
+                    if let storageUrl = downloadURL?.absoluteString {
+                        print(storageUrl)
+                    }
+                })
+
+            })
+        }
+    }
+    
     
     func checkIfMember() {
         let uid = Auth.auth().currentUser?.uid

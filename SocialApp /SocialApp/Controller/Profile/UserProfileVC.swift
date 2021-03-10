@@ -18,6 +18,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
     // MARK: Properties
     var user: User?
+    var posts = [Post]()
     weak var profileCellDelegate: ProfileHeader?
     var viewedUser: User?
     
@@ -47,17 +48,29 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             .foregroundColor: UIColor.white,
         ]
         
-        collectionView.isScrollEnabled = false
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.sectionHeadersPinToVisibleBounds = true
+        }
+        
+        fetchPosts()
     }
     
 
     //MARK: - UICollectionViewFlowLayout
     
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
     
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
+        cell.post = posts[indexPath.item]
+        return cell
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSize(width: view.frame.width, height: 650)
+        return CGSize(width: view.frame.width, height: 260)
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -73,6 +86,14 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         }
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.width/3)
+    }
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
 
     
     //MARK: - Handlers
@@ -180,6 +201,60 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
   
     
     // MARK: - API
+    
+    func fetchPosts() {
+
+        var uid: String!
+        
+        if let user = self.user {
+            uid = user.uid
+        } else {
+            uid = Auth.auth().currentUser?.uid
+        }
+
+        if key == nil {
+            USER_POSTS_REF.child("image-posts").child(uid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                
+                self.collectionView.refreshControl?.endRefreshing()
+                
+                guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+
+                allObjects.forEach({ (snapshot) in
+                    let postId = snapshot.key
+                    self.fetchPost(with: postId)
+                })
+                self.key = first.key
+            })
+        } else {
+            USER_POSTS_REF.child("image-posts").child(uid).queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
+
+                guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+
+                allObjects.forEach({ (snapshot) in
+                    let postId = snapshot.key
+                    if postId != self.key {
+                        self.fetchPost(with: postId)
+                    }
+                })
+                self.key = first.key
+            })
+        }
+
+    }
+
+    func fetchPost(with postId: String) {
+
+        Database.fetchPost(with: postId) { (post) in
+            self.posts.append(post)
+            self.posts.sort(by: { (post1, post2) -> Bool in
+                return post1.creationDate > post2.creationDate
+            })
+            self.collectionView.reloadData()
+        }
+    }
     
     func setUserStats(for header: ProfileHeader) {
         

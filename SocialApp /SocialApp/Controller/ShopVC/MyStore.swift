@@ -12,17 +12,49 @@ import Firebase
 private let reuseIdentifier = "Cell"
 private let headerIdentifier = "StoreHeader"
 
-class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserStoreHeaderDelegate, SettingsLauncherDelegate {
+class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserStoreHeaderDelegate, SettingsLauncherDelegate,ItemOptionsDelegate {
+
+    
 
     var store: Store?
     let settingsLauncher = StoreSettingsLauncher()
     let cellId = "cellId"
     var user: User?
     var items = [Item]()
+    var customView = UIView()
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }()
+
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }()
+    
+    let ordersLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        customView.isHidden = true
         view.backgroundColor = .black
         fetchStoreData()
         fetchItems()
@@ -36,7 +68,7 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     }
 
     func setupNavBar() {
-        let more = UIImage(systemName: "person.circle")
+        let more = UIImage(systemName: "line.horizontal.3")
         let orders = UIImage(systemName: "bell")
         
         let moreButton = UIBarButtonItem(image: more, style: .plain, target: self, action: #selector(handleMoreTappeed))
@@ -44,9 +76,6 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         navigationItem.rightBarButtonItems = [moreButton,orderButton]
     }
     
-    @objc func handleBasket() {
-        
-    }
     
     @objc func handleMoreTappeed() {
         settingsLauncher.showSettings()
@@ -80,6 +109,78 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     //MARK: - Handlers
     
+    func handleOptionsTapped(item: Item) {
+
+        let menuWidth = view.frame.width
+        view.addSubview(customView)
+        customView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: menuWidth/1.3, height: menuWidth)
+        customView.layer.cornerRadius = 15
+        customView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        customView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        customView.isHidden = false
+        customView.backgroundColor = .systemGray5
+
+        setUpMenu(item: item)
+    }
+  
+    func setUpMenu(item: Item) {
+        
+        let cancel: UIButton = {
+            let bt = UIButton(type: .system)
+            bt.setTitle("Cancel", for: .normal)
+            bt.tintColor = .systemBlue
+            bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+            bt.addTarget(self, action: #selector(handleCancelTapped), for: .touchUpInside)
+            return bt
+        }()
+        
+        let delete: UIButton = {
+            let bt = UIButton(type: .system)
+            bt.setTitle("Delete", for: .normal)
+            bt.addTarget(self, action: #selector(handleDeleteTapped), for: .touchUpInside)
+            bt.tintColor = .red
+            bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+            return bt
+        }()
+
+        let horzStack = UIStackView(arrangedSubviews: [cancel, delete])
+        horzStack.axis = .horizontal
+        horzStack.distribution = .fillEqually
+        
+
+        customView.addSubview(horzStack)
+        horzStack.anchor(top: nil, left: customView.leftAnchor, bottom: customView.bottomAnchor, right: customView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 8, paddingRight: 30, width: 0, height: 0)
+        
+        titleLabel.text = item.itemTitle
+        stockLabel.text = "Stock: \(item.itemStock ?? "0")"
+        priceLabel.text = "Price: £\(item.itemPrice ?? "0")"
+        ordersLabel.text = "Orders: 2"
+
+        customView.addSubview(titleLabel)
+        titleLabel.anchor(top: customView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        titleLabel.centerXAnchor.constraint(equalTo: customView.centerXAnchor).isActive = true
+        
+        customView.addSubview(priceLabel)
+        priceLabel.anchor(top: titleLabel.bottomAnchor, left: customView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        customView.addSubview(stockLabel)
+        stockLabel.anchor(top: priceLabel.bottomAnchor, left: customView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        customView.addSubview(ordersLabel)
+        ordersLabel.anchor(top: stockLabel.bottomAnchor, left: customView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+    }
+    
+    @objc func handleCancelTapped() {
+        customView.isHidden = true
+        titleLabel.text = ""
+    }
+    
+    @objc func handleDeleteTapped() {
+        titleLabel.text = ""
+        print("delete")
+    }
+    
     func handleAddItemTapped(for header: StoreHeader) {
         addItem()
     }
@@ -93,12 +194,13 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     //MARK: - CollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width-2)/3
-        return CGSize(width: width, height: width)
+        let width = (collectionView.frame.width)
+        return CGSize(width: width, height: width/3)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyShopItemCell
+        cell.delegate = self
         cell.item = items[indexPath.item]
         return cell
 
@@ -113,11 +215,11 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 5
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -127,15 +229,13 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     }
     
     func settingDidSelected(setting: Setting) {
-        if setting.name == "test" {
+        if setting.name == "Add Item" {
             addItem()
-        } else if setting.name == "Add To Basket" {
-            print("Add to Basket")
-        } else if setting.name == "Share" {
-            print("Share")
+        } else if setting.name == "Analytics" {
+            print("Analytics")
+        } else if setting.name == "Settings" {
+            print("Settings")
         } else if setting.name == "Cancel" {
-            print("Cancel")
-
         }
     }
     

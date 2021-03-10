@@ -26,12 +26,18 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
     
         fetchItems()
         fetchItemsInBasket()
-
     }
 
     //MARK: - CollectionView
     
         
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let moreInfo = ProductInfoVC()
+        moreInfo.item = items[indexPath.item]
+        //let navController = UINavigationController(rootViewController: moreInfo)
+        navigationController?.present(moreInfo, animated: true, completion: nil)
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -43,12 +49,18 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (view.frame.width/2)-5, height: view.frame.width/1.5)
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ShopCell
         cell.delegate = self
         cell.backgroundColor = UIColor(white: 1, alpha: 0.1)
-        cell.layer.cornerRadius = 10
         cell.item = items[indexPath.item]
         return cell
     }
@@ -72,8 +84,7 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
         alert.addAction(UIAlertAction(title: "Continue Shopping", style: UIAlertAction.Style.default, handler: nil))
         alert.addAction(UIAlertAction(title: "View Basket (\(quantity))", style: UIAlertAction.Style.default, handler: {_ in
             let checkOut = Basket()
-            let navigationController = UINavigationController(rootViewController: checkOut)
-            self.navigationController?.present(navigationController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(checkOut, animated: true)
         }))
         // show the alert
         self.present(alert, animated: true, completion: nil)
@@ -92,7 +103,6 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
         }
     }
 
-    
     //MARK: - API
     
     func fetchItems() {
@@ -106,5 +116,4 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Sh
             })
         }
     }
-    
 }

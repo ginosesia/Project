@@ -46,6 +46,14 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         return textView
     }()
     
+    let activity: UIActivityIndicatorView = {
+        let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        aiv.translatesAutoresizingMaskIntoConstraints = false
+        aiv.startAnimating()
+        return aiv
+    }()
+
+    
     //MARK: - Init
     
     override func viewDidLoad() {
@@ -138,7 +146,7 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
             let filename = NSUUID().uuidString
             let storageRef = STORAGE_POST_IMAGES_REF.child(filename)
             
-            storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+            let uploadTask = STORAGE_POST_IMAGES_REF.child(filename).putData(uploadData, metadata: nil) { (metadata, error) in
                 
                 // handle error
                 if let error = error {
@@ -178,6 +186,14 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
                     })
                 })
             }
+            uploadTask.observe(.progress) { (snapshot) in
+                self.view.addSubview(self.activity)
+                self.activity.anchor(top: self.photoImageView.topAnchor, left: self.photoImageView.leftAnchor, bottom: nil, right: self.photoImageView.rightAnchor, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+                self.activity.centerXAnchor.constraint(equalTo: self.photoImageView.centerXAnchor).isActive = true
+                self.navigationItem.leftBarButtonItem?.isEnabled = false
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+            }
+
         } else {
             saveChanges()
         }
