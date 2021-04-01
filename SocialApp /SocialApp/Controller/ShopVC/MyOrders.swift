@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "OrderCell"
 
@@ -15,23 +16,24 @@ private let reuseIdentifier = "OrderCell"
 class MyOrders: UITableViewController {
     
     //MARk: - Properties
-    
+    var orders = [Order]()
+
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setNavBar()
         tableView.register(OrderCell.self, forCellReuseIdentifier: reuseIdentifier)
-        
     }
     
     //MARK: - TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return orders.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! OrderCell
+        cell.order = orders[indexPath.item]
         return cell
     }
 
@@ -46,12 +48,12 @@ class MyOrders: UITableViewController {
 //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
 //        }
 //    }
-
     
     func setNavBar() {
         view.backgroundColor = .black
-        navigationController?.navigationBar.tintColor = .white
-        navigationItem.title = "Notifications"
-
+        navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
+        navigationItem.title = "Orders"
     }
+    
+
 }

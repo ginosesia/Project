@@ -28,7 +28,6 @@ class StoreSettingsLauncher:  NSObject, UICollectionViewDataSource, UICollection
     let settings: [Setting] = {
        return [
             Setting(name: "Add Item", imageName: "plus"),
-            Setting(name: "Analytics", imageName: "line.horizontal.3.decrease"),
             Setting(name: "Settings", imageName: "gear"),
             Setting(name: "Cancel", imageName: "xmark")
        ]

@@ -12,13 +12,15 @@ import Firebase
 
 class ProductInfoVC: UIViewController {
     
+    var delegate: ItemConfirmationDelegate?
+
     var item: Item? {
         didSet {
             guard let title = item?.itemTitle else { return}
             guard let description = item?.itemDescription else { return}
             guard let imageURL = item?.imageUrl else { return }
             guard let price = item?.itemPrice else { return }
-            guard let quantity = item?.itemStock else { return }
+            guard let quantity = item?.itemQuantity else { return }
 
             navigationItem.title = title
             itemPrice.text = "£ \(price)"
@@ -64,7 +66,6 @@ class ProductInfoVC: UIViewController {
         return lb
     }()
 
-
     let add: UIButton = {
         let button = UIButton()
         button.backgroundColor = Utilities.setThemeColor()
@@ -79,6 +80,7 @@ class ProductInfoVC: UIViewController {
         let lb = UILabel()
         lb.textColor = .white
         lb.font = UIFont.boldSystemFont(ofSize: 25)
+        lb.numberOfLines = 0
         return lb
     }()
 
@@ -146,5 +148,10 @@ class ProductInfoVC: UIViewController {
                       "imageUrl": item!.imageUrl!] as [String: Any]
 
         USER_BAG_REF.child(uid).child((item?.itemId)!).setValue(values)
+        sendConfirmationAlert()
+    }
+
+    func sendConfirmationAlert() {
+        delegate?.sendConfirmationAlert(item: item!)
     }
 }

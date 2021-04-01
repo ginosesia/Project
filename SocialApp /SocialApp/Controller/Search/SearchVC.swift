@@ -17,13 +17,25 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
     //MARK: Properties
     var searchBar = UISearchBar()
     var users = [User]()
+    var stores = [Store]()
     var filteredUsers = [User]()
+    var filteredStores = [Store]()
     var inSearchMode = false
+    var searchStores = false
+    var searchUsers = false
+    var store: Store!
+    var user: User!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        fetchUsers()
+        
+        if searchUsers {
+            fetchUsers()
+        }
+        
+        if searchStores {
+            fetchStores()
+        }
         configureSearchBar()
 
         view.backgroundColor = .black
@@ -44,7 +56,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
         searchBar.tintColor = Utilities.setThemeColor()
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = .white
-        searchBar.placeholder = "Search User"
 
     }
     
@@ -53,10 +64,18 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if inSearchMode {
-            return filteredUsers.count
+        if searchUsers {
+            if inSearchMode {
+                return filteredUsers.count
+            } else {
+                return users.count
+            }
         } else {
-            return users.count
+            if inSearchMode {
+                return filteredStores.count
+            } else {
+                return stores.count
+            }
         }
     }
     
@@ -66,29 +85,54 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SearchUserCell
-        var user: User!
-        if inSearchMode {
-            user = filteredUsers[indexPath.row]
-        } else {
-            user = users[indexPath.row]
-        }
-        cell.user = user
         
+        if searchUsers {
+            if inSearchMode {
+                user = filteredUsers[indexPath.row]
+            } else {
+                user = users[indexPath.row]
+            }
+            cell.searchUsers = true
+            cell.searchStores = false
+            cell.user = user
+        }
+        
+        if searchStores {
+            if inSearchMode {
+                store = filteredStores[indexPath.row]
+            } else {
+                store = stores[indexPath.row]
+            }
+            cell.searchUsers = false
+            cell.searchStores = true
+            cell.store = store
+        }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var user: User!
 
-        if inSearchMode {
-            user = filteredUsers[indexPath.row]
-        } else {
-            user = users[indexPath.row]
+        if searchUsers {
+            if inSearchMode {
+                user = filteredUsers[indexPath.row]
+            } else {
+                user = users[indexPath.row]
+            }
+            let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileVC.user = user
+            navigationController?.pushViewController(userProfileVC, animated: true)
         }
-        let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileVC.user = user
-        //userProfileVC.searchMode = true
-        navigationController?.pushViewController(userProfileVC, animated: true)
+        
+        if searchStores {
+            if inSearchMode {
+                store = filteredStores[indexPath.row]
+            } else {
+                store = stores[indexPath.row]
+            }
+            let myStore = UserStoreVC(collectionViewLayout: UICollectionViewFlowLayout())
+            myStore.store = store
+            navigationController?.pushViewController(myStore, animated: true)
+        }
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -100,12 +144,18 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
         let searchTextuppercased = searchText
         if searchText.isEmpty || searchText == " " {
             inSearchMode = false
-            tableView.reloadData()
         } else {
             inSearchMode = true
-            filteredUsers = users.filter({ (user) -> Bool in
-                return user.username.contains(searchText) || user.firstname.contains(searchTextuppercased) || user.lastname.contains(searchTextuppercased)
-            })
+            if searchUsers {
+                filteredUsers = users.filter({ (user) -> Bool in
+                    return user.username.contains(searchText) || user.firstname.contains(searchTextuppercased) || user.lastname.contains(searchTextuppercased)
+                })
+            }
+            if searchStores {
+                filteredStores = stores.filter({ (store) -> Bool in
+                    return store.storeName.contains(searchText)
+                })
+            }
             tableView.reloadData()
         }
     }
@@ -119,16 +169,24 @@ class SearchVC: UITableViewController, UISearchBarDelegate, UICollectionViewDele
     }
     
     func fetchUsers() {
-        
         Database.database().reference().child("Users").observe(.childAdded) { (snapshot) in
             let uid = snapshot.key
             guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
             let user = User(uid: uid, dictionary: dictionary)
             self.users.append(user)
             self.tableView.reloadData()
-            
         }
-        
     }
     
+    func fetchStores() {
+        STORE_REF.observe(.childAdded) { (snapshot) in
+            let storeId = snapshot.key
+            STORE_REF.child(storeId).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                let store = Store(uid: storeId, dictionary: dictionary)
+                self.stores.append(store)
+                self.tableView.reloadData()
+            })
+        }
+    }
 }

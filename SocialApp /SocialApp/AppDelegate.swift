@@ -13,7 +13,7 @@ import Stripe
 
 @UIApplicationMain
 
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -52,25 +52,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
 
-    func attempToRegisterForNotifications(application: UIApplication) {
-        
-        
-        Messaging.messaging().delegate = self
-        
-        UNUserNotificationCenter.current().delegate = self
-        
-        let options: UNAuthorizationOptions = [.alert,.badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(options: options) { (authorized, err) in
-            print("**** Notifications registered ****")
-        }
-        application.registerForRemoteNotifications()
-    }
-
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("**** DEBUG: Registered for notifications with device token: ", deviceToken)
-    }
-    
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("DEBUG: Registered with FCM Token: ", fcmToken)
-    }
+//    func attempToRegisterForNotifications(application: UIApplication) {
+//
+//
+//        Messaging.messaging().delegate = self
+//
+//        UNUserNotificationCenter.current().delegate = self
+//
+//        let options: UNAuthorizationOptions = [.alert,.badge, .sound]
+//        UNUserNotificationCenter.current().requestAuthorization(options: options) { (authorized, err) in
+//            print("**** Notifications registered ****")
+//        }
+//        application.registerForRemoteNotifications()
+//    }
+//
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        print("**** DEBUG: Registered for notifications with device token: ", deviceToken)
+//    }
+//
+//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+//        print("DEBUG: Registered with FCM Token: ", fcmToken)
+//    }
 }

@@ -2,8 +2,8 @@
 //  UserInfoHeader.swift
 //  SettingsTemplate
 //
-//  Created by Stephen Dowless on 2/10/19.
-//  Copyright © 2019 Stephan Dowless. All rights reserved.
+//  Created by Gino Sesia on 05/06/2020.
+//  Copyright © 2020 Gino Sesia. All rights reserved.
 //
 
 import UIKit

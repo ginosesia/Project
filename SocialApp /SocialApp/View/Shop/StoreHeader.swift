@@ -14,7 +14,6 @@ class StoreHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavi
     //MARK: - Properties
     var store: Store? {
         didSet {
-            
             guard let image = store?.storeImageUrl else { return }
             profileImage.loadImage(with: image)
         }

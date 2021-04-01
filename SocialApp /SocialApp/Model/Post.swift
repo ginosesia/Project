@@ -173,6 +173,5 @@ class Post {
         COMMENT_REF.child(postId).removeValue()
         
         POSTS_REF.child("image-posts").child(postId).removeValue()
-    
     }
 }

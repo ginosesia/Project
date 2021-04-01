@@ -11,18 +11,22 @@ import UIKit
 
 class MyShopItemCell: UICollectionViewCell {
     
-    var delegate: ItemOptionsDelegate?
     var item: Item? {
         didSet {
-            guard let image = item?.imageUrl else { return }
+            guard let image = item?.imageUrl else {
+                return
+            }
             guard let itemTitle = item?.itemTitle else { return }
             guard let itemPrice = item?.itemPrice else { return }
-            guard let itemStock = item?.itemStock else { return }
-            
+            guard let itemQuantity = item?.itemQuantity else { return }
+            guard let itemOrders = item?.orders else { return }
+
             title.text = itemTitle
             postImage.loadImage(with: image)
             price.text = "Price: £\(itemPrice)"
-            stock.text = "In Stock: \(itemStock)"
+            stock.text = "In Stock: \(itemQuantity)"
+            orders.text = "Orders: \(itemOrders)"
+            print(image)
         }
     }
     
@@ -61,18 +65,10 @@ class MyShopItemCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .systemGray
         label.numberOfLines = 0
-        label.text = "Orders: 3"
         label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
-    
-    lazy var optionsButton: UIButton = {
-        let bt = UIButton()
-        bt.setTitle("•••", for: .normal)
-        bt.addTarget(self, action: #selector(handleOptionsTapped), for: .touchUpInside)
-        bt.tintColor = .white
-        return bt
-    }()
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,22 +90,12 @@ class MyShopItemCell: UICollectionViewCell {
         addSubview(orders)
         orders.anchor(top: stock.bottomAnchor, left: postImage.rightAnchor, bottom: nil, right: nil, paddingTop: 3, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
-        
-        let width = CGFloat(25)
-        addSubview(optionsButton)
-        optionsButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: width, height: width)
-        optionsButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
         self.backgroundColor = .systemGray6
         
     }
     
     //MARK: - Handlers
-    
-    
-    @objc func handleOptionsTapped() {
-        delegate?.handleOptionsTapped(item: item!)
-    }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

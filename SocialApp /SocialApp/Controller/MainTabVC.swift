@@ -63,7 +63,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         let label = UILabel()
         label.text = "Social App"
         label.textColor = Utilities.setThemeColor()
-        label.font = UIFont.boldSystemFont(ofSize: 26)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         titleView.addSubview(label)
         label.anchor(top: titleView.topAnchor, left: nil, bottom: titleView.bottomAnchor, right: titleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
@@ -73,39 +73,36 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     func configureViewControllers() {
         
         
-        //Home Feed Controller
+        //FeedVC
         let feedVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: FeedVC(collectionViewLayout: UICollectionViewFlowLayout()))
+        feedVC.navigationBar.isHidden = true
         feedVC.title = "Feed"
-        
-        //Search Feed Controller
-        let info = UIImage(systemName: "info")
+
+        //DiscoverVC
+        let info = UIImage(systemName: "heart")
         let discover = constructNavController(unselectedImage: info!, selectedImage: info!, rootViewController: DiscoverVC(collectionViewLayout: UICollectionViewFlowLayout()))
-        discover.navigationBar.isHidden = true
         discover.title = "Discover"
         
-        //Post Controller
-        let selectImageVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
-        selectImageVC.title = "New Post"
-        
+        //MessageVC
         let selectMessageVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "send2"), selectedImage: #imageLiteral(resourceName: "send2"), rootViewController: MessagesController())
         selectMessageVC.title = "Messages"
         
-        //Notification Controller
+        //ShopVC
         let shop = UIImage(systemName: "bag")
         let shopVC = constructNavController(unselectedImage: shop!, selectedImage: shop!, rootViewController: ShopVC(collectionViewLayout: UICollectionViewFlowLayout()))
+        shopVC.navigationBar.isHidden = true
         shopVC.title = "Shop"
         
-        //Profile Controller
+        //ProfileVC
         let userProfileVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout()))
         userProfileVC.title = "Profile"
         userProfileVC.navigationBar.isHidden = true
         
-        // view controllers to be added to tab controller
+        //View controllers to be added to tab controller
         viewControllers = [discover, feedVC, shopVC, selectMessageVC, userProfileVC]
         
         // tab bar tint color
         tabBar.tintColor = Utilities.setThemeColor()
-        
     }
     
     func addNotificationDot() {
@@ -145,10 +142,8 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             allObjects.forEach { (snapshot) in
                 NOTIFICATIONS_REF.child(currentUid).child(notificationId).child("checked").observeSingleEvent(of: .value, with: { (snapshot) in
                     guard let checked = snapshot.value as? Int else { return }
-                    
                     if checked == 0 {
                         self.dot.isHidden = false
-                        
                     } else {
                         self.dot.isHidden = true
                     }
@@ -156,6 +151,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
             }
         }
     }
+    
     
     func constructNavController(unselectedImage: UIImage,selectedImage: UIImage, rootViewController: UIViewController = UIViewController()) -> UINavigationController {
         let navController = UINavigationController(rootViewController: rootViewController)
@@ -177,7 +173,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         navigationItem.leftBarButtonItems = [moreButton]
         navigationItem.rightBarButtonItems = [camera, orders]
         navigationItem.title = "App"
-            
     }
     
     @objc func handleSettings() {
@@ -198,29 +193,24 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     func settingDidSelected(setting: Setting) {
         if setting.name == "Search User" {
             let searchVC = SearchVC()
-            let navigationController = UINavigationController(rootViewController: searchVC)
-            navigationController.title = "Search User"
-            self.navigationController?.present(navigationController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(searchVC, animated: true)
+            searchVC.searchBar.placeholder = "Search User"
+            searchVC.searchUsers = true
+            searchVC.searchStores = false
+        } else if setting.name == "Search Store" {
+            let searchVC = SearchVC()
+            self.navigationController?.pushViewController(searchVC, animated: true)
+            searchVC.searchBar.placeholder = "Search Store"
+            searchVC.searchStores = true
+            searchVC.searchUsers = false
         } else if setting.name == "My Store" {
             self.checkIfMember()
-        } else if setting.name == "Notifications" {
-            let notifications = NotificationsVC()
-            self.navigationController?.pushViewController(notifications, animated: true)
         } else if setting.name == "Basket" {
             let checkOut = Basket()
             self.navigationController?.pushViewController(checkOut, animated: true)
-        } else if setting.name == "Settings" {
-            let settingsVC = SettingsVC()
-            self.navigationController?.pushViewController(settingsVC, animated: true)
         } else if setting.name == "Picture" {
             let selectImageVC = SelectPostVC(collectionViewLayout: UICollectionViewFlowLayout())
             let navController = UINavigationController(rootViewController: selectImageVC)
-            self.present(navController, animated: true, completion: nil)
-        } else if setting.name == "Video" {
-            uploadVideo()
-        } else if setting.name == "Message" {
-            let messageVC = UploadMessageVC(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: messageVC)
             self.present(navController, animated: true, completion: nil)
         } else if setting.name == "Sign Out" {
             do {
@@ -232,42 +222,9 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
                 navController.modalPresentationStyle = .fullScreen
                 self.present(navController, animated: true, completion: nil)
                 } catch {
-                print("Failed: User still signed in.")
             }
         }
     }
-    
-    func uploadVideo() {
-        
-        let videoPicker = UIImagePickerController()
-        videoPicker.allowsEditing = true
-        videoPicker.mediaTypes = [kUTTypeMovie as String]
-        present(videoPicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-       
-        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
-
-            let fileName = "Videos.mov"
-            let storageRef = Storage.storage().reference().child(fileName)
-                storageRef.putFile(from: videoUrl as URL, metadata: nil, completion: { (metadata, error) in
-
-                if error != nil {
-                    print("Failed upload of Video:", error!)
-                    return
-                }
-
-                storageRef.downloadURL(completion: { (downloadURL, error) in
-                    if let storageUrl = downloadURL?.absoluteString {
-                        print(storageUrl)
-                    }
-                })
-
-            })
-        }
-    }
-    
     
     func checkIfMember() {
         let uid = Auth.auth().currentUser?.uid
@@ -285,7 +242,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
     
    func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser == nil {
-            print("No user signed in")
             DispatchQueue.main.async {
                 let logInVC = SignInVC()
                 let navController = UINavigationController(rootViewController: logInVC)
@@ -293,7 +249,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
                 self.present(navController, animated: true, completion: nil)
             }
         } else {
-            print("User signed in")
         }
         return
     }

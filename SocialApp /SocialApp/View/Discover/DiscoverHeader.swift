@@ -24,11 +24,9 @@ class DiscoverHeader: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(collectionView.view)
         collectionView.view.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 5, paddingRight: 0, width: 0, height: 0)
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

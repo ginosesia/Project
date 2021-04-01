@@ -2,8 +2,8 @@
 //  Constants.swift
 //  InstagramCopy
 //
-//  Created by Stephan Dowless on 2/7/18.
-//  Copyright © 2018 Stephan Dowless. All rights reserved.
+//  Created by Gino Sesia on 05/06/2020.
+//  Copyright © 2020 Gino Sesia. All rights reserved.
 //
 
 import Firebase
@@ -39,6 +39,7 @@ let STORE_REF = DB_REF.child("store")
 let USER_STORE_REF = DB_REF.child("User-store-posts")
 let ITEMS_REF = DB_REF.child("items")
 let USER_ITEMS_REF = DB_REF.child("User-items")
+let NOTIFICATION_ITEMS_REF = DB_REF.child("User-Orders")
 
 let MY_ORDERS_REF = DB_REF.child("My-orders")
 
@@ -72,5 +73,6 @@ let FIRSTNAME = 1
 let LASTNAME = 2
 let BIO = 3
 let DESCRIPTION = 4
+let DEFAULT_VALUE = 1
 
 var SIGN_UP_TOP_LABEL: String = "SIGN UP"

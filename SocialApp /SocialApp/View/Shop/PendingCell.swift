@@ -31,7 +31,7 @@ class PendingCell: UITableViewCell {
     let deliveryLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "3 Days"
+        label.text = "Pending"
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()

@@ -25,11 +25,10 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     
     let settings: [Setting] = {
        return [
-            Setting(name: "Settings", imageName: "gear"),
-            Setting(name: "Notifications", imageName: "bell"),
             Setting(name: "My Store", imageName: "bag"),
             Setting(name: "Basket", imageName: "cart"),
             Setting(name: "Search User", imageName: "magnifyingglass"),
+            Setting(name: "Search Store", imageName: "magnifyingglass"),
             Setting(name: "Sign Out", imageName: "arrow.backward"),
             Setting(name: "Cancel", imageName: "xmark")
        ]

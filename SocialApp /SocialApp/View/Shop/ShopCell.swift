@@ -80,6 +80,7 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
         button.tintColor = UIColor.white
         button.setTitle("Add To Basket", for: .normal)
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handlePurchaceTapped), for: .touchUpInside)
         return button
     }()
 
@@ -131,10 +132,11 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
     
     func setUpStore() {
         addSubview(productTitle)
-        productTitle.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 20)
+        addSubview(storeImage)
+
+        productTitle.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: storeImage.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 5, width: 0, height: 20)
         
         let size = CGFloat(25)
-        addSubview(storeImage)
         storeImage.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: size, height: size)
         storeImage.centerYAnchor.constraint(equalTo: productTitle.centerYAnchor).isActive = true
         storeImage.layer.cornerRadius = size/2

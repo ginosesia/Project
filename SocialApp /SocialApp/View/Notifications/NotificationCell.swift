@@ -47,7 +47,6 @@ class NotificationCell: UITableViewCell {
         image.backgroundColor = .systemTeal
         return image
     }()
-
     
     func setUpView() {
         let imageDimention = CGFloat(45)
@@ -67,11 +66,7 @@ class NotificationCell: UITableViewCell {
         addSubview(postImage)
         postImage.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 50, height: 50)
         postImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
-
     }
-    
-
     
     //MARK: - Handlers
     

@@ -1,27 +1,26 @@
 //
-//  MyStore.swift
+//  UserStoreVC.swift
 //  SocialApp
 //
-//  Created by Gino Sesia on 18/01/2021.
+//  Created by Gino Sesia on 11/03/2021.
 //  Copyright © 2021 Gino Sesia. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import Firebase
 
 private let reuseIdentifier = "Cell"
 private let headerIdentifier = "StoreHeader"
 
-class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserStoreHeaderDelegate, SettingsLauncherDelegate {
-
+class UserStoreVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserStoreHeaderDelegate, SettingsLauncherDelegate {
     
+    var delegate: ItemConfirmationDelegate?
     var store: Store?
-    var searchBar = UISearchBar()
     let settingsLauncher = StoreSettingsLauncher()
     let cellId = "cellId"
     var user: User?
     var items = [Item]()
-    var orders = [Order]()
     var customView = UIView()
     
     let titleLabel: UILabel = {
@@ -57,10 +56,9 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
 
         customView.isHidden = true
         view.backgroundColor = .black
-        fetchStoreData()
         fetchItems()
         setupNavBar()
-        fetchOrders()
+        
         settingsLauncher.delegate = self
             
         collectionView.register(UINib(nibName: headerIdentifier, bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
@@ -84,17 +82,7 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     @objc func handleOrdersTapped() {
         let orders = MyOrders()
-        orders.orders = self.orders
         self.navigationController?.pushViewController(orders, animated: true)
-    }
-    
-    func fetchOrders() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        NOTIFICATION_ITEMS_REF.child(uid).observe(.childAdded) { (snapshot) in
-            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            let order = Order(dictionary: dictionary)
-            self.orders.append(order)
-        }
     }
     
     //MARK: - Header
@@ -120,6 +108,21 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     //MARK: - Handlers
     
+    func sendConfirmationAlert(item: Item) {
+        
+        // create the alert
+        guard let item = item.itemTitle else { return }
+        let alert = UIAlertController(title: "Item Added to Basket", message: "\(item) has been added to your basket successfully.", preferredStyle: UIAlertController.Style.alert)
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Continue Shopping", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "View Basket", style: UIAlertAction.Style.default, handler: {_ in
+            let checkOut = Basket()
+            self.navigationController?.pushViewController(checkOut, animated: true)
+        }))
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func handleAddItemTapped(for header: StoreHeader) {
         addItem()
     }
@@ -144,7 +147,6 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
 
     }
 
-
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -161,35 +163,24 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         return 5
     }
     
-
     
     func settingDidSelected(setting: Setting) {
         if setting.name == "Add Item" {
             addItem()
+        } else if setting.name == "Analytics" {
+            print("Analytics")
         } else if setting.name == "Settings" {
-            let settings = MyStoreSettingsVC()
-            settings.store = store
-            navigationController?.pushViewController(settings, animated: true)
-        } else if setting.name == "Cancel" {}
+            print("Settings")
+        } else if setting.name == "Cancel" {
+        }
     }
     
     //MARK: - API
     
-    func fetchStoreData() {
-        guard let currentUser = Auth.auth().currentUser?.uid else { return }
-        STORE_REF.child(currentUser).observeSingleEvent(of: .value) { (snapshot) in
-            guard let userDictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            let store = Store(uid: currentUser, dictionary: userDictionary)
-            self.store = store
-            self.navigationItem.title = store.storeName
-            let header = StoreHeader()
-            header.profileImage.loadImage(with: store.storeImageUrl)
-        }
-    }
-        
+
     func fetchItems() {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        USER_ITEMS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
+        guard let id = store?.uid else { return }
+        USER_ITEMS_REF.child(id).observe(.childAdded) { (snapshot) in
             let itemId = snapshot.key
             ITEMS_REF.child(itemId).observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
@@ -199,5 +190,4 @@ class MyStore: UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             })
         }
     }
-    
 }

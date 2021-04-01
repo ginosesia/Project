@@ -44,10 +44,12 @@ class CommentInputAccesoryView: UIView {
         autoresizingMask = .flexibleHeight
         
         addSubview(postButton)
-        postButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 50, height: 50)
+        postButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 50, height: 60)
 
         addSubview(commentTextView)
-        commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom: 5, paddingRight: 10, width: 0, height: 50)
+        commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 5, paddingRight: 10, width: 0, height: 60)
+        commentTextView.backgroundColor = .systemGray6
+        commentTextView.layer.cornerRadius = 10
         
         postButton.centerYAnchor.constraint(equalTo: commentTextView.centerYAnchor).isActive = true
 

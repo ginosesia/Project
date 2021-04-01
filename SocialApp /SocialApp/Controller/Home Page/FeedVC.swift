@@ -13,7 +13,6 @@ import ActiveLabel
 private let reuseIdentifier = "Cell"
 private let reuseIdentifierIndividual = "IndividualPostCell"
 
-
 class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, FeedCellDelegate {
     
     //MARK: - Properties

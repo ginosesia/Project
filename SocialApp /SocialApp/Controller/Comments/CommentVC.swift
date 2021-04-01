@@ -19,9 +19,9 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     var post: Post?
     
     lazy var containerView: CommentInputAccesoryView = {
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
         let containerView = CommentInputAccesoryView(frame:frame)
-        containerView.backgroundColor = .green
+        containerView.backgroundColor = .black
         containerView.delegate = self
         return containerView
     }()
@@ -81,7 +81,7 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
         let dummyCell = CommentCell(frame: frame)
         dummyCell.comment = comments[indexPath.item]
         dummyCell.layoutIfNeeded()
@@ -96,8 +96,7 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let numberOfComments = comments.count
-        return numberOfComments
+        return comments.count
     }
     
     //MARK: - Handlers
@@ -119,7 +118,7 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
         COMMENT_REF.child(postId).observe(.childAdded) { (snapshot) in
             
             guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            guard let uid = dictionary["Uid"] as? String else { return }
+            guard let uid = dictionary["uid"] as? String else { return }
 
             Database.fetchUser(with: uid, completion: { (user) in
                 let comment = Comment(user: user, dictionary: dictionary)
@@ -163,13 +162,10 @@ class CommentVC: UICollectionViewController, UICollectionViewDelegateFlowLayout,
 
         COMMENT_REF.child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
             self.uploadCommentNotification()
-
             if comment.contains("@") {
                 self.uploadNotification(for: postId, with: comment, isForComment: true)
             }
-
             self.containerView.clearCommentTextView()
-
         }
     }
 }

@@ -20,18 +20,23 @@ class Item {
     var itemDescription: String!
     var creationDate: Date!
     var itemPrice: String!
-    var itemStock: String!
+    var itemQuantity: String!
     var uid: String!
+    var orders: String!
     var user: User?
 
     
     init(itemId: String!, dictionary: Dictionary<String, AnyObject>) {
         
         
+        if let orders = dictionary["orders"] as? String {
+            self.orders = orders
+        }
+        
         if let imageUrl = dictionary["imageUrl"] as? String {
             self.imageUrl = imageUrl
         }
-        
+
         if let itemPrice = dictionary["price"] as? String {
             self.itemPrice = itemPrice
         }
@@ -40,8 +45,8 @@ class Item {
             self.itemTitle = itemTitle
         }
         
-        if let itemStock = dictionary["quantity"] as? String {
-            self.itemStock = itemStock
+        if let itemQuantity = dictionary["quantity"] as? String {
+            self.itemQuantity = itemQuantity
         }
         
         if let itemDescription = dictionary["description"] as? String {

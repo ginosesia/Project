@@ -46,19 +46,27 @@ extension Date {
         
         return "\(quotient) \(unit)\(quotient == 1 ? "" : "s" ) ago"
     }
-    
-    
 }
 
 
 
 extension UIColor {
-    
     static func rgb(red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
     }
-    
 }
+
+
+extension UIApplication {
+   static var key: UIWindow? {
+     if #available(iOS 13, *) {
+        return UIApplication.shared.windows.first { $0.isKeyWindow }
+     } else {
+        return UIApplication.shared.keyWindow
+     }
+  }
+}
+
 
 
 extension UIViewController {
@@ -108,9 +116,6 @@ extension UIViewController {
 
 
 extension UIView {
-    
-    
-    
     func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?, paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -138,40 +143,6 @@ extension UIView {
         if height != 0 {
             heightAnchor.constraint(equalToConstant: height).isActive = true
         }
-    }
-    
-    
-    @discardableResult
-    func applyGradient(colours: [UIColor]) -> CAGradientLayer {
-        return self.applyGradient(colours: colours, locations: nil)
-    }
-    
-    
-    @discardableResult
-       func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> CAGradientLayer {
-           let gradient: CAGradientLayer = CAGradientLayer()
-           gradient.frame = self.bounds
-           gradient.colors = colours.map { $0.cgColor }
-           gradient.locations = locations
-           self.layer.insertSublayer(gradient, at: 0)
-           return gradient
-       }
-
-    
-    func gradientButton( startColor:UIColor, endColor:UIColor) {
-
-            let view:UIView = UIView(frame: self.bounds)
-
-            let gradient = CAGradientLayer()
-            gradient.colors = [startColor.cgColor, endColor.cgColor]
-            gradient.startPoint = CGPoint(x: 0, y: 1)
-            gradient.endPoint = CGPoint(x: 1, y: 0)
-            gradient.frame = self.bounds
-            self.layer.insertSublayer(gradient, at: 0)
-            self.mask = view
-
-            view.layer.borderWidth = 20
-        
     }
 }
 
@@ -224,3 +195,5 @@ extension String {
      return !(self.isEmpty) && self.allSatisfy { $0.isNumber }
    }
 }
+
+

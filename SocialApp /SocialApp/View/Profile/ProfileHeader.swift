@@ -11,7 +11,6 @@ import Firebase
 
 private let reuseIdentifier = "Cell"
 
-
 class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //MARK: - Properties
@@ -37,9 +36,9 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
             
             ocupation.text = bio
             profileDescription.text = desc
-            
         }
     }
+    
     let profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
@@ -176,7 +175,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         return bar
     }()
         
-    
     //MARK: - Handlers
     
     @objc func videoButtonTapped() {
@@ -191,7 +189,6 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         Utilities.buttonPressed(postButton, videoButton, pictureButton)
     }
     
-
     @objc func handleFollowingTaped() {
         delegate?.handleFollowingTapped(for: self)
     }
@@ -207,9 +204,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
     @objc func handleEditProfileFollowButton() {
         delegate?.handleEditFollowTapped(for: self)
     }
-
-    
-    
+        
     func configureUserInfo() {
         let stackView = UIStackView(arrangedSubviews: [postsLabel,followersLabel,followingLabel])
         stackView.axis = .horizontal

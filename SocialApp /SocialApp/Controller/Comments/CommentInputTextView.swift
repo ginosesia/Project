@@ -36,7 +36,7 @@ class CommentInputTextView: UITextView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleInputTextChanged), name: UITextView.textDidChangeNotification, object: nil)
 
         addSubview(commentLabelPlaceHolder)
-        commentLabelPlaceHolder.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        commentLabelPlaceHolder.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         
     }

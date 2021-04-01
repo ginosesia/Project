@@ -15,9 +15,9 @@ private let reuseIdentifier = "Cell"
 private let headerIdentifier = "StoreHeader"
 
 
-class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, DashboardShopDelegate {
-
+class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+        
     
     //MARK: - Properties
     var key: String?
@@ -32,7 +32,8 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         
         //register header
         collectionView!.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-
+        navigationController?.navigationBar.isHidden = true
+        
         loadPosts()
     }
     
@@ -85,14 +86,9 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
     }
     
     
-    //MARK: - Handler
     
-    func handleViewStoreTapped(for cell: DiscoverStoreCell) {
-        let viewStore = MyStore(collectionViewLayout: UICollectionViewFlowLayout())
-        viewStore.store = cell.store
-        navigationController!.pushViewController(viewStore, animated: true)
-    }
     
+
     //MARK: - API
 
     func loadPosts() {

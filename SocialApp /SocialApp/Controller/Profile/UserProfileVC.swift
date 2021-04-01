@@ -62,7 +62,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         return posts.count
     }
     
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
         cell.post = posts[indexPath.item]
@@ -85,7 +84,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             fatalError("Unexpected element kind")
         }
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.width/3)
@@ -113,9 +111,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             let navigationController = UINavigationController(rootViewController: editProfileController)
             navigationController.modalPresentationStyle = .fullScreen
             present(navigationController, animated: true, completion: nil)
-
         } else {
-
             if header.editProfileFollowButton.titleLabel?.text == "Follow" {
                 Utilities.styleFollowButton(header.editProfileFollowButton, following: true)
                 user.follow()
@@ -149,7 +145,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         
         let followersVC = FollowLikeVC()
         followersVC.viewingMode = FollowLikeVC.ViewingMode(index: 1)
-        
         followersVC.uid = user?.uid
         navigationController?.pushViewController(followersVC, animated: true)
     }

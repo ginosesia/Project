@@ -27,8 +27,6 @@ class UploadLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDele
     let settings: [Setting] = {
        return [
             Setting(name: "Picture", imageName: "photo"),
-            Setting(name: "Video", imageName: "video"),
-            Setting(name: "Message", imageName: "message"),
             Setting(name: "Cancel", imageName: "xmark")
        ]
     }()

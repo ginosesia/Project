@@ -21,7 +21,6 @@ class CommentCell: UICollectionViewCell {
             
             //Add users Profile Image using profile Url frome database
             profileImage.loadImage(with: profileImageUrl)
-
             configureCommentLabel()
         }
     }
@@ -33,8 +32,8 @@ class CommentCell: UICollectionViewCell {
         return image
     }()
     
-    let commentLabel: ActiveLabel = {
-        let label = ActiveLabel()
+    let commentLabel: UILabel = {
+        let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 0
         label.textColor = Utilities.setThemeColor()
@@ -46,14 +45,14 @@ class CommentCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
         addSubview(profileImage)
         profileImage.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 45, height: 45)
-        profileImage.layer.cornerRadius = 45*0.33
-        
+        profileImage.layer.cornerRadius = 45/2
+        profileImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+
         addSubview(commentLabel)
         commentLabel.anchor(top: nil, left: profileImage.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
-        commentLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        commentLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
     }
     
@@ -64,33 +63,13 @@ class CommentCell: UICollectionViewCell {
         guard let user = comment?.user else { return }
         guard let username = user.username else { return }
         guard let commentText = comment?.commentText else { return }
-        //guard let commemt = self.comment else { return }
-
         
-        let customType = ActiveType.custom(pattern: "^\(username)\\b")
+        let attributedText = NSMutableAttributedString(string: "\(username)", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14, weight: UIFont.Weight(rawValue: 12)),NSAttributedString.Key.foregroundColor:UIColor.white])
+        attributedText.append(NSAttributedString(string: " \(commentText)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),NSAttributedString.Key.foregroundColor:UIColor.gray]))
         
-        commentLabel.enabledTypes = [.hashtag,.mention,.url]
-
+        commentLabel.attributedText = attributedText
+        commentLabel.numberOfLines = 0
         
-        commentLabel.configureLinkAttribute = { (type, attributes, isSelected) in
-            var atts = attributes
-            
-            switch type {
-            case .custom:
-                atts[NSAttributedString.Key.font] = UIFont.boldSystemFont(ofSize: 15)
-            default:
-                ()
-            }
-            return atts
-        }
-        commentLabel.customize { (label) in
-            label.text = username + " \(commentText)"
-            label.customColor[customType] = .white
-            label.font = UIFont.systemFont(ofSize: 16)
-            label.textColor = .white
-            label.numberOfLines = 0
-            
-        }
     }
     
     func configureNotificationTimeStamp() -> String? {
@@ -105,8 +84,6 @@ class CommentCell: UICollectionViewCell {
         
     }
 
-    
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

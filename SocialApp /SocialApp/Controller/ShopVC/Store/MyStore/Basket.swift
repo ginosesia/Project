@@ -16,6 +16,7 @@ private let reuseIdentifier = "BasketCell"
 class Basket: UITableViewController {
     
     var items = [Item]()
+    var hasItems = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,49 +85,45 @@ class Basket: UITableViewController {
     func CheckOutButton() {
         navigationController?.navigationBar.tintColor = Utilities.setThemeColor()
         let pay = UIBarButtonItem(title: "Check Out", style: .plain, target: self, action: #selector(handleCheckOut))
-//        if items.count != 0 {
+        //if items.count != 0 {
             navigationItem.rightBarButtonItems = [pay]
-//        }
+        //}
     }
-    func showAlert() {
-        let alert = UIAlertController(title: "My Orders", message: "Your items are listed under 'My Orders'", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "View My Orders", style: UIAlertAction.Style.default, handler: {_ in
-            let checkOut = PendingOrders()
-            self.navigationController?.pushViewController(checkOut, animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
 
-        self.present(alert, animated: true, completion: nil)
-        tableView.reloadData()
-        
-        removeItems()
-    }
-    
-    func removeItems() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        USER_BAG_REF.child(uid).removeValue()
-    }
     
     @objc func handleCheckOut() {
-        fetchItemsInBasket()
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-            
-        for item in items {
-            let values = ["title": item.itemTitle!,
-                          "price": item.itemPrice!,
-                          "imageUrl": item.imageUrl!] as [String: Any]
-            MY_ORDERS_REF.child(uid).child((item.itemId)!).setValue(values)
+        if items.count != 0 {
+            checkIfInStock(items: items)
+        } else {
+            let alert = UIAlertController(title: "Empty Basket", message: "You have no items in your basket", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
-        presentCheckoutForm()
     }
     
-    func presentCheckoutForm() {
+    func checkIfInStock(items: [Item]) {
+        for item in items {
+            guard let itemId = item.itemId else { return }
+            ITEMS_REF.child(itemId).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                guard let stock = dictionary["quantity"] as? Int else { return }
+                if stock < 1 {
+                    guard let title = item.itemTitle else { return }
+                    let alert = UIAlertController(title: "Out Of Stock", message: "\(title) is out of stock.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Return to Basket", style: .cancel, handler: { (_) in
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+            })
+        }
         let form = CheckOutFormVC()
+        form.items = items
         self.navigationController?.pushViewController(form, animated: true)
-        
-        showAlert()
     }
+    
     
     //MARK: - Footer
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

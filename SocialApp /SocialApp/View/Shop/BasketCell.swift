@@ -60,7 +60,7 @@ class BasketCell: UITableViewCell {
         productQuantity.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
         addSubview(productImage)
-        productImage.anchor(top: nil, left: productQuantity.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 65, paddingBottom: 0, paddingRight: 0, width: imageDimention, height: imageDimention)
+        productImage.anchor(top: nil, left: productQuantity.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 45, paddingBottom: 0, paddingRight: 0, width: imageDimention, height: imageDimention)
         productImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         productImage.layer.cornerRadius = 5
 

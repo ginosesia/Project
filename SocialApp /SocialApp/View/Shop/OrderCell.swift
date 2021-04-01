@@ -11,23 +11,28 @@ import UIKit
 
 class OrderCell: UITableViewCell {
     
+    var order: Order? {
+        didSet {
+            guard let customerId = order?.customerId else { return }
+            guard let itemId = order?.itemId else { return }
+            
+            fetchData(customerId: customerId, itemId: itemId)
+        }
+    }
+
     //MARK: - Properties
+
     
     let profileImage: CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.backgroundColor = .systemTeal
         return image
     }()
 
     let notificationLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        let attributedText = NSMutableAttributedString(string: "Gino", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 12, weight: UIFont.Weight(rawValue: 12)),NSAttributedString.Key.foregroundColor:UIColor.white])
-        attributedText.append(NSAttributedString(string: " Purchased your product", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 11),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-        attributedText.append(NSAttributedString(string: "\n2 Days Ago", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10),NSAttributedString.Key.foregroundColor:UIColor.gray]))
-        label.attributedText = attributedText
         return label
     }()
 
@@ -35,7 +40,6 @@ class OrderCell: UITableViewCell {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.backgroundColor = .systemTeal
         return image
     }()
 
@@ -58,6 +62,34 @@ class OrderCell: UITableViewCell {
     }
     
 
+    func fetchData(customerId: String, itemId: String) {
+        var image1: String?
+        var image2: String?
+        var name: String?
+
+        USER_REF.child(customerId).observe(.childAdded) { (snapshot) in
+            if snapshot.key == "profileImageUrl" {
+                image1 = snapshot.value! as? String
+                self.profileImage.loadImage(with: image1!)
+            }
+            
+            if snapshot.key == "Username" {
+                name = snapshot.value! as? String
+                
+                let attributedText = NSMutableAttributedString(string: name!, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 12, weight: UIFont.Weight(rawValue: 12)),NSAttributedString.Key.foregroundColor:UIColor.white])
+                attributedText.append(NSAttributedString(string: " Purchased your product", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 11),NSAttributedString.Key.foregroundColor:UIColor.gray]))
+                self.notificationLabel.attributedText = attributedText
+                
+            }
+        }
+        
+        ITEMS_REF.child(itemId).observe(.childAdded) { (snapshot) in
+            if snapshot.key == "imageUrl" {
+                image2 = snapshot.value! as? String
+                self.postImage.loadImage(with: image2!)
+            }
+        }
+    }
     
     //MARK: - Handlers
     

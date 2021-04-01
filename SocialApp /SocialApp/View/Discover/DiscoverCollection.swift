@@ -18,7 +18,6 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
     //MARK: - Properties
 
     var stores = [Store]()
-    
 
     //MARK: - CollectionView
     
@@ -39,27 +38,34 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! DiscoverStoreCell
-            cell.backgroundColor = .systemGray6
+        cell.backgroundColor = .systemGray6
         cell.store = stores[indexPath.item]
         return cell
     }
     
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storeVC = MyStore(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(storeVC, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 4
     }
-    
     
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-            self.collectionView.register(DiscoverStoreCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-            collectionView.isPagingEnabled = true
-            fetchStores()
+        self.collectionView.register(DiscoverStoreCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.isPagingEnabled = true
+        fetchStores()
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 3
     }
     
     func fetchStores() {
