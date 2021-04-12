@@ -20,4 +20,5 @@ target 'SocialApp' do
 	pod 'KMPlaceholderTextView'
 	pod 'Stripe'
 	pod 'PaymentKit'
+	pod ‘PayPal-iOS-SDK’, ‘~> 2.15’
 end

@@ -105,14 +105,6 @@ class FeedCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(handleOptionsTapped) , for: .touchUpInside)
         return button
     }()
-
-    let commentNumber: UILabel = {
-        let label = UILabel()
-        let commentVC = CommentVC()
-        label.text = " 2642 "
-        label.textColor = Utilities.setThemeColor()
-        return label
-    }()
     
     let likeNumber: UILabel = {
         let label = UILabel()
@@ -126,21 +118,6 @@ class FeedCell: UICollectionViewCell {
         return label
     }()
     
-    let shareNumber: UILabel = {
-        let label = UILabel()
-        label.text = " 0 "
-        label.textColor = Utilities.setThemeColor()
-        return label
-    }()
-    
-    lazy var messageButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "send2"),for: .normal)
-        button.tintColor = .gray
-        button.addTarget(self, action: #selector(handleMessagesButtonTapped), for: .touchUpInside)
-        return button
-    }()
-        
     let captionLabel: ActiveLabel = {
         let label = ActiveLabel()
         label.textColor = .white
@@ -159,12 +136,7 @@ class FeedCell: UICollectionViewCell {
     
     //MARK: - Handlers
     
-    @objc func playVideo() {
-        let videoLauncher = VideoLauncher()
-        videoLauncher.showVideoPlayer()
-    }
-    
-    
+
     func configureLikeButton() {
         delegate?.handleConfigureLikeButton(for: self)
     }
@@ -273,15 +245,12 @@ class FeedCell: UICollectionViewCell {
     
     func configureFunctions() {
         
-        let commentInfo = UIStackView(arrangedSubviews: [commentButton,commentNumber])
-        commentInfo.axis = .horizontal
-        commentInfo.distribution = .fillProportionally
 
         let likeInfo = UIStackView(arrangedSubviews: [likeButton,likeNumber])
         likeInfo.axis = .horizontal
         likeInfo.distribution = .fillProportionally
                 
-        let functionStackView = UIStackView(arrangedSubviews: [likeInfo,commentInfo])
+        let functionStackView = UIStackView(arrangedSubviews: [likeInfo])
         functionStackView.axis = .horizontal
         functionStackView.distribution = .fillProportionally
         

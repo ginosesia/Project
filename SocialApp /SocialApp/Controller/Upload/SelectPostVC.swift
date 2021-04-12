@@ -111,8 +111,7 @@ class SelectPostVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     func configureNavigationButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleBackTapped))
         let next =  UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNextTapped))
-        let takePicture = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(handleCameraTapped))
-        navigationItem.rightBarButtonItems = [next, takePicture]
+        navigationItem.rightBarButtonItems = [next]
     }
     
     @objc func handleBackTapped() {
@@ -126,13 +125,6 @@ class SelectPostVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
         navigationController?.pushViewController(uploadVC, animated: true)
      }
 
-    @objc func handleCameraTapped() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .camera
-        self.present(imagePickerController, animated: true, completion: nil)
-    }
-    
     func fetchPhotosFromDeviceLibary() {
         
         let allPhotos = PHAsset.fetchAssets(with: .image, options: getAssetFetchOptions())

@@ -51,13 +51,9 @@ class FollowLikeVC: UITableViewController, FollowCellDelegate{
             //fetchusers
             fetchUsers()
         
-        
-        
         //clear separator lines
         tableView.separatorColor = .clear
-        view.backgroundColor = .white
-        
-        
+        view.backgroundColor = .black
     }
 
     //MARK: - Follow Cell Delegate Protocol

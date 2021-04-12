@@ -104,11 +104,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     }
     
     
-    @objc func handleRefresh() {
-        posts.removeAll(keepingCapacity: false)
-        self.key = nil
-        collectionView?.reloadData()
-    }
+//    @objc func handleRefresh() {
+//        posts.removeAll(keepingCapacity: false)
+//        self.key = nil
+//        collectionView?.reloadData()
+//    }
     
     func handleUsernameTapped(for cell: FeedCell) {
         guard let post = cell.post else { return }
@@ -253,8 +253,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         if let keyWindow = UIApplication.shared.keyWindow {
             
             blackBackgroundView = UIView(frame: keyWindow.frame)
-            blackBackgroundView?.backgroundColor = UIColor(white: 1, alpha: 0.8)
-            keyWindow.addSubview(self.blackBackgroundView!)
+            blackBackgroundView?.backgroundColor = UIColor.rgb(red: 0, green: 0, blue: 0, alpha: 0.8)
+                keyWindow.addSubview(self.blackBackgroundView!)
             keyWindow.addSubview(zoomingImageView)
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
@@ -412,13 +412,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         self.collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
         loadPosts()
-        loadVideos()
         updateUserFeed()
         
-        //Configure Refresh feed
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        collectionView?.refreshControl = refreshControl
-        refreshControl.tintColor = Utilities.setThemeColor()
     }
 }
