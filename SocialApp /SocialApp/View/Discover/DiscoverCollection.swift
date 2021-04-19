@@ -61,11 +61,12 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
         super.viewDidLoad()
         self.collectionView.register(DiscoverStoreCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
         fetchStores()
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
     
     func fetchStores() {

@@ -44,6 +44,7 @@ let NOTIFICATION_ITEMS_REF = DB_REF.child("User-Orders")
 let MY_ORDERS_REF = DB_REF.child("My-orders")
 
 let USER_FEED_REF = DB_REF.child("User-feed")
+let USER_DISCOVER_FEED_REF = DB_REF.child("User-discover-feed")
 
 let USER_LIKES_REF = DB_REF.child("User-likes")
 let POST_LIKES_REF = DB_REF.child("Post-likes")

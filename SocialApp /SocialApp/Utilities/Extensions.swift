@@ -166,7 +166,7 @@ extension Database {
     
     
     static func fetchPost(with postId: String, completion: @escaping(Post) -> ()) {
-        POSTS_REF.child("image-posts").child(postId).observeSingleEvent(of: .value) { (snapshot) in
+        POSTS_REF.child(postId).observeSingleEvent(of: .value) { (snapshot) in
             
             guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
             guard let ownerUid = dictionary["ownerUid"] as? String else { return }

@@ -208,7 +208,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         }
 
         if key == nil {
-            USER_POSTS_REF.child("image-posts").child(uid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_POSTS_REF.child(uid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 
                 self.collectionView.refreshControl?.endRefreshing()
@@ -223,7 +223,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
                 self.key = first.key
             })
         } else {
-            USER_POSTS_REF.child("image-posts").child(uid).queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_POSTS_REF.child(uid).queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
 
                 guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
@@ -272,7 +272,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         }
         
         //get number of uploads
-        USER_POSTS_REF.child("image-posts").child(uid).observe(.value) { (snapshot) in
+        USER_POSTS_REF.child(uid).observe(.value) { (snapshot) in
             if let snapshot = snapshot.value as? Dictionary<String, AnyObject> {
                 uploads = snapshot.count
             } else {

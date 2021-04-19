@@ -62,7 +62,7 @@ class Post {
                 POST_LIKES_REF.child(self.postId).updateChildValues([currentUid: 1], withCompletionBlock: { (err, ref) in
                     self.likes = self.likes + 1
                     self.didLike = true
-                    POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
+                    POSTS_REF.child(self.postId).child("likes").setValue(self.likes)
                     completion(self.likes)
                 })
             })
@@ -81,7 +81,7 @@ class Post {
                             self.likes = self.likes - 1
                             self.didLike = true
                             completion(self.likes)
-                            POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
+                            POSTS_REF.child(self.postId).child("likes").setValue(self.likes)
                             
                         })
                     })
@@ -100,7 +100,7 @@ class Post {
                 guard self.likes > 0 else { return }
                 self.likes = self.likes - 1
                 self.didLike = false
-                POSTS_REF.child("image-posts").child(self.postId).child("likes").setValue(self.likes)
+                POSTS_REF.child(self.postId).child("likes").setValue(self.likes)
                 completion(self.likes)
             })
         })
@@ -172,6 +172,6 @@ class Post {
         
         COMMENT_REF.child(postId).removeValue()
         
-        POSTS_REF.child("image-posts").child(postId).removeValue()
+        POSTS_REF.child(postId).removeValue()
     }
 }

@@ -16,17 +16,25 @@ class MyShopItemCell: UICollectionViewCell {
             guard let image = item?.imageUrl else {
                 return
             }
-            guard let itemTitle = item?.itemTitle else { return }
-            guard let itemPrice = item?.itemPrice else { return }
-            guard let itemQuantity = item?.itemQuantity else { return }
-            guard let itemOrders = item?.orders else { return }
-
+            guard let itemTitle = item?.itemTitle else {
+                return
+            }
+            guard let itemPrice = item?.itemPrice else {
+                return
+            }
+            guard let itemQuantity = item?.itemQuantity else {
+                return
+            }
+//            guard let itemOrders = item?.orders else {
+//                print("5")
+//                return
+//            }
+            
             title.text = itemTitle
             postImage.loadImage(with: image)
             price.text = "Price: £\(itemPrice)"
             stock.text = "In Stock: \(itemQuantity)"
-            orders.text = "Orders: \(itemOrders)"
-            print(image)
+//            orders.text = "Orders: \(itemOrders)"
         }
     }
     

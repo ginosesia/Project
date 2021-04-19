@@ -94,7 +94,7 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
 
         if key == nil {
-            USER_FEED_REF.child(currentUid).child("image-posts").queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_DISCOVER_FEED_REF.queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 
                 self.collectionView.refreshControl?.endRefreshing()
@@ -109,7 +109,7 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
                 self.key = first.key
             })
         } else {
-            USER_FEED_REF.child(currentUid).child("image-posts").queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_DISCOVER_FEED_REF.queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
 
                 guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
@@ -123,7 +123,6 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
                 self.key = first.key
             })
         }
-
     }
 
     func fetchPost(with postId: String) {

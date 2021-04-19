@@ -172,7 +172,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         
         navigationItem.leftBarButtonItems = [moreButton]
         navigationItem.rightBarButtonItems = [camera, orders]
-        navigationItem.title = "App"
+        navigationItem.title = "Start-Up"
     }
     
     @objc func handleSettings() {

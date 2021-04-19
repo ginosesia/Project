@@ -307,7 +307,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
 
         if key == nil {
-            USER_FEED_REF.child(currentUid).child("image-posts").queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_FEED_REF.child(currentUid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 self.collectionView.refreshControl?.endRefreshing()
                 
@@ -321,7 +321,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
                 self.key = first.key
             })
         } else {
-            USER_FEED_REF.child(currentUid).child("image-posts").queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
+            USER_FEED_REF.child(currentUid).queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
 
                 guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
@@ -337,41 +337,6 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         }
     }
     
-    func loadVideos() {
-
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-
-        if key == nil {
-            USER_FEED_REF.child(currentUid).child("video-posts").queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                self.collectionView.refreshControl?.endRefreshing()
-                
-                guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
-                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
-
-                allObjects.forEach({ (snapshot) in
-                    let postId = snapshot.key
-                    self.fetchPost(with: postId)
-                })
-                self.key = first.key
-            })
-        } else {
-            USER_FEED_REF.child(currentUid).child("video-posts").queryOrderedByKey().queryEnding(atValue: self.key).queryLimited(toLast: 6).observeSingleEvent(of: .value, with: { (snapshot) in
-
-                guard let first = snapshot.children.allObjects.first as? DataSnapshot else { return }
-                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
-
-                allObjects.forEach({ (snapshot) in
-                    let postId = snapshot.key
-                    if postId != self.key {
-                        self.fetchPost(with: postId)
-                    }
-                })
-                self.key = first.key
-            })
-        }
-    }
-
     func fetchPost(with postId: String) {
 
         Database.fetchPost(with: postId) { (post) in
@@ -387,20 +352,21 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     func updateUserFeed() {
 
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-
-        USER_FOLLOWING_REF.child(currentUid).child("image-posts").observe(.childAdded) { (snapshot) in
+        
+        USER_FOLLOWING_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let followingUID = snapshot.key
-            USER_POSTS_REF.child(followingUID).child("image-posts").observe(.childAdded, with: { (snapshot) in
+
+            USER_POSTS_REF.child(followingUID).observe(.childAdded, with: { (snapshot) in
                 let postID = snapshot.key
-                USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues([postID: 1])
+                USER_FEED_REF.child(currentUid).updateChildValues([postID: 1])
             })
         }
 
-        USER_POSTS_REF.child(currentUid).child("image-posts").observe(.childAdded) { (snapshot) in
+        USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let postID = snapshot.key
-            USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues([postID: 1])
+            print(snapshot)
+            USER_FEED_REF.child(currentUid).updateChildValues([postID: 1])
         }
-
     }
     
     //MARK: - Init
@@ -413,6 +379,5 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         
         loadPosts()
         updateUserFeed()
-        
     }
 }

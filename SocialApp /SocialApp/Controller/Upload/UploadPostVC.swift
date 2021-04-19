@@ -109,11 +109,11 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
         
         USER_FOLLOWER_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let followerUID = snapshot.key
-            USER_FEED_REF.child(followerUID).child("image-posts").updateChildValues(values)
+            USER_FEED_REF.child(followerUID).updateChildValues(values)
         }
         
         //Update current user feed
-        USER_FEED_REF.child(currentUid).child("image-posts").updateChildValues(values)
+        USER_FEED_REF.child(currentUid).updateChildValues(values)
                 
     }
     
@@ -165,14 +165,16 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
                                   "ownerUid": currentUID] as [String: Any]
                     
                     //post id
-                    let postId = POSTS_REF.child("image-posts").childByAutoId()
+                    let postId = POSTS_REF.childByAutoId()
                     guard let postKey = postId.key else { return }
                     
                     //upload information to database
+                    USER_DISCOVER_FEED_REF.updateChildValues([postKey: 1])
+                    
                     postId.updateChildValues(values, withCompletionBlock: {(err, ref) in
                         
                         //update user post structure
-                        let userPostsRef = USER_POSTS_REF.child("image-posts").child(currentUID)
+                        let userPostsRef = USER_POSTS_REF.child(currentUID)
                         userPostsRef.updateChildValues([postKey: 1])
                         
                         //Update user feed structure
@@ -186,6 +188,7 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
                     })
                 })
             }
+            
             uploadTask.observe(.progress) { (snapshot) in
                 self.view.addSubview(self.activity)
                 self.activity.anchor(top: self.photoImageView.topAnchor, left: self.photoImageView.leftAnchor, bottom: nil, right: self.photoImageView.rightAnchor, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
