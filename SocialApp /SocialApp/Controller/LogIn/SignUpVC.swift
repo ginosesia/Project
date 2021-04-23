@@ -244,7 +244,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                               "Surname": surname,
                                               "Username": username,
                                               "Email": email,
-                                              "Password": password,
                                               "Bio": "Bio",
                                               "myStore": "false",
                                               "Description": "Description",

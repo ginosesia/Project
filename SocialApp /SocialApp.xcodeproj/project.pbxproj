@@ -26,6 +26,9 @@
 		D92BE92725F27BA900002578 /* PendingOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92BE92625F27BA900002578 /* PendingOrders.swift */; };
 		D92BE92B25F27D1E00002578 /* PendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92BE92A25F27D1E00002578 /* PendingCell.swift */; };
 		D931D3B1250A9B2900D858DA /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D931D3B0250A9B2900D858DA /* Notification.swift */; };
+		D95020D72631855E003B9526 /* ItemCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95020D62631855E003B9526 /* ItemCollection.swift */; };
+		D95020DA263185BE003B9526 /* DiscoverItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95020D9263185BE003B9526 /* DiscoverItemCell.swift */; };
+		D95020DD2631A2FE003B9526 /* DiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95020DC2631A2FE003B9526 /* DiscoverCell.swift */; };
 		D9529CBC2501818A0092EB53 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9529CBB2501818A0092EB53 /* SettingsVC.swift */; };
 		D955F68025DFB1B400FEF86B /* MyOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F67F25DFB1B400FEF86B /* MyOrders.swift */; };
 		D955F68325DFB45C00FEF86B /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955F68225DFB45C00FEF86B /* OrderCell.swift */; };
@@ -143,6 +146,9 @@
 		D92BE92625F27BA900002578 /* PendingOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingOrders.swift; sourceTree = "<group>"; };
 		D92BE92A25F27D1E00002578 /* PendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingCell.swift; sourceTree = "<group>"; };
 		D931D3B0250A9B2900D858DA /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		D95020D62631855E003B9526 /* ItemCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollection.swift; sourceTree = "<group>"; };
+		D95020D9263185BE003B9526 /* DiscoverItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverItemCell.swift; sourceTree = "<group>"; };
+		D95020DC2631A2FE003B9526 /* DiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCell.swift; sourceTree = "<group>"; };
 		D9529CBB2501818A0092EB53 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		D955F67F25DFB1B400FEF86B /* MyOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOrders.swift; sourceTree = "<group>"; };
 		D955F68225DFB45C00FEF86B /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
@@ -274,6 +280,9 @@
 				D90C8A6125C2AE3B00996418 /* DiscoverHeader.swift */,
 				D90C8A6525C2B0C100996418 /* DiscoverCollection.swift */,
 				D90C8A6A25C2B23200996418 /* DiscoverStoreCell.swift */,
+				D95020D62631855E003B9526 /* ItemCollection.swift */,
+				D95020D9263185BE003B9526 /* DiscoverItemCell.swift */,
+				D95020DC2631A2FE003B9526 /* DiscoverCell.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -818,6 +827,7 @@
 				D9A66325250FB8AE00424788 /* ChatController.swift in Sources */,
 				D902143C25B81D7900AC994C /* FilterButtonView.swift in Sources */,
 				D9C77611247EA536009959CE /* Extensions.swift in Sources */,
+				D95020DD2631A2FE003B9526 /* DiscoverCell.swift in Sources */,
 				D9AEA70A25C00EA900213F26 /* StoreHeader.swift in Sources */,
 				D9B10079250FA9E300E4AB7B /* NewMessageCell.swift in Sources */,
 				D9C775F3247E9B2F009959CE /* AppDelegate.swift in Sources */,
@@ -828,6 +838,7 @@
 				D9F9F3D72480151E00FD8369 /* UploadPostVC.swift in Sources */,
 				D9A66327250FB9F400424788 /* ChatCell.swift in Sources */,
 				D9C64E3124AB3084007ABD7A /* GoogleSignInVC.swift in Sources */,
+				D95020DA263185BE003B9526 /* DiscoverItemCell.swift in Sources */,
 				D916BE7725F7A0960029C850 /* CheckOutFormVC.swift in Sources */,
 				D98383C025509E21007C2105 /* MyStoreSignUpVC.swift in Sources */,
 				D9E0C9DE2529196C0012BB9A /* CommentInputTextView.swift in Sources */,
@@ -856,6 +867,7 @@
 				D9A620AE25B5C77000A1FA3B /* SettingsCell.swift in Sources */,
 				D9199F7925B82DBA00131CE1 /* NotificationCell.swift in Sources */,
 				D955F68625DFBEAC00FEF86B /* Basket.swift in Sources */,
+				D95020D72631855E003B9526 /* ItemCollection.swift in Sources */,
 				D9EB37302604E70800603BAB /* Order.swift in Sources */,
 				D9DD04B324B37BCD00247F35 /* SelectPostVC.swift in Sources */,
 				D9A620AA25B5B76D00A1FA3B /* MyStore.swift in Sources */,

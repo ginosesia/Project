@@ -101,20 +101,20 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     
     
     func updateUsersFeed(with postId: String) {
-        
+
         //current user id
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
+
         let values = [postId: 1]
-        
+
         USER_FOLLOWER_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let followerUID = snapshot.key
             USER_FEED_REF.child(followerUID).updateChildValues(values)
         }
-        
+
         //Update current user feed
         USER_FEED_REF.child(currentUid).updateChildValues(values)
-                
+
     }
     
     //MARK: - UITextField
@@ -122,12 +122,12 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     @objc func saveChanges() {
         
         guard let post = self.post else { return }
+        
         let updatedCaption = descriptionTextView.text
                 
         POSTS_REF.child(post.postId).child("caption").setValue(updatedCaption) { (err, ref) in
             self.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     @objc func uploadPostToDatabase() {
@@ -231,7 +231,4 @@ class UploadPostVC: UIViewController, UITextViewDelegate {
     @objc func handleCancelTapped() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-
-    //MARK: - API
 }

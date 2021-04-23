@@ -25,6 +25,8 @@ class DiscoverCollection: UICollectionViewController, UICollectionViewDelegateFl
         return stores.count
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat
         

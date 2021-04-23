@@ -14,7 +14,7 @@ private let headerIdentifier = "ProfileHeader"
 
 
 class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate, UITabBarControllerDelegate {
-    
+
     
     // MARK: Properties
     var user: User?
@@ -48,6 +48,8 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             .foregroundColor: UIColor.white,
         ]
         
+        collectionView.showsVerticalScrollIndicator = false
+
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionHeadersPinToVisibleBounds = true
         }
@@ -65,6 +67,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserPostCell
         cell.post = posts[indexPath.item]
+        
         return cell
     }
     
@@ -115,30 +118,12 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             if header.editProfileFollowButton.titleLabel?.text == "Follow" {
                 Utilities.styleFollowButton(header.editProfileFollowButton, following: true)
                 user.follow()
-                print("following user")
             }  else {
                 Utilities.styleFollowButton(header.editProfileFollowButton, following: false)
                 user.unfollow()
-                print("unfollowed user")
             }
         }
     }
-    
-    func handleStoreTapped(for header: ProfileHeader) {
-    }
-        
-    func handleMessageUserTapped(for header: ProfileHeader) {
-        print("message user")
-    }
-    
-    func handleMoreTapped(for header: ProfileHeader) {
-        print("More tapped")
-    }
-    
-    func handleSeeLikesTapped(for header: ProfileHeader) {
-        print("tapped")
-    }
-    
     
     
     func handleFollowersTapped(for header: ProfileHeader) {
@@ -156,18 +141,11 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         navigationController?.pushViewController(followingVC, animated: true)
     }
     
-    func handleSelectProfilePhoto(for header: ProfileHeader) {
-        print("UserProfileVC Line 166")
-    }
     
     func handleEditBannerTapped(for header: ProfileHeader) {
         let imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func handleUploadsTaped(for header: ProfileHeader) {
-        print("Uploads")
     }
     
    
@@ -209,7 +187,6 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
 
         if key == nil {
             USER_POSTS_REF.child(uid).queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
-                
                 
                 self.collectionView.refreshControl?.endRefreshing()
                 

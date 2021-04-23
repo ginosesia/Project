@@ -27,7 +27,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         containerView.addSubview(sendButton)
         containerView.backgroundColor = .black
         
-        messageTextField.anchor(top: containerView.topAnchor, left: nil, bottom: containerView.bottomAnchor, right: sendButton.leftAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 16, paddingRight: 5, width: 0, height: 0)
+        messageTextField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: sendButton.leftAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 16, paddingRight: 5, width: 0, height: 0)
         sendButton.anchor(top: nil, left: nil, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 50, height: 0)
         sendButton.centerYAnchor.constraint(equalTo: messageTextField.centerYAnchor).isActive = true
         
@@ -39,25 +39,10 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
             return separatorView
         }()
         
-        containerView.addSubview(add)
-        add.anchor(top: nil, left: containerView.leftAnchor, bottom: nil, right: messageTextField.leftAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 5, width: 30, height: 30)
-        add.centerYAnchor.constraint(equalTo: messageTextField.centerYAnchor).isActive = true
-        
-        
         return containerView
     }()
     
-    lazy var add: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.addTarget(self, action: #selector(handleOptionsTapped) , for: .touchUpInside)
-        button.backgroundColor = .black
-        button.tintColor = Utilities.setThemeColor()
-        return button
-    }()
 
-    
-    
     let messageTextField: UITextField = {
         let textField = UITextField()
         let name = "Enter message..."
@@ -212,16 +197,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         guard let user = self.user else { return }
         
         navigationItem.title = user.username
-        
-        
-        let info = UIButton()
-        info.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        info.tintColor =  UIColor(red: 0/255, green: 171/255, blue: 154/255, alpha: 1)
-        info.addTarget(self, action: #selector(handleInfo), for: .touchUpInside)
-        
-        let infoBarButton = UIBarButtonItem(customView: info)
-        
-        navigationItem.rightBarButtonItem = infoBarButton
     }
     
     func estimateFrame(_ text: String) -> CGRect {
@@ -247,6 +222,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
 //            let blue = UIColor.rgb(red: 0, green: 191, blue: 255, alpha: 1)
 //            let green = UIColor.rgb(red: 91, green: 184, blue: 153, alpha: 1)
             cell.bubbleView.layer.borderColor = UIColor.rgb(red: 91, green: 184, blue: 153, alpha: 0.8).cgColor
+            cell.bubbleView.backgroundColor = Utilities.setThemeColor()
             cell.textView.textColor = .white
             cell.profileImageView.isHidden = true
             
@@ -271,11 +247,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         messageTextField.text = nil
     }
     
-    @objc func handleInfo() {
-        let messageSettingController = SettingsVC()
-        navigationController?.pushViewController(messageSettingController, animated: true)
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true

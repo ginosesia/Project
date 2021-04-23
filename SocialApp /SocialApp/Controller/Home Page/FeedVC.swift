@@ -27,6 +27,7 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
     var startingImage: UIImageView?
+    var userProfileController: UserProfileVC?
     
     //MARK: - UICollectionViewFlowLayout
     
@@ -104,11 +105,20 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     }
     
     
-//    @objc func handleRefresh() {
-//        posts.removeAll(keepingCapacity: false)
-//        self.key = nil
-//        collectionView?.reloadData()
-//    }
+    func refresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresh
+    }
+    
+    
+    @objc func handleRefresh() {
+        posts.removeAll(keepingCapacity: false)
+        self.key = nil
+        loadPosts()
+        collectionView.reloadData()
+    }
+    
     
     func handleUsernameTapped(for cell: FeedCell) {
         guard let post = cell.post else { return }
@@ -151,9 +161,6 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
                 userProfileVC.user = post.user
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
                 
-            }))
-            alertController.addAction(UIAlertAction(title: "Share", style: .default, handler: { (_) in
-                print("Share: FeedVC Line 147")
             }))
             alertController.addAction(UIAlertAction(title: "Unfollow", style: .default, handler: { (_) in
                 post.user?.unfollow()
@@ -364,19 +371,20 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
 
         USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
             let postID = snapshot.key
-            print(snapshot)
             USER_FEED_REF.child(currentUid).updateChildValues([postID: 1])
         }
     }
     
     //MARK: - Init
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView.showsVerticalScrollIndicator = false
         
+        refresh()
         loadPosts()
         updateUserFeed()
     }

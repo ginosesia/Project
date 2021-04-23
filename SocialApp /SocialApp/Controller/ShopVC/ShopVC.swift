@@ -30,6 +30,9 @@ class ShopVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UI
         fetchItemsInBasket()
         
         configureSearchBar()
+        
+        collectionView.showsVerticalScrollIndicator = false
+
     }
     
     

@@ -1,22 +1,21 @@
 //
-//  DiscoverStoreCell.swift
+//  DiscoverItemCell.swift
 //  SocialApp
 //
-//  Created by Gino Sesia on 28/01/2021.
+//  Created by Gino Sesia on 22/04/2021.
 //  Copyright © 2021 Gino Sesia. All rights reserved.
 //
 
 import Foundation
-
 import UIKit
 
-class DiscoverStoreCell: UICollectionViewCell {
-    
+class DiscoverItemCell: UICollectionViewCell {
+
+        
     //MARK: - Properties
         
     var store: Store? {
         didSet {
-            
             guard let image = store?.storeImageUrl else { return }
             guard let name = store?.storeName else { return }
             profileImage.loadImage(with: image)
@@ -35,6 +34,8 @@ class DiscoverStoreCell: UICollectionViewCell {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
                     

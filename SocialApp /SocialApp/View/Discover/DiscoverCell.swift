@@ -1,24 +1,22 @@
 //
-//  FeedCell.swift
+//  DiscoverCell.swift
 //  SocialApp
 //
-//  Created by Gino Sesia on 26/07/2020.
-//  Copyright © 2020 Gino Sesia. All rights reserved.
+//  Created by Gino Sesia on 22/04/2021.
+//  Copyright © 2021 Gino Sesia. All rights reserved.
 //
 
 import UIKit
 import Firebase
 import ActiveLabel
 
-class FeedCell: UICollectionViewCell {
+class DiscoverCell: UICollectionViewCell {
     
     //MARK: Properties
     
     //var postImage: CustomImageView!
-    var delegate: FeedCellDelegate?
+    var delegate: DiscoverCellDelegate?
     var cellID = "cellId"
-    
-    
     
     var post: Post? {
         didSet {
@@ -104,11 +102,7 @@ class FeedCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = Utilities.setThemeColor()
         //add Gesture
-        let seeLikes = UITapGestureRecognizer(target: self, action: #selector(handleShowLikes))
-        seeLikes.numberOfTouchesRequired = 1
         label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(seeLikes)
-        label.text = " 179 "
         return label
     }()
     
@@ -133,9 +127,6 @@ class FeedCell: UICollectionViewCell {
 
     func configureLikeButton() {
         delegate?.handleConfigureLikeButton(for: self)
-    }
-    @objc func handleShowLikes() {
-        //delegate?.handleShowLikes(for: self)
     }
 
     @objc func handleUsernameButtonTapped() {

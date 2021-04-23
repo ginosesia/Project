@@ -11,14 +11,19 @@ protocol FeedCellDelegate {
     func handleOptionsTapped(for cell: FeedCell)
     func handleLikeTapped(for cell: FeedCell, isDoubleTap: Bool)
     func handleCommentTapped(for cell: FeedCell)
-    func handleShareButtonTapped(for cell: FeedCell)
-    func handleMessagesTapped(for cell: FeedCell)
     func handleImageTapped(for cell: FeedCell)
     func handleConfigureLikeButton(for cell: FeedCell)
-    func handleShowLikes(for cell: FeedCell)
-    func handleSeeLikesTapped(for header: FeedCell)
 }
 
+
+protocol DiscoverCellDelegate {
+    func handleUsernameTapped(for cell: DiscoverCell)
+    func handleOptionsTapped(for cell: DiscoverCell)
+    func handleLikeTapped(for cell: DiscoverCell, isDoubleTap: Bool)
+    func handleCommentTapped(for cell: DiscoverCell)
+    func handleImageTapped(for cell: DiscoverCell)
+    func handleConfigureLikeButton(for cell: DiscoverCell)
+}
 protocol ShopVCDelegate {
     func handlePurchaceTapped(for cell: ShopCell)
 }
@@ -44,8 +49,6 @@ protocol UserProfileHeaderDelegate {
     func setUserStats(for header: ProfileHeader)
     func handleFollowersTapped(for header: ProfileHeader)
     func handleFollowingTapped(for header: ProfileHeader)
-    func handleUploadsTaped(for header: ProfileHeader)
-    func handleSelectProfilePhoto(for header: ProfileHeader)
 }
 
 protocol UserStoreHeaderDelegate {
