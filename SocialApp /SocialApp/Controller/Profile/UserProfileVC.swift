@@ -54,6 +54,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
             layout.sectionHeadersPinToVisibleBounds = true
         }
         
+        refresh()
         fetchPosts()
     }
     
@@ -125,9 +126,20 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         }
     }
     
+    func refresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresh
+    }
+    
+    @objc func handleRefresh() {
+        posts.removeAll(keepingCapacity: false)
+        self.key = nil
+        fetchPosts()
+        collectionView.reloadData()
+    }
     
     func handleFollowersTapped(for header: ProfileHeader) {
-        
         let followersVC = FollowLikeVC()
         followersVC.viewingMode = FollowLikeVC.ViewingMode(index: 1)
         followersVC.uid = user?.uid

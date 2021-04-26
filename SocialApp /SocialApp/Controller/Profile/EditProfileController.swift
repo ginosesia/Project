@@ -29,18 +29,7 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         image.layer.borderColor = UIColor.white.cgColor
         return image
     }()
-    
-    let editButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Change Photo", for: .normal)
-        button.addTarget(self, action: #selector(handleChangeProfileImage), for: .touchUpInside)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-    
+        
     let separator: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.rgb(red: 50, green: 50, blue: 50, alpha: 1)
@@ -197,8 +186,6 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         profileImage.layer.cornerRadius = height/2
         //center image
         profileImage.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-        editButton.anchor(top: nil, left: nil, bottom: profileImage.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -12, paddingRight: 0, width: 120, height: 30)
-        editButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
 
         
         separator.anchor(top: nil, left: container.leftAnchor, bottom: container.bottomAnchor, right: container.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 1)
@@ -223,7 +210,6 @@ class EditProfileController: UIViewController, UIImagePickerControllerDelegate, 
         
         container.addSubview(profileImage)
         container.addSubview(separator)
-        container.addSubview(editButton)
         container.addSubview(separator)
         
         view.addSubview(fullnameLabel)

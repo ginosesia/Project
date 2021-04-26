@@ -27,16 +27,6 @@ class TermsAndConditionsVC: UIViewController, UITextViewDelegate {
         navigationItem.title = "Terms & Conditions"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Disagree", style: .plain, target: self, action: #selector(handleDisagreeTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Agree", style: .plain, target: self, action: #selector(handleAgreeTapped))
-        
-//        navigationController?.navigationBar.titleTextAttributes = [
-//            .foregroundColor: UIColor.white,
-//            .font: UIFont(name: "mplus-1c-regular", size: 21)!
-//        ]
-
-        
-//        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAgreeTapped))
-//        let play = UIBarButtonItem(title: "Play", style: .plain, target: self, action: #selector(handleAgreeTapped))
-//        navigationItem.rightBarButtonItems = [add, play]
     }
     
      
@@ -65,6 +55,4 @@ class TermsAndConditionsVC: UIViewController, UITextViewDelegate {
         alertVC.addAction(alertActionCancel)
         self.present(alertVC, animated: true, completion: nil)
     }
-     
-
 }

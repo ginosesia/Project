@@ -184,7 +184,7 @@ class ProfileHeader: UICollectionViewCell, UIImagePickerControllerDelegate, UINa
         editProfileFollowButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
         
         addSubview(name)
-        name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        name.anchor(top: nil, left: profileImage.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         name.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
         
         let stackView = UIStackView(arrangedSubviews: [postsLabel,followersLabel,followingLabel])

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
+class ShopCell: UICollectionViewCell {
     
     
     //MARK: - Properties
@@ -38,6 +38,7 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
             guard let uid = item?.uid else { return }
             if uid == Auth.auth().currentUser?.uid {
                 info.isEnabled = false
+                info.isHidden = true
             }
 
         }
@@ -99,11 +100,6 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
     func sendConfirmationAlert() {
         delegate?.sendConfirmationAlert(item: item!)
     }
-
-    
-    func settingDidSelected(setting: Setting) {
-        
-    }
     
     func getStore() {
         STORE_REF.observe(.childAdded) { (snapshot) in
@@ -121,9 +117,7 @@ class ShopCell: UICollectionViewCell, ShopSettingsLauncherDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        moreInfo.delegate = self
-        
+                
         setUpStore()
         getStore()
     }

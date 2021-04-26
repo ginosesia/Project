@@ -27,7 +27,6 @@ class ProductInfoVC: UIViewController {
             itemTitle.text = title
             image.loadImage(with: imageURL)
             aboutProduct.text = description
-            stock.text = "\(quantity) Left"
             
             guard let uid = item?.uid else { return }
             if uid == Auth.auth().currentUser?.uid {
@@ -56,13 +55,6 @@ class ProductInfoVC: UIViewController {
         lb.textColor = .systemGray
         lb.font = UIFont.systemFont(ofSize: 15)
         lb.numberOfLines = 0
-        return lb
-    }()
-
-    let stock: UILabel = {
-        let lb = UILabel()
-        lb.textColor = .white
-        lb.font = UIFont.boldSystemFont(ofSize: 15)
         return lb
     }()
 
@@ -128,8 +120,6 @@ class ProductInfoVC: UIViewController {
         view.addSubview(separator)
         separator.anchor(top: itemPrice.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 1)
         
-        view.addSubview(stock)
-        stock.anchor(top: separator.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
 
         view.addSubview(about)
         about.anchor(top: separator.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
