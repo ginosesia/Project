@@ -44,7 +44,6 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate, SettingsLaunche
         //Check if user is signed in
         checkIfUserIsLoggedIn()
         
-        addNotificationDot()
         //observe notifications
         observeNotifications()
         

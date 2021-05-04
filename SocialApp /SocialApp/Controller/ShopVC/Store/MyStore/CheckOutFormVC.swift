@@ -76,7 +76,8 @@ class CheckOutFormVC: UIViewController {
         itemsLabel.anchor(top: separator.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.view.anchor(top: itemsLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: view.frame.width, height: view.frame.width)
         deliverLabel.anchor(top: collectionView.view.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        addressLabel.anchor(top: deliverLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        addressLabel.anchor(top: deliverLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 40)
+        postcodeLabel.anchor(top: addressLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 100, height: 40)
         checkOut.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 30, paddingRight: 20, width: 0, height: 40)
 
     }
@@ -89,6 +90,7 @@ class CheckOutFormVC: UIViewController {
         view.addSubview(collectionView.view)
         view.addSubview(deliverLabel)
         view.addSubview(addressLabel)
+        view.addSubview(postcodeLabel)
         view.addSubview(checkOut)
     }
         
@@ -129,13 +131,20 @@ class CheckOutFormVC: UIViewController {
         return lb
     }()
     
-    let addressLabel: UILabel = {
-        let lb = UILabel()
-        lb.textColor = .systemGray
-        lb.text = "2A Fair Field Terrace"
+    let addressLabel: UITextField = {
+        let lb = UITextField()
+        Utilities.styleTextField(lb, name: "Address")
         lb.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         return lb
     }()
+    
+    let postcodeLabel: UITextField = {
+        let lb = UITextField()
+        Utilities.styleTextField(lb, name: "Postcode")
+        lb.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        return lb
+    }()
+
     
     let collectionView: BasketCollectionView = {
         let layout = UICollectionViewFlowLayout()

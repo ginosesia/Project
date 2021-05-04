@@ -89,8 +89,7 @@ class MessageCell: UITableViewCell {
         profileImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         addSubview(timeLabel)
-        timeLabel.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        timeLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor).isActive = true
+        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         
     }
     

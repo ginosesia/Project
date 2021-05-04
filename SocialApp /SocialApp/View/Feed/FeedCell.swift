@@ -67,13 +67,6 @@ class FeedCell: UICollectionViewCell {
         return image
     }()
     
-    let postedTime: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-        label.textColor = .gray
-        return label
-    }()
-    
     
     lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -108,7 +101,6 @@ class FeedCell: UICollectionViewCell {
         seeLikes.numberOfTouchesRequired = 1
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(seeLikes)
-        label.text = " 179 "
         return label
     }()
     
@@ -187,13 +179,11 @@ class FeedCell: UICollectionViewCell {
             label.textColor = .gray
             captionLabel.numberOfLines = 0
         }
-        postedTime.text = post.creationDate.timePosted()
     }
     
     func addSubviews() {
         addSubview(profileImage)
         addSubview(name)
-        addSubview(postedTime)
         addSubview(postImage)
         addSubview(postTitle)
         addSubview(optionsButton)
@@ -238,11 +228,7 @@ class FeedCell: UICollectionViewCell {
         
         addSubview(functionStackView)
         functionStackView.anchor(top: postImage.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 17)
-        
-        addSubview(postedTime)
-        postedTime.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        postedTime.centerYAnchor.constraint(equalTo: functionStackView.centerYAnchor).isActive = true
-                
+                        
     }
         
     required init?(coder: NSCoder) {

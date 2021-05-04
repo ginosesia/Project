@@ -157,8 +157,8 @@ class DiscoverVC: UICollectionViewController, UICollectionViewDelegateFlowLayout
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
                 
             }))
-            alertController.addAction(UIAlertAction(title: "Unfollow", style: .default, handler: { (_) in
-                post.user?.unfollow()
+            alertController.addAction(UIAlertAction(title: "Follow", style: .default, handler: { (_) in
+                post.user?.follow()
             }))
             
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -14,7 +14,6 @@ private let reuseIdentifier = "ChatCell"
 class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ChatCellSettingsDelegate {
    
     
-    
     //MARK: - Properties
     
     var user: User?
@@ -38,7 +37,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
             separatorView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
             return separatorView
         }()
-        
         return containerView
     }()
     
@@ -83,7 +81,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
                                                "creationDate": creationDate as AnyObject,
                                                "messageText": messageText as AnyObject]
             
-            
             let messageRef = MESSAGES_REF.childByAutoId()
             
             guard let messageKey = messageRef.key else { return }
@@ -111,7 +108,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func fetchMessage(withMessageId messageId: String) {
         
         MESSAGES_REF.child(messageId).observeSingleEvent(of: .value) { (snapshot) in
-            
             guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
             let message = Message(dictionary: dictionary)
             self.messages.append(message)
@@ -125,13 +121,9 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .black
-        
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
         configureNavBar()
-        
         observeMessages()
-        
         let dismissKeyBoard = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(dismissKeyBoard)
 
@@ -162,7 +154,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let message = messages[indexPath.row]
         height = estimateFrame(message.messageText).height + 20
         
-        return CGSize(width: view.frame.width, height: height)
+        return CGSize(width: view.frame.width, height: height*2)
         
     }
     
@@ -181,17 +173,12 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     //MARK: - Handlers
     
     @objc func handleOptionsTapped(for cell: ChatCell) {
-        print("hi")
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.view.tintColor = UIColor.init(red: 0/255, green: 171/255, blue: 154/255, alpha: 0.5)
         alertController.view.tintColor = Utilities.setThemeColor()
-        
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         self.present(alertController, animated: true)
-
     }
-    
     
     func configureNavBar() {
         guard let user = self.user else { return }
@@ -205,29 +192,22 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16)], context: nil)
     }
   
-    
-    
     func configureMessage(cell: ChatCell, message: Message) {
         
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
         cell.bubbleWidthAnchor?.constant = estimateFrame(message.messageText).width + 30
-        cell.frame.size.height = estimateFrame(message.messageText).height + 20
+        cell.frame.size.height = estimateFrame(message.messageText).height + 50
     
         if message.fromId == currentUid {
             //Message from current user
             cell.bubbleRightAnchor?.isActive = true
             cell.bubbleLeftAnchor?.isActive = false
             cell.bubbleView.layer.borderWidth = 1.6
-//            let blue = UIColor.rgb(red: 0, green: 191, blue: 255, alpha: 1)
-//            let green = UIColor.rgb(red: 91, green: 184, blue: 153, alpha: 1)
             cell.bubbleView.layer.borderColor = UIColor.rgb(red: 91, green: 184, blue: 153, alpha: 0.8).cgColor
             cell.bubbleView.backgroundColor = Utilities.setThemeColor()
             cell.textView.textColor = .white
             cell.profileImageView.isHidden = true
-            
-            
-            
         } else {
             //Message from other user
             cell.bubbleRightAnchor?.isActive = false
@@ -237,8 +217,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
             cell.bubbleView.layer.borderColor = UIColor.rgb(red: 50, green: 50, blue: 50, alpha: 1).cgColor
             cell.textView.textColor = .white
             cell.profileImageView.isHidden = false
-            
-
         }
     }
      
@@ -258,5 +236,4 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         tabBarController?.tabBar.isHidden = false
 
     }
-    
 }
